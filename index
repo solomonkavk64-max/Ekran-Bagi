@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>Ekran Bağı</title>
+  <meta name="description" content="Telefonunu gün içinde kaç kez eline aldığını ve zamanının nereye gittiğini gösteren akıllı dijital farkındalık sayacı." />
+  <link rel="manifest" href="manifest.json" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --good: #22c55e;
+      --warn: #f59e0b;
+      --danger: #ef4444;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      user-select: none;
+    }
+    .container { width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 16px; }
+    header { display: flex; justify-content: space-between; align-items: center; padding-top: 8px; }
+    header h1 { font-size: 1.2rem; font-weight: 700; color: var(--text); }
+    .status-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--good); display: inline-block; }
+    .status-dot.offline { background: var(--warn); }
+
+    .hero-card {
+      background: var(--card);
+      border-radius: 24px;
+      padding: 32px 20px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .hero-label { font-size: 0.95rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+    .hero-count { font-size: 5rem; font-weight: 800; line-height: 1.1; margin: 12px 0; color: var(--accent); }
+    .hero-sub { font-size: 0.95rem; color: var(--muted); }
+    .comparison-badge {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 6px 14px;
+      border-radius: 99px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent);
+    }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .stat-card {
+      background: var(--card);
+      border-radius: 18px;
+      padding: 16px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .stat-title { font-size: 0.8rem; color: var(--muted); margin-bottom: 6px; }
+    .stat-val { font-size: 1.35rem; font-weight: 700; }
+
+    .heatmap-card {
+      background: var(--card);
+      border-radius: 18px;
+      padding: 18px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .heatmap-title { font-size: 0.85rem; color: var(--muted); margin-bottom: 12px; display: flex; justify-content: space-between; }
+    .heatmap-bars {
+      display: grid;
+      grid-template-columns: repeat(24, 1fr);
+      gap: 3px;
+      height: 60px;
+      align-items: end;
+    }
+    .bar {
+      background: rgba(56, 189, 248, 0.2);
+      border-radius: 3px;
+      min-height: 4px;
+      transition: height 0.3s ease, background 0.3s ease;
+    }
+    .bar.active { background: var(--accent); }
+    .heatmap-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .tip-card {
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      border-radius: 16px;
+      padding: 14px 16px;
+      font-size: 0.9rem;
+      color: #dcfce7;
+      line-height: 1.4;
+    }
+    .btn-manual {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--muted);
+      padding: 12px;
+      border-radius: 14px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      margin-top: 4px;
+    }
+    .btn-manual:active { background: rgba(255,255,255,0.05); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Ekran Bağı</h1>
+      <span id="syncStatus" class="status-dot" title="Senkronize"></span>
+    </header>
+
+    <div class="hero-card">
+      <div class="hero-label">Bugünkü Bakış Sayın</div>
+      <div class="hero-count" id="todayCount">1</div>
+      <div class="hero-sub" id="lastElapsed">Az önce açıldı</div>
+      <div class="comparison-badge" id="compareBadge">Dün toplam: 0 kez</div>
+    </div>
+
+    <div class="grid-2">
+      <div class="stat-card">
+        <div class="stat-title">En Yoğun Saat</div>
+        <div class="stat-val" id="peakHour">--:00</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">7 Günlük Ortalama</div>
+        <div class="stat-val" id="weeklyAvg">--</div>
+      </div>
+    </div>
+
+    <div class="heatmap-card">
+      <div class="heatmap-title">
+        <span>Saatlik Yoğunluk (00 - 23)</span>
+      </div>
+      <div class="heatmap-bars" id="heatmapBars"></div>
+      <div class="heatmap-labels">
+        <span>00:00</span>
+        <span>06:00</span>
+        <span>12:00</span>
+        <span>18:00</span>
+        <span>23:00</span>
+      </div>
+    </div>
+
+    <div class="tip-card" id="microTip">
+      💡 Küçük Mola: Gözlerini ekrandan ayırıp 20 saniye uzağa bak.
+    </div>
+
+    <button class="btn-manual" onclick="recordCheck(true)">+ Manuel Bakış Ekle</button>
+  </div>
+
+  <script>
+    // SUPABASE BAĞLANTI BİLGİLERİ
+    const SUPABASE_URL = 'https://rvgeztwqlxgtvqvrlzth.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_lA2WkBgbio59vdsSdcfZbA_x2kEW7mg';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    let deviceId = localStorage.getItem('ekranbagi_device_id');
+    if (!deviceId) {
+      deviceId = 'dev_' + crypto.randomUUID();
+      localStorage.setItem('ekranbagi_device_id', deviceId);
+    }
+
+    const TIPS = [
+      "💧 Bir bardak su iç ve omuzlarını dikleştir.",
+      "👀 Gözlerini 20 saniye boyunca 6 metre uzağa odakla.",
+      "🌬️ 3 derin nefes al ve ekranı kilitleyip masaya bırak.",
+      "🚶‍♂️ Yerinden kalkıp 1 dakika odada yürü.",
+      "📵 Gerçekten bir şeye bakmak için mi açtın, yoksa sadece alışkanlık mı?"
+    ];
+
+    function getLocalDateStr(offsetDays = 0) {
+      const d = new Date();
+      d.setDate(d.getDate() + offsetDays);
+      return d.toISOString().split('T')[0];
+    }
+
+    let lastTriggerTime = 0;
+
+    async function recordCheck(force = false) {
+      const now = Date.now();
+      if (!force && (now - lastTriggerTime < 5000)) return;
+      lastTriggerTime = now;
+
+      const todayStr = getLocalDateStr(0);
+      const currentHour = new Date().getHours();
+
+      let localData = JSON.parse(localStorage.getItem('ekranbagi_data_' + todayStr)) || {
+        view_count: 0,
+        hourly_counts: new Array(24).fill(0),
+        last_opened: null
+      };
+
+      const prevOpened = localData.last_opened;
+      localData.view_count += 1;
+      localData.hourly_counts[currentHour] = (localData.hourly_counts[currentHour] || 0) + 1;
+      localData.last_opened = new Date().toISOString();
+
+      localStorage.setItem('ekranbagi_data_' + todayStr, JSON.stringify(localData));
+      renderUI(localData, prevOpened);
+
+      try {
+        const { error } = await supabaseClient
+          .from('daily_checks')
+          .upsert({
+            device_id: deviceId,
+            check_date: todayStr,
+            view_count: localData.view_count,
+            hourly_counts: localData.hourly_counts,
+            last_opened: localData.last_opened
+          }, { onConflict: 'device_id,check_date' });
+
+        document.getElementById('syncStatus').classList.toggle('offline', !!error);
+        if (!error) fetchHistoryStats();
+      } catch (e) {
+        document.getElementById('syncStatus').classList.add('offline');
+      }
+    }
+
+    function renderUI(data, prevOpened) {
+      document.getElementById('todayCount').textContent = data.view_count;
+
+      if (prevOpened) {
+        const diffMins = Math.floor((Date.now() - new Date(prevOpened).getTime()) / 60000);
+        if (diffMins < 1) {
+          document.getElementById('lastElapsed').textContent = 'Az önce kontrol ettin';
+        } else if (diffMins < 60) {
+          document.getElementById('lastElapsed').textContent = `Son bakıştan ${diffMins} dk geçti`;
+        } else {
+          const hrs = Math.floor(diffMins / 60);
+          const mins = diffMins % 60;
+          document.getElementById('lastElapsed').textContent = `Son bakıştan ${hrs} sa ${mins} dk geçti`;
+        }
+      }
+
+      const barsContainer = document.getElementById('heatmapBars');
+      barsContainer.innerHTML = '';
+      const maxVal = Math.max(...data.hourly_counts, 1);
+      let peakH = 0;
+      let peakV = 0;
+
+      data.hourly_counts.forEach((val, idx) => {
+        if (val > peakV) { peakV = val; peakH = idx; }
+        const bar = document.createElement('div');
+        bar.className = 'bar' + (val > 0 ? ' active' : '');
+        const heightPct = Math.max(8, Math.round((val / maxVal) * 100));
+        bar.style.height = heightPct + '%';
+        barsContainer.appendChild(bar);
+      });
+
+      document.getElementById('peakHour').textContent = `${String(peakH).padStart(2, '0')}:00`;
+      document.getElementById('microTip').textContent = TIPS[data.view_count % TIPS.length];
+    }
+
+    async function fetchHistoryStats() {
+      const sevenDaysAgo = getLocalDateStr(-7);
+      const yesterdayStr = getLocalDateStr(-1);
+
+      const { data, error } = await supabaseClient
+        .from('daily_checks')
+        .select('check_date, view_count')
+        .eq('device_id', deviceId)
+        .gte('check_date', sevenDaysAgo);
+
+      if (!error && data && data.length > 0) {
+        const yesterdayRow = data.find(r => r.check_date === yesterdayStr);
+        const yCount = yesterdayRow ? yesterdayRow.view_count : 0;
+        document.getElementById('compareBadge').textContent = `Dün toplam: ${yCount} kez`;
+
+        const total = data.reduce((acc, item) => acc + item.view_count, 0);
+        const avg = Math.round(total / data.length);
+        document.getElementById('weeklyAvg').textContent = `${avg} kez`;
+      }
+    }
+
+    window.addEventListener('load', () => {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+      }
+      recordCheck();
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        recordCheck();
+      }
+    });
+  </script>
+</body>
+</html>
