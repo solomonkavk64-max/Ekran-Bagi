@@ -36,24 +36,24 @@
     .container { width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 16px; }
     header { display: flex; justify-content: space-between; align-items: center; padding-top: 8px; }
     header h1 { font-size: 1.2rem; font-weight: 700; color: var(--text); }
-    .header-actions { display: flex; align-items: center; gap: 12px; }
-    .settings-btn {
+    .header-actions { display: flex; align-items: center; gap: 8px; }
+    .action-btn {
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.1);
       color: var(--text);
       padding: 6px 10px;
       border-radius: 10px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 4px;
     }
-    .settings-btn:active { background: rgba(255, 255, 255, 0.15); }
+    .action-btn:active { background: rgba(255, 255, 255, 0.15); }
     .status-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--good); display: inline-block; }
     .status-dot.offline { background: var(--warn); }
 
-    /* Modal (Hedef Ayarları Penceresi) */
+    /* Modals */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -73,6 +73,8 @@
       padding: 20px;
       width: 100%;
       max-width: 380px;
+      max-height: 90vh;
+      overflow-y: auto;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
     }
     .modal-header {
@@ -132,6 +134,57 @@
       border-radius: 12px;
       font-size: 0.85rem;
       cursor: pointer;
+    }
+
+    /* Rapor & Detay Stilleri */
+    .report-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      background: rgba(15, 23, 42, 0.6);
+      padding: 4px;
+      border-radius: 12px;
+      margin-bottom: 14px;
+    }
+    .report-tab {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      padding: 8px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .report-tab.active {
+      background: var(--accent);
+      color: #0f172a;
+    }
+    .day-stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .day-stat-box {
+      background: rgba(15, 23, 42, 0.5);
+      border-radius: 12px;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      text-align: center;
+    }
+    .day-stat-label { font-size: 0.75rem; color: var(--muted); margin-bottom: 4px; }
+    .day-stat-val { font-size: 1.1rem; font-weight: 700; color: var(--accent); }
+    .reason-dist-title { font-size: 0.85rem; font-weight: 600; color: var(--text); margin: 12px 0 8px 0; }
+    .reason-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      margin-bottom: 6px;
     }
 
     .hero-card {
@@ -276,15 +329,6 @@
     .cal-day.exceeded { background: rgba(239, 68, 68, 0.12); border-color: rgba(239, 68, 68, 0.3); }
 
     .cal-badge { font-size: 0.8rem; line-height: 1; margin-top: 2px; }
-    .cal-detail {
-      margin-top: 10px;
-      padding: 8px 12px;
-      background: rgba(15, 23, 42, 0.6);
-      border-radius: 10px;
-      font-size: 0.8rem;
-      color: var(--muted);
-      text-align: center;
-    }
 
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .stat-card {
@@ -352,7 +396,8 @@
     <header>
       <h1>Ekran Bağı</h1>
       <div class="header-actions">
-        <button class="settings-btn" onclick="openGoalsModal()">⚙️ Hedefler</button>
+        <button class="action-btn" onclick="openReportModal()">📊 Rapor</button>
+        <button class="action-btn" onclick="openGoalsModal()">⚙️ Hedef</button>
         <span id="syncStatus" class="status-dot" title="Senkronize"></span>
       </div>
     </header>
@@ -411,7 +456,6 @@
         <span>Pzt</span><span>Sal</span><span>Çar</span><span>Per</span><span>Cum</span><span>Cmt</span><span>Paz</span>
       </div>
       <div class="cal-grid" id="calGrid"></div>
-      <div class="cal-detail" id="calDetail">Detay görmek için takvimden bir güne dokun</div>
     </div>
 
     <div class="grid-2">
@@ -500,6 +544,32 @@
         <button class="btn-reset" onclick="resetGoalsToDefault()">Sıfırla</button>
         <button class="btn-save" onclick="saveGoals()">Kaydet</button>
       </div>
+    </div>
+  </div>
+
+  <!-- Günlük Detay Analiz Modal -->
+  <div class="modal-overlay" id="dayDetailModal" onclick="if(event.target === this) closeDayDetailModal()">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title" id="dayModalTitle">Günlük Analiz</div>
+        <button class="close-btn" onclick="closeDayDetailModal()">×</button>
+      </div>
+      <div id="dayModalContent"></div>
+    </div>
+  </div>
+
+  <!-- Haftalık & Aylık Özet Rapor Modal -->
+  <div class="modal-overlay" id="reportModal" onclick="if(event.target === this) closeReportModal()">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">📊 Dijital Denge Raporu</div>
+        <button class="close-btn" onclick="closeReportModal()">×</button>
+      </div>
+      <div class="report-tabs">
+        <button class="report-tab active" id="tabWeekly" onclick="switchReportTab('weekly')">Son 7 Gün</button>
+        <button class="report-tab" id="tabMonthly" onclick="switchReportTab('monthly')">Son 30 Gün</button>
+      </div>
+      <div id="reportModalContent"></div>
     </div>
   </div>
 
@@ -639,33 +709,13 @@
     function calculateBadge(views, minutes) {
       const g = getGoals();
       if (views <= g.goldViews && minutes <= g.goldMins) {
-        return {
-          type: 'gold',
-          icon: '🏆',
-          title: 'Altın Rozet (Mükemmel Denge)',
-          desc: `Hedef: ≤${g.goldViews} bakış / ${g.goldMins} dk (Şu an: ${views} bakış, ${minutes} dk)`
-        };
+        return { type: 'gold', icon: '🏆', title: 'Altın Rozet', desc: `≤${g.goldViews} bakış / ${g.goldMins} dk` };
       } else if (views <= g.silverViews && minutes <= g.silverMins) {
-        return {
-          type: 'silver',
-          icon: '🥈',
-          title: 'Gümüş Rozet (İyi Durum)',
-          desc: `Hedef: ≤${g.silverViews} bakış / ${g.silverMins} dk (Şu an: ${views} bakış, ${minutes} dk)`
-        };
+        return { type: 'silver', icon: '🥈', title: 'Gümüş Rozet', desc: `≤${g.silverViews} bakış / ${g.silverMins} dk` };
       } else if (views <= g.bronzeViews && minutes <= g.bronzeMins) {
-        return {
-          type: 'bronze',
-          icon: '🥉',
-          title: 'Bronz Rozet (Kabul Edilebilir)',
-          desc: `Hedef: ≤${g.bronzeViews} bakış / ${g.bronzeMins} dk (Şu an: ${views} bakış, ${minutes} dk)`
-        };
+        return { type: 'bronze', icon: '🥉', title: 'Bronz Rozet', desc: `≤${g.bronzeViews} bakış / ${g.bronzeMins} dk` };
       } else {
-        return {
-          type: 'exceeded',
-          icon: '⚠️',
-          title: 'Limit Aşıldı',
-          desc: `Maksimum sınır (${g.bronzeViews} bakış / ${g.bronzeMins} dk) aşıldı.`
-        };
+        return { type: 'exceeded', icon: '⚠️', title: 'Limit Aşıldı', desc: `Sınırlar aşıldı` };
       }
     }
 
@@ -673,7 +723,9 @@
       const todayStr = getLocalDateStr(0);
       monthlyHistoryCache[todayStr] = {
         view_count: localData.view_count,
-        total_minutes: localData.total_minutes || 0
+        total_minutes: localData.total_minutes || 0,
+        reasons: localData.reasons || {},
+        hourly_counts: localData.hourly_counts || new Array(24).fill(0)
       };
       renderCalendar();
 
@@ -809,7 +861,7 @@
 
       const { data, error } = await supabaseClient
         .from('daily_checks')
-        .select('check_date, view_count, total_minutes')
+        .select('check_date, view_count, total_minutes, reasons, hourly_counts')
         .eq('device_id', deviceId)
         .gte('check_date', sixtyDaysAgo);
 
@@ -817,7 +869,9 @@
         data.forEach(row => {
           monthlyHistoryCache[row.check_date] = {
             view_count: row.view_count,
-            total_minutes: row.total_minutes || 0
+            total_minutes: row.total_minutes || 0,
+            reasons: row.reasons || {},
+            hourly_counts: row.hourly_counts || new Array(24).fill(0)
           };
         });
 
@@ -880,18 +934,136 @@
         }
 
         cell.innerHTML = `<span>${day}</span>${badgeHtml}`;
-        cell.onclick = () => {
-          const detailEl = document.getElementById('calDetail');
-          if (record && record.view_count > 0) {
-            const badgeInfo = calculateBadge(record.view_count, record.total_minutes || 0);
-            detailEl.textContent = `${day} ${MONTHS_TR[month]}: ${record.view_count} bakış, ${record.total_minutes || 0} dk — ${badgeInfo.title}`;
-          } else {
-            detailEl.textContent = `${day} ${MONTHS_TR[month]}: Kayıtlı veri yok`;
-          }
-        };
+        cell.onclick = () => openDayDetailModal(dateStr, day, month, year, record);
 
         grid.appendChild(cell);
       }
+    }
+
+    function openDayDetailModal(dateStr, day, month, year, record) {
+      document.getElementById('dayModalTitle').textContent = `${day} ${MONTHS_TR[month]} ${year} Analizi`;
+      const contentEl = document.getElementById('dayModalContent');
+
+      if (!record || record.view_count === 0) {
+        contentEl.innerHTML = `<div style="text-align: center; color: var(--muted); padding: 20px;">Bu güne ait kayıtlı veri bulunmuyor.</div>`;
+      } else {
+        const badgeInfo = calculateBadge(record.view_count, record.total_minutes || 0);
+        let peakH = 0, peakV = 0;
+        if (record.hourly_counts && Array.isArray(record.hourly_counts)) {
+          record.hourly_counts.forEach((val, idx) => {
+            if (val > peakV) { peakV = val; peakH = idx; }
+          });
+        }
+        const peakStr = peakV > 0 ? `${String(peakH).padStart(2, '0')}:00` : 'Veri yok';
+
+        let reasonsHtml = '';
+        if (record.reasons) {
+          Object.keys(record.reasons).forEach(rName => {
+            const rCount = record.reasons[rName] || 0;
+            reasonsHtml += `<div class="reason-row"><span>${rName}</span><span style="font-weight: 700; color: var(--accent);">${rCount} kez</span></div>`;
+          });
+        }
+
+        contentEl.innerHTML = `
+          <div class="day-stat-grid">
+            <div class="day-stat-box"><div class="day-stat-label">Toplam Bakış</div><div class="day-stat-val">${record.view_count} kez</div></div>
+            <div class="day-stat-box"><div class="day-stat-label">Toplam Süre</div><div class="day-stat-val">${record.total_minutes || 0} dk</div></div>
+            <div class="day-stat-box"><div class="day-stat-label">En Yoğun Saat</div><div class="day-stat-val">${peakStr}</div></div>
+            <div class="day-stat-box"><div class="day-stat-label">Rozet Durumu</div><div class="day-stat-val" style="font-size: 0.9rem;">${badgeInfo.icon} ${badgeInfo.title.split(' ')[0]}</div></div>
+          </div>
+          <div class="reason-dist-title">📋 Neden Dağılımı</div>
+          <div>${reasonsHtml}</div>
+        `;
+      }
+      document.getElementById('dayDetailModal').classList.add('open');
+    }
+
+    function closeDayDetailModal() {
+      document.getElementById('dayDetailModal').classList.remove('open');
+    }
+
+    // Rapor Modalı Fonksiyonları
+    let currentReportTab = 'weekly';
+
+    function openReportModal() {
+      switchReportTab('weekly');
+      document.getElementById('reportModal').classList.add('open');
+    }
+
+    function closeReportModal() {
+      document.getElementById('reportModal').classList.remove('open');
+    }
+
+    function switchReportTab(tab) {
+      currentReportTab = tab;
+      document.getElementById('tabWeekly').className = 'report-tab' + (tab === 'weekly' ? ' active' : '');
+      document.getElementById('tabMonthly').className = 'report-tab' + (tab === 'monthly' ? ' active' : '');
+      renderReportContent();
+    }
+
+    function renderReportContent() {
+      const daysCount = currentReportTab === 'weekly' ? 7 : 30;
+      const contentEl = document.getElementById('reportModalContent');
+      
+      let totalViews = 0;
+      let totalMins = 0;
+      let badgeCounts = { gold: 0, silver: 0, bronze: 0, exceeded: 0 };
+      let aggregatedReasons = { 'Can Sıkıntısı': 0, 'Alışkanlık': 0, 'İş / Bilgi': 0, 'Sosyal / Mesaj': 0 };
+      let activeDaysCount = 0;
+
+      for (let i = 0; i < daysCount; i++) {
+        const dStr = getLocalDateStr(-i);
+        let rec = monthlyHistoryCache[dStr];
+        if (!rec) {
+          try {
+            const raw = localStorage.getItem('ekranbagi_data_' + dStr);
+            if (raw) rec = JSON.parse(raw);
+          } catch(e) {}
+        }
+
+        if (rec && rec.view_count > 0) {
+          activeDaysCount++;
+          totalViews += rec.view_count;
+          totalMins += (rec.total_minutes || 0);
+
+          const bInfo = calculateBadge(rec.view_count, rec.total_minutes || 0);
+          badgeCounts[bInfo.type] = (badgeCounts[bInfo.type] || 0) + 1;
+
+          if (rec.reasons) {
+            Object.keys(rec.reasons).forEach(r => {
+              aggregatedReasons[r] = (aggregatedReasons[r] || 0) + (rec.reasons[r] || 0);
+            });
+          }
+        }
+      }
+
+      const avgViews = activeDaysCount > 0 ? Math.round(totalViews / activeDaysCount) : 0;
+      const avgMins = activeDaysCount > 0 ? Math.round(totalMins / activeDaysCount) : 0;
+
+      let reasonsHtml = '';
+      Object.keys(aggregatedReasons).forEach(r => {
+        reasonsHtml += `<div class="reason-row"><span>${r}</span><span style="font-weight: 700; color: var(--accent);">${aggregatedReasons[r]} kez</span></div>`;
+      });
+
+      contentEl.innerHTML = `
+        <div class="day-stat-grid">
+          <div class="day-stat-box"><div class="day-stat-label">Toplam Bakış</div><div class="day-stat-val">${totalViews} kez</div></div>
+          <div class="day-stat-box"><div class="day-stat-label">Toplam Süre</div><div class="day-stat-val">${totalMins} dk</div></div>
+          <div class="day-stat-box"><div class="day-stat-label">Günlük Ort. Bakış</div><div class="day-stat-val">${avgViews} kez</div></div>
+          <div class="day-stat-box"><div class="day-stat-label">Günlük Ort. Süre</div><div class="day-stat-val">${avgMins} dk</div></div>
+        </div>
+
+        <div class="reason-dist-title">🏆 Kazanılan Rozetler</div>
+        <div class="day-stat-grid" style="margin-bottom: 12px;">
+          <div class="day-stat-box"><div class="day-stat-label">🏆 Altın</div><div class="day-stat-val" style="color: var(--gold);">${badgeCounts.gold} gün</div></div>
+          <div class="day-stat-box"><div class="day-stat-label">🥈 Gümüş</div><div class="day-stat-val" style="color: var(--silver);">${badgeCounts.silver} gün</div></div>
+          <div class="day-stat-box"><div class="day-stat-label">🥉 Bronz</div><div class="day-stat-val" style="color: var(--bronze);">${badgeCounts.bronze} gün</div></div>
+          <div class="day-stat-box"><div class="day-stat-label">⚠️ Limit Aşan</div><div class="day-stat-val" style="color: var(--danger);">${badgeCounts.exceeded} gün</div></div>
+        </div>
+
+        <div class="reason-dist-title">📋 Dönem Boyu Neden Dağılımı</div>
+        <div>${reasonsHtml}</div>
+      `;
     }
 
     window.addEventListener('load', () => {
