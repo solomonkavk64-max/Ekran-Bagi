@@ -18,6 +18,9 @@
       --good: #22c55e;
       --warn: #f59e0b;
       --danger: #ef4444;
+      --gold: #fbbf24;
+      --silver: #cbd5e1;
+      --bronze: #d97706;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body {
@@ -58,6 +61,23 @@
       color: var(--accent);
       margin-top: 10px;
     }
+
+    .badge-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 10px;
+      text-align: left;
+      transition: all 0.3s ease;
+    }
+    .badge-icon { font-size: 2rem; }
+    .badge-info { flex: 1; }
+    .badge-title { font-size: 0.9rem; font-weight: 700; color: var(--text); }
+    .badge-desc { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
 
     .comparison-badge {
       display: inline-block;
@@ -101,6 +121,75 @@
       font-size: 0.75rem;
       padding: 2px 7px;
       border-radius: 99px;
+    }
+
+    /* Takvim Kartı */
+    .calendar-card {
+      background: var(--card);
+      border-radius: 18px;
+      padding: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .cal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .cal-title { font-size: 0.95rem; font-weight: 700; color: var(--text); }
+    .cal-nav {
+      background: rgba(255,255,255,0.08);
+      border: none;
+      color: var(--text);
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .cal-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+    }
+    .cal-day {
+      aspect-ratio: 1;
+      background: rgba(255,255,255,0.03);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78rem;
+      position: relative;
+      border: 1px solid transparent;
+      cursor: pointer;
+    }
+    .cal-day.empty { background: transparent; cursor: default; }
+    .cal-day.today { border-color: var(--accent); font-weight: 700; }
+    
+    .cal-day.gold { background: rgba(251, 191, 36, 0.15); border-color: rgba(251, 191, 36, 0.4); }
+    .cal-day.silver { background: rgba(203, 213, 225, 0.15); border-color: rgba(203, 213, 225, 0.4); }
+    .cal-day.bronze { background: rgba(217, 119, 6, 0.15); border-color: rgba(217, 119, 6, 0.4); }
+    .cal-day.exceeded { background: rgba(239, 68, 68, 0.12); border-color: rgba(239, 68, 68, 0.3); }
+
+    .cal-badge { font-size: 0.8rem; line-height: 1; margin-top: 2px; }
+    .cal-detail {
+      margin-top: 10px;
+      padding: 8px 12px;
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 10px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
     }
 
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -180,6 +269,14 @@
         ⏱️ Bugünkü Toplam Süre: 0 dk
       </div>
 
+      <div class="badge-card" id="badgeCard">
+        <div class="badge-icon" id="badgeIcon">🏆</div>
+        <div class="badge-info">
+          <div class="badge-title" id="badgeTitle">Rozet Durumu</div>
+          <div class="badge-desc" id="badgeDesc">Veriler hesaplanıyor...</div>
+        </div>
+      </div>
+
       <div class="comparison-badge" id="compareBadge">Dün toplam: 0 kez</div>
     </div>
 
@@ -204,6 +301,20 @@
           <span class="reason-badge" id="cnt-Sosyal / Mesaj">0</span>
         </button>
       </div>
+    </div>
+
+    <!-- Başarı Takvimi -->
+    <div class="calendar-card">
+      <div class="cal-header">
+        <button class="cal-nav" onclick="changeMonth(-1)">‹</button>
+        <div class="cal-title" id="calMonthTitle">Kasım 2026</div>
+        <button class="cal-nav" onclick="changeMonth(1)">›</button>
+      </div>
+      <div class="cal-weekdays">
+        <span>Pzt</span><span>Sal</span><span>Çar</span><span>Per</span><span>Cum</span><span>Cmt</span><span>Paz</span>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+      <div class="cal-detail" id="calDetail">Detay görmek için takvimden bir güne dokun</div>
     </div>
 
     <div class="grid-2">
@@ -244,9 +355,7 @@
     let supabaseClient = null;
     try {
       supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    } catch(e) {
-      console.error("Supabase init error:", e);
-    }
+    } catch(e) {}
 
     let deviceId = localStorage.getItem('ekranbagi_device_id');
     if (!deviceId) {
@@ -262,10 +371,18 @@
       "📵 Gerçekten bir şeye bakmak için mi açtın, yoksa sadece alışkanlık mı?"
     ];
 
+    const MONTHS_TR = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+
+    let currentCalDate = new Date();
+    let monthlyHistoryCache = {};
+
     function getLocalDateStr(offsetDays = 0) {
       const d = new Date();
       d.setDate(d.getDate() + offsetDays);
-      return d.toISOString().split('T')[0];
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
     }
 
     let sessionStartTime = Date.now();
@@ -288,9 +405,7 @@
       try {
         const raw = localStorage.getItem('ekranbagi_data_' + todayStr);
         if (raw) data = JSON.parse(raw);
-      } catch(e) {
-        data = null;
-      }
+      } catch(e) {}
 
       if (!data) {
         data = {
@@ -307,9 +422,28 @@
       return data;
     }
 
+    // Rozet hesaplama fonksiyonu
+    function calculateBadge(views, minutes) {
+      if (views <= 30 && minutes <= 45) {
+        return { type: 'gold', icon: '🏆', title: 'Altın Rozet (Mükemmel Denge)', desc: `Süper! Sınırların çok altındasın (${views} bakış, ${minutes} dk).` };
+      } else if (views <= 50 && minutes <= 90) {
+        return { type: 'silver', icon: '🥈', title: 'Gümüş Rozet (İyi Durum)', desc: `Güzel gidiyor, hedefe yakınsın (${views} bakış, ${minutes} dk).` };
+      } else if (views <= 75 && minutes <= 120) {
+        return { type: 'bronze', icon: '🥉', title: 'Bronz Rozet (Kabul Edilebilir)', desc: `Sınırlardasın, biraz dikkat edebilirsin (${views} bakış, ${minutes} dk).` };
+      } else {
+        return { type: 'exceeded', icon: '⚠️', title: 'Limit Aşıldı', desc: `Günlük kullanım sınırları aşıldı (${views} bakış, ${minutes} dk).` };
+      }
+    }
+
     async function syncToSupabase(localData) {
-      if (!supabaseClient) return;
       const todayStr = getLocalDateStr(0);
+      monthlyHistoryCache[todayStr] = {
+        view_count: localData.view_count,
+        total_minutes: localData.total_minutes || 0
+      };
+      renderCalendar();
+
+      if (!supabaseClient) return;
       try {
         const { error } = await supabaseClient
           .from('daily_checks')
@@ -324,9 +458,7 @@
           }, { onConflict: 'device_id,check_date' });
 
         const statusDot = document.getElementById('syncStatus');
-        if (statusDot) {
-          statusDot.classList.toggle('offline', !!error);
-        }
+        if (statusDot) statusDot.classList.toggle('offline', !!error);
         if (!error) fetchHistoryStats();
       } catch (e) {
         const statusDot = document.getElementById('syncStatus');
@@ -372,9 +504,7 @@
       if (reasonLoggedThisSession) return;
       reasonLoggedThisSession = true;
 
-      document.querySelectorAll('.reason-btn').forEach(btn => {
-        btn.disabled = true;
-      });
+      document.querySelectorAll('.reason-btn').forEach(btn => { btn.disabled = true; });
       if (btnElement) btnElement.classList.add('selected');
 
       const todayStr = getLocalDateStr(0);
@@ -384,9 +514,7 @@
       localStorage.setItem('ekranbagi_data_' + todayStr, JSON.stringify(localData));
 
       const promptEl = document.getElementById('reasonPrompt');
-      if (promptEl) {
-        promptEl.textContent = `✓ "${reasonName}" kaydedildi`;
-      }
+      if (promptEl) promptEl.textContent = `✓ "${reasonName}" kaydedildi`;
 
       renderUI(localData, null);
       await syncToSupabase(localData);
@@ -395,6 +523,11 @@
     function renderUI(data, prevOpened) {
       document.getElementById('todayCount').textContent = data.view_count;
       document.getElementById('timeSpentBox').textContent = `⏱️ Bugünkü Toplam Süre: ${data.total_minutes || 0} dk`;
+
+      const badgeInfo = calculateBadge(data.view_count, data.total_minutes || 0);
+      document.getElementById('badgeIcon').textContent = badgeInfo.icon;
+      document.getElementById('badgeTitle').textContent = badgeInfo.title;
+      document.getElementById('badgeDesc').textContent = badgeInfo.desc;
 
       if (data.reasons) {
         Object.keys(data.reasons).forEach(key => {
@@ -437,23 +570,93 @@
 
     async function fetchHistoryStats() {
       if (!supabaseClient) return;
-      const sevenDaysAgo = getLocalDateStr(-7);
       const yesterdayStr = getLocalDateStr(-1);
+      const sixtyDaysAgo = getLocalDateStr(-60);
 
       const { data, error } = await supabaseClient
         .from('daily_checks')
-        .select('check_date, view_count')
+        .select('check_date, view_count, total_minutes')
         .eq('device_id', deviceId)
-        .gte('check_date', sevenDaysAgo);
+        .gte('check_date', sixtyDaysAgo);
 
       if (!error && data && data.length > 0) {
+        data.forEach(row => {
+          monthlyHistoryCache[row.check_date] = {
+            view_count: row.view_count,
+            total_minutes: row.total_minutes || 0
+          };
+        });
+
         const yesterdayRow = data.find(r => r.check_date === yesterdayStr);
         const yCount = yesterdayRow ? yesterdayRow.view_count : 0;
         document.getElementById('compareBadge').textContent = `Dün toplam: ${yCount} kez`;
 
-        const total = data.reduce((acc, item) => acc + item.view_count, 0);
-        const avg = Math.round(total / data.length);
-        document.getElementById('weeklyAvg').textContent = `${avg} kez`;
+        const last7 = data.filter(r => r.check_date >= getLocalDateStr(-7));
+        if (last7.length > 0) {
+          const total = last7.reduce((acc, item) => acc + item.view_count, 0);
+          const avg = Math.round(total / last7.length);
+          document.getElementById('weeklyAvg').textContent = `${avg} kez`;
+        }
+        renderCalendar();
+      }
+    }
+
+    function changeMonth(delta) {
+      currentCalDate.setMonth(currentCalDate.getMonth() + delta);
+      renderCalendar();
+    }
+
+    function renderCalendar() {
+      const year = currentCalDate.getFullYear();
+      const month = currentCalDate.getMonth();
+      document.getElementById('calMonthTitle').textContent = `${MONTHS_TR[month]} ${year}`;
+
+      const grid = document.getElementById('calGrid');
+      grid.innerHTML = '';
+
+      const firstDay = new Date(year, month, 1).getDay();
+      const startOffset = (firstDay === 0) ? 6 : firstDay - 1;
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const todayStr = getLocalDateStr(0);
+
+      for (let i = 0; i < startOffset; i++) {
+        const emptyCell = document.createElement('div');
+        emptyCell.className = 'cal-day empty';
+        grid.appendChild(emptyCell);
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const cell = document.createElement('div');
+        cell.className = 'cal-day' + (dateStr === todayStr ? ' today' : '');
+
+        let record = monthlyHistoryCache[dateStr];
+        if (!record) {
+          try {
+            const localRaw = localStorage.getItem('ekranbagi_data_' + dateStr);
+            if (localRaw) record = JSON.parse(localRaw);
+          } catch(e) {}
+        }
+
+        let badgeHtml = '';
+        if (record && record.view_count > 0) {
+          const badgeInfo = calculateBadge(record.view_count, record.total_minutes || 0);
+          cell.classList.add(badgeInfo.type);
+          badgeHtml = `<span class="cal-badge">${badgeInfo.icon}</span>`;
+        }
+
+        cell.innerHTML = `<span>${day}</span>${badgeHtml}`;
+        cell.onclick = () => {
+          const detailEl = document.getElementById('calDetail');
+          if (record && record.view_count > 0) {
+            const badgeInfo = calculateBadge(record.view_count, record.total_minutes || 0);
+            detailEl.textContent = `${day} ${MONTHS_TR[month]}: ${record.view_count} bakış, ${record.total_minutes || 0} dk — ${badgeInfo.title}`;
+          } else {
+            detailEl.textContent = `${day} ${MONTHS_TR[month]}: Kayıtlı veri yok`;
+          }
+        };
+
+        grid.appendChild(cell);
       }
     }
 
@@ -463,6 +666,7 @@
       }
       const initialData = getTodayData();
       renderUI(initialData, initialData.last_opened);
+      renderCalendar();
       recordCheck();
     });
 
