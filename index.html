@@ -36,8 +36,103 @@
     .container { width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 16px; }
     header { display: flex; justify-content: space-between; align-items: center; padding-top: 8px; }
     header h1 { font-size: 1.2rem; font-weight: 700; color: var(--text); }
+    .header-actions { display: flex; align-items: center; gap: 12px; }
+    .settings-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      padding: 6px 10px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .settings-btn:active { background: rgba(255, 255, 255, 0.15); }
     .status-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--good); display: inline-block; }
     .status-dot.offline { background: var(--warn); }
+
+    /* Modal (Hedef Ayarları Penceresi) */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 100;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: var(--card);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 22px;
+      padding: 20px;
+      width: 100%;
+      max-width: 380px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .modal-title { font-size: 1.05rem; font-weight: 700; }
+    .close-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 1.3rem;
+      cursor: pointer;
+    }
+    .goal-group {
+      background: rgba(15, 23, 42, 0.5);
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .goal-group-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+    .goal-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .input-wrap { display: flex; flex-direction: column; gap: 4px; }
+    .input-wrap label { font-size: 0.72rem; color: var(--muted); }
+    .input-wrap input {
+      background: var(--card);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text);
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      width: 100%;
+      outline: none;
+    }
+    .input-wrap input:focus { border-color: var(--accent); }
+    .modal-actions { display: flex; gap: 8px; margin-top: 14px; }
+    .btn-save {
+      flex: 2;
+      background: var(--accent);
+      color: #0f172a;
+      border: none;
+      padding: 11px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    .btn-reset {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--muted);
+      border: none;
+      padding: 11px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
 
     .hero-card {
       background: var(--card);
@@ -123,7 +218,6 @@
       border-radius: 99px;
     }
 
-    /* Takvim Kartı */
     .calendar-card {
       background: var(--card);
       border-radius: 18px;
@@ -257,7 +351,10 @@
   <div class="container">
     <header>
       <h1>Ekran Bağı</h1>
-      <span id="syncStatus" class="status-dot" title="Senkronize"></span>
+      <div class="header-actions">
+        <button class="settings-btn" onclick="openGoalsModal()">⚙️ Hedefler</button>
+        <span id="syncStatus" class="status-dot" title="Senkronize"></span>
+      </div>
     </header>
 
     <div class="hero-card">
@@ -349,6 +446,63 @@
     <button class="btn-manual" onclick="recordCheck(true)">+ Manuel Bakış Ekle</button>
   </div>
 
+  <!-- Hedef Ayarları Modal -->
+  <div class="modal-overlay" id="goalsModal" onclick="if(event.target === this) closeGoalsModal()">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">🎯 Günlük Rozet Hedefleri</div>
+        <button class="close-btn" onclick="closeGoalsModal()">×</button>
+      </div>
+
+      <div class="goal-group">
+        <div class="goal-group-title" style="color: var(--gold);">🏆 Altın Rozet (Maksimum Limit)</div>
+        <div class="goal-inputs">
+          <div class="input-wrap">
+            <label>Bakış Sayısı (≤)</label>
+            <input type="number" id="inGoldViews" min="1" max="500" />
+          </div>
+          <div class="input-wrap">
+            <label>Ekran Süresi / dk (≤)</label>
+            <input type="number" id="inGoldMins" min="1" max="1440" />
+          </div>
+        </div>
+      </div>
+
+      <div class="goal-group">
+        <div class="goal-group-title" style="color: var(--silver);">🥈 Gümüş Rozet (Maksimum Limit)</div>
+        <div class="goal-inputs">
+          <div class="input-wrap">
+            <label>Bakış Sayısı (≤)</label>
+            <input type="number" id="inSilverViews" min="1" max="500" />
+          </div>
+          <div class="input-wrap">
+            <label>Ekran Süresi / dk (≤)</label>
+            <input type="number" id="inSilverMins" min="1" max="1440" />
+          </div>
+        </div>
+      </div>
+
+      <div class="goal-group">
+        <div class="goal-group-title" style="color: var(--bronze);">🥉 Bronz Rozet (Maksimum Limit)</div>
+        <div class="goal-inputs">
+          <div class="input-wrap">
+            <label>Bakış Sayısı (≤)</label>
+            <input type="number" id="inBronzeViews" min="1" max="500" />
+          </div>
+          <div class="input-wrap">
+            <label>Ekran Süresi / dk (≤)</label>
+            <input type="number" id="inBronzeMins" min="1" max="1440" />
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-reset" onclick="resetGoalsToDefault()">Sıfırla</button>
+        <button class="btn-save" onclick="saveGoals()">Kaydet</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const SUPABASE_URL = 'https://rvgeztwqlxgtvqvrlzth.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_lA2WkBgbio59vdsSdcfZbA_x2kEW7mg';
@@ -372,6 +526,66 @@
     ];
 
     const MONTHS_TR = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+
+    const DEFAULT_GOALS = {
+      goldViews: 30, goldMins: 45,
+      silverViews: 50, silverMins: 90,
+      bronzeViews: 75, bronzeMins: 120
+    };
+
+    function getGoals() {
+      try {
+        const saved = JSON.parse(localStorage.getItem('ekranbagi_goals'));
+        if (saved && saved.goldViews && saved.silverViews && saved.bronzeViews) {
+          return saved;
+        }
+      } catch(e) {}
+      return { ...DEFAULT_GOALS };
+    }
+
+    function openGoalsModal() {
+      const g = getGoals();
+      document.getElementById('inGoldViews').value = g.goldViews;
+      document.getElementById('inGoldMins').value = g.goldMins;
+      document.getElementById('inSilverViews').value = g.silverViews;
+      document.getElementById('inSilverMins').value = g.silverMins;
+      document.getElementById('inBronzeViews').value = g.bronzeViews;
+      document.getElementById('inBronzeMins').value = g.bronzeMins;
+      document.getElementById('goalsModal').classList.add('open');
+    }
+
+    function closeGoalsModal() {
+      document.getElementById('goalsModal').classList.remove('open');
+    }
+
+    function saveGoals() {
+      const gViews = Math.max(1, parseInt(document.getElementById('inGoldViews').value) || 30);
+      const gMins = Math.max(1, parseInt(document.getElementById('inGoldMins').value) || 45);
+      const sViews = Math.max(gViews, parseInt(document.getElementById('inSilverViews').value) || 50);
+      const sMins = Math.max(gMins, parseInt(document.getElementById('inSilverMins').value) || 90);
+      const bViews = Math.max(sViews, parseInt(document.getElementById('inBronzeViews').value) || 75);
+      const bMins = Math.max(sMins, parseInt(document.getElementById('inBronzeMins').value) || 120);
+
+      const newGoals = {
+        goldViews: gViews, goldMins: gMins,
+        silverViews: sViews, silverMins: sMins,
+        bronzeViews: bViews, bronzeMins: bMins
+      };
+      localStorage.setItem('ekranbagi_goals', JSON.stringify(newGoals));
+      closeGoalsModal();
+
+      const todayData = getTodayData();
+      renderUI(todayData, null);
+      renderCalendar();
+    }
+
+    function resetGoalsToDefault() {
+      localStorage.setItem('ekranbagi_goals', JSON.stringify(DEFAULT_GOALS));
+      openGoalsModal();
+      const todayData = getTodayData();
+      renderUI(todayData, null);
+      renderCalendar();
+    }
 
     let currentCalDate = new Date();
     let monthlyHistoryCache = {};
@@ -422,16 +636,36 @@
       return data;
     }
 
-    // Rozet hesaplama fonksiyonu
     function calculateBadge(views, minutes) {
-      if (views <= 30 && minutes <= 45) {
-        return { type: 'gold', icon: '🏆', title: 'Altın Rozet (Mükemmel Denge)', desc: `Süper! Sınırların çok altındasın (${views} bakış, ${minutes} dk).` };
-      } else if (views <= 50 && minutes <= 90) {
-        return { type: 'silver', icon: '🥈', title: 'Gümüş Rozet (İyi Durum)', desc: `Güzel gidiyor, hedefe yakınsın (${views} bakış, ${minutes} dk).` };
-      } else if (views <= 75 && minutes <= 120) {
-        return { type: 'bronze', icon: '🥉', title: 'Bronz Rozet (Kabul Edilebilir)', desc: `Sınırlardasın, biraz dikkat edebilirsin (${views} bakış, ${minutes} dk).` };
+      const g = getGoals();
+      if (views <= g.goldViews && minutes <= g.goldMins) {
+        return {
+          type: 'gold',
+          icon: '🏆',
+          title: 'Altın Rozet (Mükemmel Denge)',
+          desc: `Hedef: ≤${g.goldViews} bakış / ${g.goldMins} dk (Şu an: ${views} bakış, ${minutes} dk)`
+        };
+      } else if (views <= g.silverViews && minutes <= g.silverMins) {
+        return {
+          type: 'silver',
+          icon: '🥈',
+          title: 'Gümüş Rozet (İyi Durum)',
+          desc: `Hedef: ≤${g.silverViews} bakış / ${g.silverMins} dk (Şu an: ${views} bakış, ${minutes} dk)`
+        };
+      } else if (views <= g.bronzeViews && minutes <= g.bronzeMins) {
+        return {
+          type: 'bronze',
+          icon: '🥉',
+          title: 'Bronz Rozet (Kabul Edilebilir)',
+          desc: `Hedef: ≤${g.bronzeViews} bakış / ${g.bronzeMins} dk (Şu an: ${views} bakış, ${minutes} dk)`
+        };
       } else {
-        return { type: 'exceeded', icon: '⚠️', title: 'Limit Aşıldı', desc: `Günlük kullanım sınırları aşıldı (${views} bakış, ${minutes} dk).` };
+        return {
+          type: 'exceeded',
+          icon: '⚠️',
+          title: 'Limit Aşıldı',
+          desc: `Maksimum sınır (${g.bronzeViews} bakış / ${g.bronzeMins} dk) aşıldı.`
+        };
       }
     }
 
