@@ -21,7 +21,7 @@
       --gold: #fbbf24;
       --silver: #cbd5e1;
       --bronze: #d97706;
-      --purple: #a855f7;
+      --forest: #10b981;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body {
@@ -147,7 +147,7 @@
       cursor: pointer;
     }
 
-    /* Sekmeler (Rapor ve Sıralama) */
+    /* Sekmeler */
     .report-tabs {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -181,7 +181,7 @@
       color: #0f172a;
     }
 
-    /* Liderlik Tablosu Satırları */
+    /* Liderlik Tablosu */
     .rank-list { display: flex; flex-direction: column; gap: 8px; }
     .rank-item {
       display: flex;
@@ -244,33 +244,34 @@
       margin-bottom: 6px;
     }
 
-    /* Meydan Okuma Kartı */
-    .challenge-card {
-      background: linear-gradient(135deg, rgba(168, 85, 247, 0.14), rgba(56, 189, 248, 0.1));
-      border: 1px solid rgba(168, 85, 247, 0.35);
+    /* Dijital Orman Kartı */
+    .forest-card {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.14), rgba(56, 189, 248, 0.08));
+      border: 1px solid rgba(16, 185, 129, 0.35);
       border-radius: 18px;
       padding: 16px;
     }
-    .challenge-header {
+    .forest-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 8px;
     }
-    .challenge-title { font-size: 0.92rem; font-weight: 700; color: #e9d5ff; display: flex; align-items: center; gap: 6px; }
-    .challenge-score {
-      background: rgba(168, 85, 247, 0.25);
-      color: #f3e8ff;
+    .forest-title { font-size: 0.92rem; font-weight: 700; color: #a7f3d0; display: flex; align-items: center; gap: 6px; }
+    .forest-score {
+      background: rgba(16, 185, 129, 0.25);
+      color: #d1fae5;
       font-size: 0.75rem;
       font-weight: 700;
       padding: 3px 9px;
       border-radius: 99px;
+      cursor: pointer;
     }
-    .challenge-desc { font-size: 0.8rem; color: var(--muted); margin-bottom: 12px; line-height: 1.4; }
-    .challenge-btns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-    .ch-btn {
+    .forest-desc { font-size: 0.8rem; color: var(--muted); margin-bottom: 12px; line-height: 1.4; }
+    .forest-btns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .fo-btn {
       background: rgba(255, 255, 255, 0.07);
-      border: 1px solid rgba(168, 85, 247, 0.35);
+      border: 1px solid rgba(16, 185, 129, 0.35);
       color: var(--text);
       padding: 9px 6px;
       border-radius: 10px;
@@ -278,19 +279,29 @@
       font-weight: 600;
       cursor: pointer;
     }
-    .ch-btn:active { background: rgba(168, 85, 247, 0.3); }
-    .ch-active-box {
+    .fo-btn:active { background: rgba(16, 185, 129, 0.3); }
+    .fo-active-box {
       text-align: center;
-      padding: 8px 0 2px 0;
+      padding: 4px 0 2px 0;
     }
-    .ch-timer {
-      font-size: 2.2rem;
-      font-weight: 800;
-      color: #e9d5ff;
-      font-variant-numeric: tabular-nums;
+    .fo-tree-icon {
+      font-size: 2.8rem;
+      animation: pulseTree 2s infinite ease-in-out;
       margin: 4px 0;
     }
-    .ch-cancel {
+    @keyframes pulseTree {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    .fo-timer {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #a7f3d0;
+      font-variant-numeric: tabular-nums;
+      margin: 2px 0;
+    }
+    .fo-cancel {
       margin-top: 8px;
       background: rgba(239, 68, 68, 0.15);
       border: 1px solid rgba(239, 68, 68, 0.3);
@@ -300,7 +311,7 @@
       font-size: 0.78rem;
       cursor: pointer;
     }
-    .ch-status-msg {
+    .fo-status-msg {
       margin-top: 8px;
       font-size: 0.82rem;
       font-weight: 600;
@@ -308,8 +319,29 @@
       padding: 6px;
       border-radius: 8px;
     }
-    .ch-status-msg.fail { background: rgba(239, 68, 68, 0.18); color: #fca5a5; }
-    .ch-status-msg.win { background: rgba(34, 197, 94, 0.18); color: #86efac; }
+    .fo-status-msg.fail { background: rgba(239, 68, 68, 0.18); color: #fca5a5; }
+    .fo-status-msg.win { background: rgba(16, 185, 129, 0.18); color: #a7f3d0; }
+
+    /* Orman Koleksiyonu Izgarası */
+    .forest-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .forest-tree-item {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      border-radius: 12px;
+      padding: 10px 6px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .forest-tree-emoji { font-size: 1.8rem; }
+    .forest-tree-label { font-size: 0.7rem; color: var(--muted); }
 
     .hero-card {
       background: var(--card);
@@ -552,26 +584,27 @@
       <div class="comparison-badge" id="compareBadge">Dün toplam: 0 kez</div>
     </div>
 
-    <!-- Dijital Detoks Meydan Okuma Kartı -->
-    <div class="challenge-card">
-      <div class="challenge-header">
-        <div class="challenge-title">🛡️ Dijital Detoks Meydan Okuması</div>
-        <div class="challenge-score" id="challengeWinsBadge">🎖️ 0 Tamamlandı</div>
+    <!-- Dijital Orman (Fokus & Ağaç Yetiştirme) Kartı -->
+    <div class="forest-card">
+      <div class="forest-header">
+        <div class="forest-title">🌲 Dijital Orman (Fokus)</div>
+        <div class="forest-score" onclick="openForestModal()" id="forestBadgeBtn">🌳 0 Ağaç</div>
       </div>
-      <div id="challengeIdleArea">
-        <div class="challenge-desc">Seçtiğin süre boyunca ekranı kilitleyip telefona dokunma sözü ver. Süre dolmadan geri dönersen meydan okuma bozulur!</div>
-        <div class="challenge-btns">
-          <button class="ch-btn" onclick="startChallenge(30)">30 Dakika</button>
-          <button class="ch-btn" onclick="startChallenge(60)">1 Saat</button>
-          <button class="ch-btn" onclick="startChallenge(120)">2 Saat</button>
+      <div id="forestIdleArea">
+        <div class="forest-desc">Fidanını e, telefonunu kilitle ve odaklanarak ormanını büyüt! Süre bitmeden çıkarsan fidanın kurur.</div>
+        <div class="forest-btns">
+          <button class="fo-btn" onclick="startForest(15)">15 Dakika</button>
+          <button class="fo-btn" onclick="startForest(30)">30 Dakika</button>
+          <button class="fo-btn" onclick="startForest(60)">1 Saat</button>
         </div>
       </div>
-      <div id="challengeActiveArea" class="ch-active-box" style="display: none;">
-        <div style="font-size: 0.78rem; color: #d8b4fe;">Ekranı kilitle ve telefona bakma! Kalan Süre:</div>
-        <div class="ch-timer" id="challengeTimer">30:00</div>
-        <button class="ch-cancel" onclick="cancelChallenge()">Vazgeç / İptal Et</button>
+      <div id="forestActiveArea" class="fo-active-box" style="display: none;">
+        <div class="fo-tree-icon" id="forestTreeIcon">🌱</div>
+        <div class="fo-timer" id="forestTimer">15:00</div>
+        <div style="font-size: 0.75rem; color: #a7f3d0;" id="forestStatusText">Fidan büyüyor... Telefona dokunma!</div>
+        <button class="fo-cancel" onclick="cancelForest()">Vazgeç / Fidanı Sök</button>
       </div>
-      <div id="challengeMsg" class="ch-status-msg" style="display: none;"></div>
+      <div id="forestMsg" class="fo-status-msg" style="display: none;"></div>
     </div>
 
     <!-- Mini Günlük / Neden Seçimi -->
@@ -640,6 +673,22 @@
     </div>
 
     <button class="btn-manual" onclick="recordCheck(true)">+ Manuel Bakış Ekle</button>
+  </div>
+
+  <!-- Dijital Orman Koleksiyonu Modal -->
+  <div class="modal-overlay" id="forestModal" onclick="if(event.target === this) closeForestModal()">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">🌲 Dijital Koruluğun</div>
+        <button class="close-btn" onclick="closeForestModal()">×</button>
+      </div>
+      <p style="font-size: 0.8rem; color: var(--muted); margin-bottom: 12px; line-height: 1.4;">
+        Odaklanarak büyüttüğün tüm ağaçların burada sergileniyor. Ormanını ne kadar büyütebileceksin?
+      </p>
+      <div id="forestCollectionContent" class="forest-grid">
+        <!-- Dinamik ağaç listesi -->
+      </div>
+    </div>
   </div>
 
   <!-- Takma Ad (Nickname) Modal -->
@@ -882,61 +931,105 @@
       renderCalendar();
     }
 
-    // Meydan Okuma (Dijital Detoks) Sistemi
-    let challengeInterval = null;
-    let leftAppDuringChallenge = false;
+    // Dijital Orman (Fokus & Ağaç Yetiştirme) Sistemi
+    let forestInterval = null;
+    let leftAppDuringForest = false;
 
-    function getChallengeWins() {
-      return parseInt(localStorage.getItem('ekranbagi_ch_wins') || '0');
+    function getForestCollection() {
+      try {
+        const raw = localStorage.getItem('ekranbagi_forest');
+        if (raw) return JSON.parse(raw);
+      } catch(e) {}
+      return [];
     }
 
-    function updateChallengeBadge() {
-      document.getElementById('challengeWinsBadge').textContent = `🎖️ ${getChallengeWins()} Tamamlandı`;
+    function saveForestCollection(list) {
+      localStorage.setItem('ekranbagi_forest', JSON.stringify(list));
+      updateForestBadge();
     }
 
-    function startChallenge(minutes) {
+    function updateForestBadge() {
+      const list = getForestCollection();
+      document.getElementById('forestBadgeBtn').textContent = `🌳 ${list.length} Ağaç`;
+    }
+
+    function openForestModal() {
+      const list = getForestCollection();
+      const container = document.getElementById('forestCollectionContent');
+      if (list.length === 0) {
+        container.innerHTML = `<div style="grid-column: span 4; text-align: center; color: var(--muted); padding: 20px;">Henüz hiç ağacın yok. Fidan ekerek ormanını büyütmeye başla!</div>`;
+      } else {
+        let html = '';
+        list.slice().reverse().forEach((item, idx) => {
+          html += `
+            <div class="forest-tree-item">
+              <div class="forest-tree-emoji">${item.emoji || '🌲'}</div>
+              <div class="forest-tree-label">${item.mins} dk Odak</div>
+            </div>
+          `;
+        });
+        container.innerHTML = html;
+      }
+      document.getElementById('forestModal').classList.add('open');
+    }
+
+    function closeForestModal() {
+      document.getElementById('forestModal').classList.remove('open');
+    }
+
+    function startForest(minutes) {
       const endTime = Date.now() + minutes * 60000;
-      localStorage.setItem('ekranbagi_active_ch', JSON.stringify({ endTime, minutes }));
-      leftAppDuringChallenge = false;
-      document.getElementById('challengeMsg').style.display = 'none';
-      renderChallengeUI();
+      localStorage.setItem('ekranbagi_active_forest', JSON.stringify({ endTime, minutes }));
+      leftAppDuringForest = false;
+      document.getElementById('forestMsg').style.display = 'none';
+      renderForestUI();
     }
 
-    function cancelChallenge() {
-      localStorage.removeItem('ekranbagi_active_ch');
-      if (challengeInterval) clearInterval(challengeInterval);
-      renderChallengeUI();
+    function cancelForest() {
+      localStorage.removeItem('ekranbagi_active_forest');
+      if (forestInterval) clearInterval(forestInterval);
+      renderForestUI();
     }
 
-    function failChallenge() {
-      localStorage.removeItem('ekranbagi_active_ch');
-      if (challengeInterval) clearInterval(challengeInterval);
-      const msgEl = document.getElementById('challengeMsg');
-      msgEl.className = 'ch-status-msg fail';
-      msgEl.textContent = '⚠️ Süre dolmadan ekrana döndüğün için meydan okuma bozuldu!';
+    function failForest() {
+      localStorage.removeItem('ekranbagi_active_forest');
+      if (forestInterval) clearInterval(forestInterval);
+      const msgEl = document.getElementById('forestMsg');
+      msgEl.className = 'fo-status-msg fail';
+      msgEl.textContent = '🥀 Süre dolmadan uygulamadan ayrıldığın için fidanın kurudu!';
       msgEl.style.display = 'block';
-      renderChallengeUI();
+      renderForestUI();
     }
 
-    function completeChallenge() {
-      localStorage.removeItem('ekranbagi_active_ch');
-      if (challengeInterval) clearInterval(challengeInterval);
-      const wins = getChallengeWins() + 1;
-      localStorage.setItem('ekranbagi_ch_wins', String(wins));
-      updateChallengeBadge();
+    function completeForest() {
+      const raw = localStorage.getItem('ekranbagi_active_forest');
+      if (!raw) return;
+      const ch = JSON.parse(raw);
+      localStorage.removeItem('ekranbagi_active_forest');
+      if (forestInterval) clearInterval(forestInterval);
 
-      const msgEl = document.getElementById('challengeMsg');
-      msgEl.className = 'ch-status-msg win';
-      msgEl.textContent = '🎉 Tebrikler! Dijital detoks meydan okumasını başarıyla tamamladın!';
+      // Ağaç ekle
+      const list = getForestCollection();
+      let emoji = '🌲';
+      if (ch.minutes >= 60) emoji = '🌳';
+      else if (ch.minutes >= 30) emoji = '🎄';
+      else emoji = '🪴';
+
+      list.push({ mins: ch.minutes, emoji, date: new Date().toISOString() });
+      saveForestCollection(list);
+
+      const msgEl = document.getElementById('forestMsg');
+      msgEl.className = 'fo-status-msg win';
+      msgEl.textContent = `🎉 Tebrikler! ${ch.minutes} dakikalık odaklanma ile ${emoji} ağacını ormanına ekledin!`;
       msgEl.style.display = 'block';
-      renderChallengeUI();
+      renderForestUI();
     }
 
-    function renderChallengeUI() {
-      updateChallengeBadge();
-      const raw = localStorage.getItem('ekranbagi_active_ch');
-      const idleEl = document.getElementById('challengeIdleArea');
-      const activeEl = document.getElementById('challengeActiveArea');
+    function renderForestUI() {
+      updateForestBadge();
+      const raw = localStorage.getItem('ekranbagi_active_forest');
+      const idleEl = document.getElementById('forestIdleArea');
+      const activeEl = document.getElementById('forestActiveArea');
 
       if (!raw) {
         idleEl.style.display = 'block';
@@ -947,31 +1040,38 @@
       const ch = JSON.parse(raw);
       const now = Date.now();
       if (now >= ch.endTime) {
-        completeChallenge();
+        completeForest();
         return;
       }
 
       idleEl.style.display = 'none';
       activeEl.style.display = 'block';
 
-      if (challengeInterval) clearInterval(challengeInterval);
+      if (forestInterval) clearInterval(forestInterval);
       const updateTimer = () => {
         const remaining = ch.endTime - Date.now();
         if (remaining <= 0) {
-          completeChallenge();
+          completeForest();
           return;
         }
+
+        // Ağaç aşaması güncelle
+        const totalDuration = ch.minutes * 60000;
+        const elapsed = totalDuration - remaining;
+        const pct = elapsed / totalDuration;
+        const treeIcon = document.getElementById('forestTreeIcon');
+        if (pct < 0.25) treeIcon.textContent = '🌱';
+        else if (pct < 0.6) treeIcon.textContent = '🌿';
+        else if (pct < 0.9) treeIcon.textContent = '🪴';
+        else treeIcon.textContent = '🌲';
+
         const totalSecs = Math.floor(remaining / 1000);
-        const hrs = Math.floor(totalSecs / 3600);
-        const mins = Math.floor((totalSecs % 3600) / 60);
+        const mins = Math.floor(totalSecs / 60);
         const secs = totalSecs % 60;
-        const formatted = hrs > 0
-          ? `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`
-          : `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-        document.getElementById('challengeTimer').textContent = formatted;
+        document.getElementById('forestTimer').textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
       };
       updateTimer();
-      challengeInterval = setInterval(updateTimer, 1000);
+      forestInterval = setInterval(updateTimer, 1000);
     }
 
     let currentCalDate = new Date();
@@ -1251,7 +1351,6 @@
           return;
         }
 
-        // Kullanıcı bazında topla
         const userMap = {};
         data.forEach(row => {
           const id = row.device_id;
@@ -1270,7 +1369,6 @@
           userMap[id].days += 1;
         });
 
-        // Sıralama: En az bakış sayısı önce, eşitlikte en az dakika önce
         const sortedUsers = Object.values(userMap).sort((a, b) => {
           if (a.totalViews !== b.totalViews) return a.totalViews - b.totalViews;
           return a.totalMins - b.totalMins;
@@ -1499,25 +1597,25 @@
       const initialData = getTodayData();
       renderUI(initialData, initialData.last_opened);
       renderCalendar();
-      renderChallengeUI();
+      renderForestUI();
       recordCheck();
     });
 
     document.addEventListener('visibilitychange', () => {
-      const activeChRaw = localStorage.getItem('ekranbagi_active_ch');
+      const activeForestRaw = localStorage.getItem('ekranbagi_active_forest');
       if (document.visibilityState === 'hidden') {
         updateActiveTime();
-        if (activeChRaw) {
-          leftAppDuringChallenge = true;
+        if (activeForestRaw) {
+          leftAppDuringForest = true;
         }
       } else if (document.visibilityState === 'visible') {
         sessionStartTime = Date.now();
-        if (activeChRaw) {
-          const ch = JSON.parse(activeChRaw);
+        if (activeForestRaw) {
+          const ch = JSON.parse(activeForestRaw);
           if (Date.now() >= ch.endTime) {
-            completeChallenge();
-          } else if (leftAppDuringChallenge) {
-            failChallenge();
+            completeForest();
+          } else if (leftAppDuringForest) {
+            failForest();
           }
         }
         recordCheck();
