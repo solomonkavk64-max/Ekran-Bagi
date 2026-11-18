@@ -48,7 +48,6 @@
     .hero-count { font-size: 4rem; font-weight: 800; line-height: 1.1; margin: 8px 0; color: var(--accent); }
     .hero-sub { font-size: 0.85rem; color: var(--muted); margin-bottom: 12px; }
     
-    /* Ekran Süresi Rozeti */
     .time-spent-box {
       background: rgba(56, 189, 248, 0.1);
       border: 1px solid rgba(56, 189, 248, 0.2);
@@ -92,7 +91,19 @@
       align-items: center;
       transition: all 0.2s ease;
     }
-    .reason-btn:active { transform: scale(0.97); background: rgba(56, 189, 248, 0.2); border-color: var(--accent); }
+    .reason-btn:active:not(:disabled) { transform: scale(0.97); background: rgba(56, 189, 248, 0.2); border-color: var(--accent); }
+    
+    /* Kilitli / Seçilmiş Durum Stili */
+    .reason-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+    .reason-btn.selected {
+      opacity: 1;
+      border-color: var(--good);
+      background: rgba(34, 197, 94, 0.15);
+    }
+
     .reason-badge {
       background: rgba(56, 189, 248, 0.2);
       color: var(--accent);
@@ -185,19 +196,19 @@
     <div class="reason-card">
       <div class="reason-title" id="reasonPrompt">Şu an telefonu neden eline aldın?</div>
       <div class="reason-grid">
-        <button class="reason-btn" onclick="logReason('Can Sıkıntısı')">
+        <button class="reason-btn" data-reason="Can Sıkıntısı" onclick="logReason('Can Sıkıntısı', this)">
           <span>🥱 Can Sıkıntısı</span>
           <span class="reason-badge" id="cnt-Can Sıkıntısı">0</span>
         </button>
-        <button class="reason-btn" onclick="logReason('Alışkanlık')">
+        <button class="reason-btn" data-reason="Alışkanlık" onclick="logReason('Alışkanlık', this)">
           <span>🔄 Alışkanlık</span>
           <span class="reason-badge" id="cnt-Alışkanlık">0</span>
         </button>
-        <button class="reason-btn" onclick="logReason('İş / Bilgi')">
+        <button class="reason-btn" data-reason="İş / Bilgi" onclick="logReason('İş / Bilgi', this)">
           <span>💼 İş / Bilgi</span>
           <span class="reason-badge" id="cnt-İş / Bilgi">0</span>
         </button>
-        <button class="reason-btn" onclick="logReason('Sosyal / Mesaj')">
+        <button class="reason-btn" data-reason="Sosyal / Mesaj" onclick="logReason('Sosyal / Mesaj', this)">
           <span>💬 Sosyal / Mesaj</span>
           <span class="reason-badge" id="cnt-Sosyal / Mesaj">0</span>
         </button>
@@ -263,172 +274,6 @@
 
     let sessionStartTime = Date.now();
     let lastTriggerTime = 0;
+    let reasonLoggedThisSession = false; // Oturum başına 1 tıklama kontrolü
 
-    function getTodayData() {
-      const todayStr = getLocalDateStr(0);
-      return JSON.parse(localStorage.getItem('ekranbagi_data_' + todayStr)) || {
-        view_count: 0,
-        hourly_counts: new Array(24).fill(0),
-        reasons: { 'Can Sıkıntısı': 0, 'Alışkanlık': 0, 'İş / Bilgi': 0, 'Sosyal / Mesaj': 0 },
-        total_minutes: 0,
-        last_opened: null
-      };
-    }
-
-    async function syncToSupabase(localData) {
-      const todayStr = getLocalDateStr(0);
-      try {
-        const { error } = await supabaseClient
-          .from('daily_checks')
-          .upsert({
-            device_id: deviceId,
-            check_date: todayStr,
-            view_count: localData.view_count,
-            hourly_counts: localData.hourly_counts,
-            reasons: localData.reasons,
-            total_minutes: localData.total_minutes,
-            last_opened: localData.last_opened
-          }, { onConflict: 'device_id,check_date' });
-
-        document.getElementById('syncStatus').classList.toggle('offline', !!error);
-        if (!error) fetchHistoryStats();
-      } catch (e) {
-        document.getElementById('syncStatus').classList.add('offline');
-      }
-    }
-
-    // Oturum süresini hesaplayıp ekleyen fonksiyon
-    function updateActiveTime() {
-      const now = Date.now();
-      const elapsedMins = Math.floor((now - sessionStartTime) / 60000);
-      if (elapsedMins > 0) {
-        const todayStr = getLocalDateStr(0);
-        let localData = getTodayData();
-        localData.total_minutes = (localData.total_minutes || 0) + elapsedMins;
-        localStorage.setItem('ekranbagi_data_' + todayStr, JSON.stringify(localData));
-        sessionStartTime = now; // Süreyi sıfırla, yeniden saymaya başla
-        return localData;
-      }
-      return getTodayData();
-    }
-
-    async function recordCheck(force = false) {
-      const now = Date.now();
-      if (!force && (now - lastTriggerTime < 5000)) return;
-      lastTriggerTime = now;
-
-      let localData = updateActiveTime();
-      const todayStr = getLocalDateStr(0);
-      const currentHour = new Date().getHours();
-      if (!localData.reasons) localData.reasons = { 'Can Sıkıntısı': 0, 'Alışkanlık': 0, 'İş / Bilgi': 0, 'Sosyal / Mesaj': 0 };
-
-      const prevOpened = localData.last_opened;
-      localData.view_count += 1;
-      localData.hourly_counts[currentHour] = (localData.hourly_counts[currentHour] || 0) + 1;
-      localData.last_opened = new Date().toISOString();
-
-      localStorage.setItem('ekranbagi_data_' + todayStr, JSON.stringify(localData));
-      document.getElementById('reasonPrompt').textContent = 'Şu an telefonu neden eline aldın?';
-      renderUI(localData, prevOpened);
-      await syncToSupabase(localData);
-    }
-
-    async function logReason(reasonName) {
-      const todayStr = getLocalDateStr(0);
-      let localData = updateActiveTime();
-      if (!localData.reasons) localData.reasons = { 'Can Sıkıntısı': 0, 'Alışkanlık': 0, 'İş / Bilgi': 0, 'Sosyal / Mesaj': 0 };
-
-      localData.reasons[reasonName] = (localData.reasons[reasonName] || 0) + 1;
-      localStorage.setItem('ekranbagi_data_' + todayStr, JSON.stringify(localData));
-
-      const promptEl = document.getElementById('reasonPrompt');
-      promptEl.textContent = `✓ "${reasonName}" olarak kaydedildi`;
-      setTimeout(() => { promptEl.textContent = 'Şu an telefonu neden eline aldın?'; }, 2000);
-
-      renderUI(localData, null);
-      await syncToSupabase(localData);
-    }
-
-    function renderUI(data, prevOpened) {
-      document.getElementById('todayCount').textContent = data.view_count;
-      document.getElementById('timeSpentBox').textContent = `⏱️ Bugünkü Toplam Süre: ${data.total_minutes || 0} dk`;
-
-      if (data.reasons) {
-        Object.keys(data.reasons).forEach(key => {
-          const el = document.getElementById('cnt-' + key);
-          if (el) el.textContent = data.reasons[key];
-        });
-      }
-
-      if (prevOpened) {
-        const diffMins = Math.floor((Date.now() - new Date(prevOpened).getTime()) / 60000);
-        if (diffMins < 1) {
-          document.getElementById('lastElapsed').textContent = 'Az önce kontrol ettin';
-        } else if (diffMins < 60) {
-          document.getElementById('lastElapsed').textContent = `Son bakıştan ${diffMins} dk geçti`;
-        } else {
-          const hrs = Math.floor(diffMins / 60);
-          const mins = diffMins % 60;
-          document.getElementById('lastElapsed').textContent = `Son bakıştan ${hrs} sa ${mins} dk geçti`;
-        }
-      }
-
-      const barsContainer = document.getElementById('heatmapBars');
-      barsContainer.innerHTML = '';
-      const maxVal = Math.max(...data.hourly_counts, 1);
-      let peakH = 0;
-      let peakV = 0;
-
-      data.hourly_counts.forEach((val, idx) => {
-        if (val > peakV) { peakV = val; peakH = idx; }
-        const bar = document.createElement('div');
-        bar.className = 'bar' + (val > 0 ? ' active' : '');
-        const heightPct = Math.max(8, Math.round((val / maxVal) * 100));
-        bar.style.height = heightPct + '%';
-        barsContainer.appendChild(bar);
-      });
-
-      document.getElementById('peakHour').textContent = `${String(peakH).padStart(2, '0')}:00`;
-      document.getElementById('microTip').textContent = TIPS[data.view_count % TIPS.length];
-    }
-
-    async function fetchHistoryStats() {
-      const sevenDaysAgo = getLocalDateStr(-7);
-      const yesterdayStr = getLocalDateStr(-1);
-
-      const { data, error } = await supabaseClient
-        .from('daily_checks')
-        .select('check_date, view_count')
-        .eq('device_id', deviceId)
-        .gte('check_date', sevenDaysAgo);
-
-      if (!error && data && data.length > 0) {
-        const yesterdayRow = data.find(r => r.check_date === yesterdayStr);
-        const yCount = yesterdayRow ? yesterdayRow.view_count : 0;
-        document.getElementById('compareBadge').textContent = `Dün toplam: ${yCount} kez`;
-
-        const total = data.reduce((acc, item) => acc + item.view_count, 0);
-        const avg = Math.round(total / data.length);
-        document.getElementById('weeklyAvg').textContent = `${avg} kez`;
-      }
-    }
-
-    window.addEventListener('load', () => {
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js');
-      }
-      recordCheck();
-    });
-
-    // Kullanıcı uygulamadan çıktığında veya sekme değiştirdiğinde süreyi kaydet
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') {
-        sessionStartTime = Date.now(); // Geri geldiğinde oturumu başlat
-        recordCheck();
-      } else {
-        updateActiveTime(); // Arka plana geçtiğinde geçen süreyi işle ve kaydet
-      }
-    });
-  </script>
-</body>
-</html>
+    function resetReason
