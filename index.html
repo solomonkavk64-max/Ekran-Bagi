@@ -21,6 +21,7 @@
       --gold: #fbbf24;
       --silver: #cbd5e1;
       --bronze: #d97706;
+      --purple: #a855f7;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body {
@@ -34,23 +35,33 @@
       user-select: none;
     }
     .container { width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 16px; }
-    header { display: flex; justify-content: space-between; align-items: center; padding-top: 8px; }
+    header { display: flex; justify-content: space-between; align-items: center; padding-top: 8px; flex-wrap: wrap; gap: 8px; }
+    .brand-wrap { display: flex; flex-direction: column; }
     header h1 { font-size: 1.2rem; font-weight: 700; color: var(--text); }
-    .header-actions { display: flex; align-items: center; gap: 8px; }
+    .nick-tag {
+      font-size: 0.75rem;
+      color: var(--accent);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 2px;
+    }
+    .header-actions { display: flex; align-items: center; gap: 6px; }
     .action-btn {
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.1);
       color: var(--text);
-      padding: 6px 10px;
+      padding: 6px 9px;
       border-radius: 10px;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 4px;
     }
     .action-btn:active { background: rgba(255, 255, 255, 0.15); }
-    .status-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--good); display: inline-block; }
+    .status-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--good); display: inline-block; margin-left: 2px; }
     .status-dot.offline { background: var(--warn); }
 
     /* Modals */
@@ -102,17 +113,17 @@
     .goal-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .input-wrap { display: flex; flex-direction: column; gap: 4px; }
     .input-wrap label { font-size: 0.72rem; color: var(--muted); }
-    .input-wrap input {
+    .input-wrap input, .nick-input {
       background: var(--card);
       border: 1px solid rgba(255, 255, 255, 0.15);
       color: var(--text);
-      padding: 8px 10px;
-      border-radius: 8px;
-      font-size: 0.9rem;
+      padding: 9px 12px;
+      border-radius: 10px;
+      font-size: 0.92rem;
       width: 100%;
       outline: none;
     }
-    .input-wrap input:focus { border-color: var(--accent); }
+    .input-wrap input:focus, .nick-input:focus { border-color: var(--accent); }
     .modal-actions { display: flex; gap: 8px; margin-top: 14px; }
     .btn-save {
       flex: 2;
@@ -136,7 +147,7 @@
       cursor: pointer;
     }
 
-    /* Rapor & Detay Stilleri */
+    /* Sekmeler (Rapor ve Sıralama) */
     .report-tabs {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -146,13 +157,22 @@
       border-radius: 12px;
       margin-bottom: 14px;
     }
+    .rank-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 5px;
+      background: rgba(15, 23, 42, 0.6);
+      padding: 4px;
+      border-radius: 12px;
+      margin-bottom: 14px;
+    }
     .report-tab {
       background: transparent;
       border: none;
       color: var(--muted);
-      padding: 8px;
+      padding: 8px 4px;
       border-radius: 8px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 600;
       cursor: pointer;
     }
@@ -160,6 +180,43 @@
       background: var(--accent);
       color: #0f172a;
     }
+
+    /* Liderlik Tablosu Satırları */
+    .rank-list { display: flex; flex-direction: column; gap: 8px; }
+    .rank-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 10px 12px;
+      border-radius: 12px;
+    }
+    .rank-item.me {
+      background: rgba(56, 189, 248, 0.14);
+      border-color: rgba(56, 189, 248, 0.45);
+    }
+    .rank-left { display: flex; align-items: center; gap: 10px; }
+    .rank-pos {
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+    .rank-pos.top1 { background: rgba(251, 191, 36, 0.25); color: var(--gold); }
+    .rank-pos.top2 { background: rgba(203, 213, 225, 0.25); color: var(--silver); }
+    .rank-pos.top3 { background: rgba(217, 119, 6, 0.25); color: var(--bronze); }
+    .rank-name { font-size: 0.9rem; font-weight: 700; color: var(--text); }
+    .rank-sub { font-size: 0.72rem; color: var(--muted); }
+    .rank-right { text-align: right; }
+    .rank-views { font-size: 0.9rem; font-weight: 700; color: var(--accent); }
+    .rank-mins { font-size: 0.75rem; color: var(--muted); }
+
     .day-stat-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -186,6 +243,73 @@
       font-size: 0.85rem;
       margin-bottom: 6px;
     }
+
+    /* Meydan Okuma Kartı */
+    .challenge-card {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.14), rgba(56, 189, 248, 0.1));
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      border-radius: 18px;
+      padding: 16px;
+    }
+    .challenge-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .challenge-title { font-size: 0.92rem; font-weight: 700; color: #e9d5ff; display: flex; align-items: center; gap: 6px; }
+    .challenge-score {
+      background: rgba(168, 85, 247, 0.25);
+      color: #f3e8ff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 99px;
+    }
+    .challenge-desc { font-size: 0.8rem; color: var(--muted); margin-bottom: 12px; line-height: 1.4; }
+    .challenge-btns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .ch-btn {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      color: var(--text);
+      padding: 9px 6px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .ch-btn:active { background: rgba(168, 85, 247, 0.3); }
+    .ch-active-box {
+      text-align: center;
+      padding: 8px 0 2px 0;
+    }
+    .ch-timer {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #e9d5ff;
+      font-variant-numeric: tabular-nums;
+      margin: 4px 0;
+    }
+    .ch-cancel {
+      margin-top: 8px;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      cursor: pointer;
+    }
+    .ch-status-msg {
+      margin-top: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-align: center;
+      padding: 6px;
+      border-radius: 8px;
+    }
+    .ch-status-msg.fail { background: rgba(239, 68, 68, 0.18); color: #fca5a5; }
+    .ch-status-msg.win { background: rgba(34, 197, 94, 0.18); color: #86efac; }
 
     .hero-card {
       background: var(--card);
@@ -394,10 +518,16 @@
 <body>
   <div class="container">
     <header>
-      <h1>Ekran Bağı</h1>
+      <div class="brand-wrap">
+        <h1>Ekran Bağı</h1>
+        <div class="nick-tag" onclick="openNicknameModal()" title="Takma adını değiştir">
+          👤 <span id="displayNickname">Misafir</span> ✏️
+        </div>
+      </div>
       <div class="header-actions">
+        <button class="action-btn" onclick="openLeaderboardModal()">🏆 Sıralama</button>
         <button class="action-btn" onclick="openReportModal()">📊 Rapor</button>
-        <button class="action-btn" onclick="openGoalsModal()">⚙️ Hedef</button>
+        <button class="action-btn" onclick="openGoalsModal()">⚙️</button>
         <span id="syncStatus" class="status-dot" title="Senkronize"></span>
       </div>
     </header>
@@ -420,6 +550,28 @@
       </div>
 
       <div class="comparison-badge" id="compareBadge">Dün toplam: 0 kez</div>
+    </div>
+
+    <!-- Dijital Detoks Meydan Okuma Kartı -->
+    <div class="challenge-card">
+      <div class="challenge-header">
+        <div class="challenge-title">🛡️ Dijital Detoks Meydan Okuması</div>
+        <div class="challenge-score" id="challengeWinsBadge">🎖️ 0 Tamamlandı</div>
+      </div>
+      <div id="challengeIdleArea">
+        <div class="challenge-desc">Seçtiğin süre boyunca ekranı kilitleyip telefona dokunma sözü ver. Süre dolmadan geri dönersen meydan okuma bozulur!</div>
+        <div class="challenge-btns">
+          <button class="ch-btn" onclick="startChallenge(30)">30 Dakika</button>
+          <button class="ch-btn" onclick="startChallenge(60)">1 Saat</button>
+          <button class="ch-btn" onclick="startChallenge(120)">2 Saat</button>
+        </div>
+      </div>
+      <div id="challengeActiveArea" class="ch-active-box" style="display: none;">
+        <div style="font-size: 0.78rem; color: #d8b4fe;">Ekranı kilitle ve telefona bakma! Kalan Süre:</div>
+        <div class="ch-timer" id="challengeTimer">30:00</div>
+        <button class="ch-cancel" onclick="cancelChallenge()">Vazgeç / İptal Et</button>
+      </div>
+      <div id="challengeMsg" class="ch-status-msg" style="display: none;"></div>
     </div>
 
     <!-- Mini Günlük / Neden Seçimi -->
@@ -488,6 +640,44 @@
     </div>
 
     <button class="btn-manual" onclick="recordCheck(true)">+ Manuel Bakış Ekle</button>
+  </div>
+
+  <!-- Takma Ad (Nickname) Modal -->
+  <div class="modal-overlay" id="nicknameModal" onclick="if(event.target === this) closeNicknameModal()">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">👤 Takma Adını Belirle</div>
+        <button class="close-btn" onclick="closeNicknameModal()">×</button>
+      </div>
+      <p style="font-size: 0.82rem; color: var(--muted); margin-bottom: 12px; line-height: 1.4;">
+        Başarı sıralamasında görünecek takma adını yaz (En fazla 18 karakter).
+      </p>
+      <input type="text" id="inNickname" class="nick-input" maxlength="18" placeholder="Örn: DijitalGezgin" />
+      <div class="modal-actions">
+        <button class="btn-save" onclick="saveNickname()">Kaydet</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Başarı Sıralaması (Leaderboard) Modal -->
+  <div class="modal-overlay" id="leaderboardModal" onclick="if(event.target === this) closeLeaderboardModal()">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">🏆 Başarı Sıralaması</div>
+        <button class="close-btn" onclick="closeLeaderboardModal()">×</button>
+      </div>
+      <p style="font-size: 0.76rem; color: var(--muted); margin-bottom: 10px;">
+        En az bakış ve en düşük ekran süresine sahip kullanıcılar zirvede yer alır!
+      </p>
+      <div class="rank-tabs">
+        <button class="report-tab active" id="rankDaily" onclick="switchRankTab('daily')">Bugün</button>
+        <button class="report-tab" id="rankWeekly" onclick="switchRankTab('weekly')">Haftalık</button>
+        <button class="report-tab" id="rankMonthly" onclick="switchRankTab('monthly')">Aylık</button>
+      </div>
+      <div id="leaderboardContent">
+        <div style="text-align: center; color: var(--muted); padding: 20px;">Yükleniyor...</div>
+      </div>
+    </div>
   </div>
 
   <!-- Hedef Ayarları Modal -->
@@ -587,6 +777,41 @@
       localStorage.setItem('ekranbagi_device_id', deviceId);
     }
 
+    // Takma Ad (Nickname) Yönetimi
+    function getNickname() {
+      let nick = localStorage.getItem('ekranbagi_nickname');
+      if (!nick) {
+        nick = 'Kullanıcı_' + deviceId.slice(-4).toUpperCase();
+        localStorage.setItem('ekranbagi_nickname', nick);
+      }
+      return nick;
+    }
+
+    function updateNicknameDisplay() {
+      document.getElementById('displayNickname').textContent = getNickname();
+    }
+
+    function openNicknameModal() {
+      document.getElementById('inNickname').value = getNickname();
+      document.getElementById('nicknameModal').classList.add('open');
+    }
+
+    function closeNicknameModal() {
+      document.getElementById('nicknameModal').classList.remove('open');
+    }
+
+    async function saveNickname() {
+      const val = document.getElementById('inNickname').value.trim();
+      if (!val) return;
+      const cleanNick = val.slice(0, 18);
+      localStorage.setItem('ekranbagi_nickname', cleanNick);
+      updateNicknameDisplay();
+      closeNicknameModal();
+
+      const todayData = getTodayData();
+      await syncToSupabase(todayData);
+    }
+
     const TIPS = [
       "💧 Bir bardak su iç ve omuzlarını dikleştir.",
       "👀 Gözlerini 20 saniye boyunca 6 metre uzağa odakla.",
@@ -655,6 +880,98 @@
       const todayData = getTodayData();
       renderUI(todayData, null);
       renderCalendar();
+    }
+
+    // Meydan Okuma (Dijital Detoks) Sistemi
+    let challengeInterval = null;
+    let leftAppDuringChallenge = false;
+
+    function getChallengeWins() {
+      return parseInt(localStorage.getItem('ekranbagi_ch_wins') || '0');
+    }
+
+    function updateChallengeBadge() {
+      document.getElementById('challengeWinsBadge').textContent = `🎖️ ${getChallengeWins()} Tamamlandı`;
+    }
+
+    function startChallenge(minutes) {
+      const endTime = Date.now() + minutes * 60000;
+      localStorage.setItem('ekranbagi_active_ch', JSON.stringify({ endTime, minutes }));
+      leftAppDuringChallenge = false;
+      document.getElementById('challengeMsg').style.display = 'none';
+      renderChallengeUI();
+    }
+
+    function cancelChallenge() {
+      localStorage.removeItem('ekranbagi_active_ch');
+      if (challengeInterval) clearInterval(challengeInterval);
+      renderChallengeUI();
+    }
+
+    function failChallenge() {
+      localStorage.removeItem('ekranbagi_active_ch');
+      if (challengeInterval) clearInterval(challengeInterval);
+      const msgEl = document.getElementById('challengeMsg');
+      msgEl.className = 'ch-status-msg fail';
+      msgEl.textContent = '⚠️ Süre dolmadan ekrana döndüğün için meydan okuma bozuldu!';
+      msgEl.style.display = 'block';
+      renderChallengeUI();
+    }
+
+    function completeChallenge() {
+      localStorage.removeItem('ekranbagi_active_ch');
+      if (challengeInterval) clearInterval(challengeInterval);
+      const wins = getChallengeWins() + 1;
+      localStorage.setItem('ekranbagi_ch_wins', String(wins));
+      updateChallengeBadge();
+
+      const msgEl = document.getElementById('challengeMsg');
+      msgEl.className = 'ch-status-msg win';
+      msgEl.textContent = '🎉 Tebrikler! Dijital detoks meydan okumasını başarıyla tamamladın!';
+      msgEl.style.display = 'block';
+      renderChallengeUI();
+    }
+
+    function renderChallengeUI() {
+      updateChallengeBadge();
+      const raw = localStorage.getItem('ekranbagi_active_ch');
+      const idleEl = document.getElementById('challengeIdleArea');
+      const activeEl = document.getElementById('challengeActiveArea');
+
+      if (!raw) {
+        idleEl.style.display = 'block';
+        activeEl.style.display = 'none';
+        return;
+      }
+
+      const ch = JSON.parse(raw);
+      const now = Date.now();
+      if (now >= ch.endTime) {
+        completeChallenge();
+        return;
+      }
+
+      idleEl.style.display = 'none';
+      activeEl.style.display = 'block';
+
+      if (challengeInterval) clearInterval(challengeInterval);
+      const updateTimer = () => {
+        const remaining = ch.endTime - Date.now();
+        if (remaining <= 0) {
+          completeChallenge();
+          return;
+        }
+        const totalSecs = Math.floor(remaining / 1000);
+        const hrs = Math.floor(totalSecs / 3600);
+        const mins = Math.floor((totalSecs % 3600) / 60);
+        const secs = totalSecs % 60;
+        const formatted = hrs > 0
+          ? `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`
+          : `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        document.getElementById('challengeTimer').textContent = formatted;
+      };
+      updateTimer();
+      challengeInterval = setInterval(updateTimer, 1000);
     }
 
     let currentCalDate = new Date();
@@ -735,6 +1052,7 @@
           .from('daily_checks')
           .upsert({
             device_id: deviceId,
+            nickname: getNickname(),
             check_date: todayStr,
             view_count: localData.view_count,
             hourly_counts: localData.hourly_counts,
@@ -889,6 +1207,114 @@
       }
     }
 
+    // Başarı Sıralaması (Leaderboard) Fonksiyonları
+    let currentRankTab = 'daily';
+
+    function openLeaderboardModal() {
+      document.getElementById('leaderboardModal').classList.add('open');
+      switchRankTab('daily');
+    }
+
+    function closeLeaderboardModal() {
+      document.getElementById('leaderboardModal').classList.remove('open');
+    }
+
+    function switchRankTab(tab) {
+      currentRankTab = tab;
+      document.getElementById('rankDaily').className = 'report-tab' + (tab === 'daily' ? ' active' : '');
+      document.getElementById('rankWeekly').className = 'report-tab' + (tab === 'weekly' ? ' active' : '');
+      document.getElementById('rankMonthly').className = 'report-tab' + (tab === 'monthly' ? ' active' : '');
+      loadLeaderboardData();
+    }
+
+    async function loadLeaderboardData() {
+      const container = document.getElementById('leaderboardContent');
+      container.innerHTML = `<div style="text-align: center; color: var(--muted); padding: 20px;">Sıralama yükleniyor...</div>`;
+
+      if (!supabaseClient) {
+        container.innerHTML = `<div style="text-align: center; color: var(--warn); padding: 20px;">Çevrimdışı modda sıralama görüntülenemiyor.</div>`;
+        return;
+      }
+
+      let startDate = getLocalDateStr(0);
+      if (currentRankTab === 'weekly') startDate = getLocalDateStr(-6);
+      else if (currentRankTab === 'monthly') startDate = getLocalDateStr(-29);
+
+      try {
+        const { data, error } = await supabaseClient
+          .from('daily_checks')
+          .select('device_id, nickname, view_count, total_minutes')
+          .gte('check_date', startDate);
+
+        if (error || !data || data.length === 0) {
+          container.innerHTML = `<div style="text-align: center; color: var(--muted); padding: 20px;">Bu dönem için henüz veri bulunmuyor.</div>`;
+          return;
+        }
+
+        // Kullanıcı bazında topla
+        const userMap = {};
+        data.forEach(row => {
+          const id = row.device_id;
+          if (!userMap[id]) {
+            userMap[id] = {
+              device_id: id,
+              nickname: row.nickname || 'Kullanıcı_' + id.slice(-4).toUpperCase(),
+              totalViews: 0,
+              totalMins: 0,
+              days: 0
+            };
+          }
+          if (row.nickname) userMap[id].nickname = row.nickname;
+          userMap[id].totalViews += (row.view_count || 0);
+          userMap[id].totalMins += (row.total_minutes || 0);
+          userMap[id].days += 1;
+        });
+
+        // Sıralama: En az bakış sayısı önce, eşitlikte en az dakika önce
+        const sortedUsers = Object.values(userMap).sort((a, b) => {
+          if (a.totalViews !== b.totalViews) return a.totalViews - b.totalViews;
+          return a.totalMins - b.totalMins;
+        });
+
+        let html = '<div class="rank-list">';
+        sortedUsers.forEach((u, index) => {
+          const pos = index + 1;
+          const isMe = u.device_id === deviceId;
+          let posClass = 'rank-pos';
+          let medal = pos;
+          if (pos === 1) { posClass += ' top1'; medal = '🥇'; }
+          else if (pos === 2) { posClass += ' top2'; medal = '🥈'; }
+          else if (pos === 3) { posClass += ' top3'; medal = '🥉'; }
+
+          html += `
+            <div class="rank-item ${isMe ? 'me' : ''}">
+              <div class="rank-left">
+                <div class="${posClass}">${medal}</div>
+                <div>
+                  <div class="rank-name">${escapeHtml(u.nickname)} ${isMe ? '(Sen)' : ''}</div>
+                  <div class="rank-sub">${u.days} aktif gün</div>
+                </div>
+              </div>
+              <div class="rank-right">
+                <div class="rank-views">${u.totalViews} bakış</div>
+                <div class="rank-mins">${u.totalMins} dk</div>
+              </div>
+            </div>
+          `;
+        });
+        html += '</div>';
+        container.innerHTML = html;
+      } catch (e) {
+        container.innerHTML = `<div style="text-align: center; color: var(--danger); padding: 20px;">Sıralama alınırken hata oluştu.</div>`;
+      }
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
     function changeMonth(delta) {
       currentCalDate.setMonth(currentCalDate.getMonth() + delta);
       renderCalendar();
@@ -982,7 +1408,6 @@
       document.getElementById('dayDetailModal').classList.remove('open');
     }
 
-    // Rapor Modalı Fonksiyonları
     let currentReportTab = 'weekly';
 
     function openReportModal() {
@@ -1070,18 +1495,32 @@
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('sw.js').catch(() => {});
       }
+      updateNicknameDisplay();
       const initialData = getTodayData();
       renderUI(initialData, initialData.last_opened);
       renderCalendar();
+      renderChallengeUI();
       recordCheck();
     });
 
     document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') {
-        sessionStartTime = Date.now();
-        recordCheck();
-      } else {
+      const activeChRaw = localStorage.getItem('ekranbagi_active_ch');
+      if (document.visibilityState === 'hidden') {
         updateActiveTime();
+        if (activeChRaw) {
+          leftAppDuringChallenge = true;
+        }
+      } else if (document.visibilityState === 'visible') {
+        sessionStartTime = Date.now();
+        if (activeChRaw) {
+          const ch = JSON.parse(activeChRaw);
+          if (Date.now() >= ch.endTime) {
+            completeChallenge();
+          } else if (leftAppDuringChallenge) {
+            failChallenge();
+          }
+        }
+        recordCheck();
       }
     });
   </script>
