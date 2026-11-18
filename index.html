@@ -182,7 +182,6 @@
       color: #0f172a;
     }
 
-    /* Liderlik Tablosu */
     .rank-list { display: flex; flex-direction: column; gap: 8px; }
     .rank-item {
       display: flex;
@@ -245,7 +244,7 @@
       margin-bottom: 6px;
     }
 
-    /* Zihin Egzersizi (Mini Oyunlar) Kartı */
+    /* Zihin Egzersizi Kartı */
     .brain-card {
       background: linear-gradient(135deg, rgba(139, 92, 246, 0.14), rgba(56, 189, 248, 0.08));
       border: 1px solid rgba(139, 92, 246, 0.35);
@@ -285,26 +284,18 @@
     }
     .br-btn:active { background: rgba(139, 92, 246, 0.3); }
 
-    /* Oyun Alanı Stilleri */
-    .game-grid-3x3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin: 14px 0;
-    }
-    .game-grid-4x4 {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      margin: 14px 0;
-    }
+    /* Oyun Izgaraları */
+    .game-grid-3x3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 14px 0; }
+    .game-grid-4x4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 14px 0; }
+    .game-grid-5x5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin: 14px 0; }
+    
     .game-cell {
       aspect-ratio: 1;
       background: rgba(15, 23, 42, 0.75);
       border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 12px;
       color: var(--text);
-      font-size: 1.35rem;
+      font-size: 1.25rem;
       font-weight: 800;
       display: flex;
       align-items: center;
@@ -312,6 +303,7 @@
       cursor: pointer;
       transition: all 0.15s ease;
     }
+    .game-cell.small-txt { font-size: 1rem; }
     .game-cell:active { transform: scale(0.94); }
     .game-cell.done {
       background: rgba(34, 197, 94, 0.2);
@@ -413,7 +405,6 @@
     .fo-status-msg.fail { background: rgba(239, 68, 68, 0.18); color: #fca5a5; }
     .fo-status-msg.win { background: rgba(16, 185, 129, 0.18); color: #a7f3d0; }
 
-    /* Orman Koleksiyonu Izgarası */
     .forest-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -698,37 +689,37 @@
       </div>
     </div>
 
-    <!-- Zihin Egzersizi (Hafıza & Dikkat Oyunları) -->
+    <!-- Zihin Egzersizi (Günlük Kotalı Mini Oyunlar) -->
     <div class="brain-card" id="brainSection">
       <div class="brain-header">
-        <div class="brain-title">🧠 Zihin Egzersizi (Dopamin Kesici)</div>
-        <div class="brain-record" id="brainRecordBadge">⚡ Rekor: --</div>
+        <div class="brain-title">🧠 Zihin Egzersizi</div>
+        <div class="brain-record" id="gameQuotaBadge">⏳ Kalan: 30 dk</div>
       </div>
       <div class="brain-desc" id="brainHintText">
-        Sosyal medyada amaçsızca gezinmek yerine 15 saniyelik mini zihin oyunlarıyla odak ve hafızanı güçlendir!
+        Sosyal medya yerine kısa zihin oyunları. (Günlük oyun sınırı: 30 dakika)
       </div>
       <div class="brain-btns">
         <button class="br-btn" onclick="openSchulteGame()">
           <span style="font-size: 1.2rem;">🔢</span>
-          <span>Sayı Sıralama (1-9)</span>
-          <span style="font-size: 0.7rem; color: var(--muted);">Dikkat & Hız</span>
+          <span>Sayı Sıralama (1-25)</span>
+          <span style="font-size: 0.7rem; color: var(--muted);">Zorlaşan Tablo</span>
         </button>
         <button class="br-btn" onclick="openMemoryGame()">
           <span style="font-size: 1.2rem;">🧩</span>
-          <span>Hafıza Matrisi</span>
+          <span>Hafıza Matrisi (10 Sv.)</span>
           <span style="font-size: 0.7rem; color: var(--muted);">Görsel Bellek</span>
         </button>
       </div>
     </div>
 
-    <!-- Dijital Orman (Fokus & Ağaç Yetiştirme) Kartı -->
+    <!-- Dijital Orman Kartı -->
     <div class="forest-card">
       <div class="forest-header">
         <div class="forest-title">🌲 Dijital Orman (Fokus)</div>
         <div class="forest-score" onclick="openForestModal()" id="forestBadgeBtn">🌳 0 Ağaç</div>
       </div>
       <div id="forestIdleArea">
-        <div class="forest-desc">Fidanını e, telefonunu kilitle ve odaklanarak ormanını büyüt! Süre bitmeden çıkarsan fidanın kurur.</div>
+        <div class="forest-desc">Fidanını e, telefonunu kilitle veya kapat! Süre boyunca arkada büyür; uygulamayı erken açarsan fidan kurur.</div>
         <div class="forest-btns">
           <button class="fo-btn" onclick="startForest(15)">15 Dakika</button>
           <button class="fo-btn" onclick="startForest(30)">30 Dakika</button>
@@ -738,7 +729,7 @@
       <div id="forestActiveArea" class="fo-active-box" style="display: none;">
         <div class="fo-tree-icon" id="forestTreeIcon">🌱</div>
         <div class="fo-timer" id="forestTimer">15:00</div>
-        <div style="font-size: 0.75rem; color: #a7f3d0;" id="forestStatusText">Fidan büyüyor... Telefona dokunma!</div>
+        <div style="font-size: 0.75rem; color: #a7f3d0;" id="forestStatusText">Arka planda fidan büyüyor...</div>
         <button class="fo-cancel" onclick="cancelForest()">Vazgeç / Fidanı Sök</button>
       </div>
       <div id="forestMsg" class="fo-status-msg" style="display: none;"></div>
@@ -814,7 +805,7 @@
     </div>
   </div>
 
-  <!-- Takma Ad (Nickname) Modal -->
+  <!-- Takma Ad Modal -->
   <div class="modal-overlay" id="nicknameModal" onclick="if(event.target === this) closeNicknameModal()">
     <div class="modal-box">
       <div class="modal-header">
@@ -831,7 +822,7 @@
     </div>
   </div>
 
-  <!-- Başarı Sıralaması (Leaderboard) Modal -->
+  <!-- Başarı Sıralaması Modal -->
   <div class="modal-overlay" id="leaderboardModal" onclick="if(event.target === this) closeLeaderboardModal()">
     <div class="modal-box">
       <div class="modal-header">
@@ -859,49 +850,27 @@
         <div class="modal-title">🎯 Günlük Rozet Hedefleri</div>
         <button class="close-btn" onclick="closeGoalsModal()">×</button>
       </div>
-
       <div class="goal-group">
         <div class="goal-group-title" style="color: var(--gold);">🏆 Altın Rozet (Maksimum Limit)</div>
         <div class="goal-inputs">
-          <div class="input-wrap">
-            <label>Bakış Sayısı (≤)</label>
-            <input type="number" id="inGoldViews" min="1" max="500" />
-          </div>
-          <div class="input-wrap">
-            <label>Ekran Süresi / dk (≤)</label>
-            <input type="number" id="inGoldMins" min="1" max="1440" />
-          </div>
+          <div class="input-wrap"><label>Bakış Sayısı (≤)</label><input type="number" id="inGoldViews" min="1" max="500" /></div>
+          <div class="input-wrap"><label>Ekran Süresi / dk (≤)</label><input type="number" id="inGoldMins" min="1" max="1440" /></div>
         </div>
       </div>
-
       <div class="goal-group">
         <div class="goal-group-title" style="color: var(--silver);">🥈 Gümüş Rozet (Maksimum Limit)</div>
         <div class="goal-inputs">
-          <div class="input-wrap">
-            <label>Bakış Sayısı (≤)</label>
-            <input type="number" id="inSilverViews" min="1" max="500" />
-          </div>
-          <div class="input-wrap">
-            <label>Ekran Süresi / dk (≤)</label>
-            <input type="number" id="inSilverMins" min="1" max="1440" />
-          </div>
+          <div class="input-wrap"><label>Bakış Sayısı (≤)</label><input type="number" id="inSilverViews" min="1" max="500" /></div>
+          <div class="input-wrap"><label>Ekran Süresi / dk (≤)</label><input type="number" id="inSilverMins" min="1" max="1440" /></div>
         </div>
       </div>
-
       <div class="goal-group">
         <div class="goal-group-title" style="color: var(--bronze);">🥉 Bronz Rozet (Maksimum Limit)</div>
         <div class="goal-inputs">
-          <div class="input-wrap">
-            <label>Bakış Sayısı (≤)</label>
-            <input type="number" id="inBronzeViews" min="1" max="500" />
-          </div>
-          <div class="input-wrap">
-            <label>Ekran Süresi / dk (≤)</label>
-            <input type="number" id="inBronzeMins" min="1" max="1440" />
-          </div>
+          <div class="input-wrap"><label>Bakış Sayısı (≤)</label><input type="number" id="inBronzeViews" min="1" max="500" /></div>
+          <div class="input-wrap"><label>Ekran Süresi / dk (≤)</label><input type="number" id="inBronzeMins" min="1" max="1440" /></div>
         </div>
       </div>
-
       <div class="modal-actions">
         <button class="btn-reset" onclick="resetGoalsToDefault()">Sıfırla</button>
         <button class="btn-save" onclick="saveGoals()">Kaydet</button>
@@ -909,7 +878,7 @@
     </div>
   </div>
 
-  <!-- Günlük Detay Analiz Modal -->
+  <!-- Günlük Detay Modal -->
   <div class="modal-overlay" id="dayDetailModal" onclick="if(event.target === this) closeDayDetailModal()">
     <div class="modal-box">
       <div class="modal-header">
@@ -920,7 +889,7 @@
     </div>
   </div>
 
-  <!-- Haftalık & Aylık Özet Rapor Modal -->
+  <!-- Haftalık & Aylık Rapor Modal -->
   <div class="modal-overlay" id="reportModal" onclick="if(event.target === this) closeReportModal()">
     <div class="modal-box">
       <div class="modal-header">
@@ -949,7 +918,6 @@
       localStorage.setItem('ekranbagi_device_id', deviceId);
     }
 
-    // Takma Ad (Nickname) Yönetimi
     function getNickname() {
       let nick = localStorage.getItem('ekranbagi_nickname');
       if (!nick) {
@@ -979,9 +947,7 @@
       localStorage.setItem('ekranbagi_nickname', cleanNick);
       updateNicknameDisplay();
       closeNicknameModal();
-
-      const todayData = getTodayData();
-      await syncToSupabase(todayData);
+      await syncToSupabase(getTodayData());
     }
 
     const TIPS = [
@@ -993,19 +959,12 @@
     ];
 
     const MONTHS_TR = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
-
-    const DEFAULT_GOALS = {
-      goldViews: 30, goldMins: 45,
-      silverViews: 50, silverMins: 90,
-      bronzeViews: 75, bronzeMins: 120
-    };
+    const DEFAULT_GOALS = { goldViews: 30, goldMins: 45, silverViews: 50, silverMins: 90, bronzeViews: 75, bronzeMins: 120 };
 
     function getGoals() {
       try {
         const saved = JSON.parse(localStorage.getItem('ekranbagi_goals'));
-        if (saved && saved.goldViews && saved.silverViews && saved.bronzeViews) {
-          return saved;
-        }
+        if (saved && saved.goldViews) return saved;
       } catch(e) {}
       return { ...DEFAULT_GOALS };
     }
@@ -1021,9 +980,7 @@
       document.getElementById('goalsModal').classList.add('open');
     }
 
-    function closeGoalsModal() {
-      document.getElementById('goalsModal').classList.remove('open');
-    }
+    function closeGoalsModal() { document.getElementById('goalsModal').classList.remove('open'); }
 
     function saveGoals() {
       const gViews = Math.max(1, parseInt(document.getElementById('inGoldViews').value) || 30);
@@ -1033,63 +990,107 @@
       const bViews = Math.max(sViews, parseInt(document.getElementById('inBronzeViews').value) || 75);
       const bMins = Math.max(sMins, parseInt(document.getElementById('inBronzeMins').value) || 120);
 
-      const newGoals = {
-        goldViews: gViews, goldMins: gMins,
-        silverViews: sViews, silverMins: sMins,
-        bronzeViews: bViews, bronzeMins: bMins
-      };
-      localStorage.setItem('ekranbagi_goals', JSON.stringify(newGoals));
+      localStorage.setItem('ekranbagi_goals', JSON.stringify({ goldViews: gViews, goldMins: gMins, silverViews: sViews, silverMins: sMins, bronzeViews: bViews, bronzeMins: bMins }));
       closeGoalsModal();
-
-      const todayData = getTodayData();
-      renderUI(todayData, null);
+      renderUI(getTodayData(), null);
       renderCalendar();
     }
 
     function resetGoalsToDefault() {
       localStorage.setItem('ekranbagi_goals', JSON.stringify(DEFAULT_GOALS));
       openGoalsModal();
-      const todayData = getTodayData();
-      renderUI(todayData, null);
+      renderUI(getTodayData(), null);
       renderCalendar();
     }
 
-    // Zihin Egzersizi (Mini Oyunlar) Sistemi
-    function updateBrainRecordBadge() {
-      const bestTime = localStorage.getItem('ekranbagi_schulte_best');
-      const memLvl = localStorage.getItem('ekranbagi_mem_best') || 1;
-      const badge = document.getElementById('brainRecordBadge');
-      if (bestTime) {
-        badge.textContent = `⚡ ${bestTime}s | 🧩 Sv.${memLvl}`;
-      } else {
-        badge.textContent = `🧩 Seviye ${memLvl}`;
+    // --- OYUN KOTASI & ZİHİN EGZERSİZİ SİSTEMİ (Günlük Max 30 Dk) ---
+    const MAX_GAME_MINUTES = 30;
+    let gameActiveInterval = null;
+
+    function getGameUsageToday() {
+      const todayStr = getLocalDateStr(0);
+      const key = 'ekranbagi_game_time_' + todayStr;
+      return parseInt(localStorage.getItem(key) || '0');
+    }
+
+    function addGameUsageSeconds(secs) {
+      const todayStr = getLocalDateStr(0);
+      const key = 'ekranbagi_game_time_' + todayStr;
+      const currentSecs = parseInt(localStorage.getItem(key + '_secs') || '0') + secs;
+      localStorage.setItem(key + '_secs', currentSecs);
+      
+      const totalMins = Math.floor(currentSecs / 60);
+      localStorage.setItem(key, totalMins);
+      updateGameQuotaBadge();
+    }
+
+    function updateGameQuotaBadge() {
+      const usedMins = getGameUsageToday();
+      const remainingMins = Math.max(0, MAX_GAME_MINUTES - usedMins);
+      const badge = document.getElementById('gameQuotaBadge');
+      if (badge) {
+        badge.textContent = remainingMins > 0 ? `⏳ Kalan: ${remainingMins} dk` : `🛑 Kota Doldu`;
       }
     }
 
-    function closeGameModal() {
-      document.getElementById('gameModal').classList.remove('open');
+    function checkGameQuota() {
+      return getGameUsageToday() < MAX_GAME_MINUTES;
     }
 
-    // Oyun 1: Sayı Sıralama (1-9 Schulte Tablosu)
+    function startGameTimer() {
+      if (gameActiveInterval) clearInterval(gameActiveInterval);
+      gameActiveInterval = setInterval(() => {
+        addGameUsageSeconds(5); // Her 5 saniyede bir kullanım ekle
+        if (!checkGameQuota()) {
+          clearInterval(gameActiveInterval);
+          closeGameModal();
+          alert("Günlük 30 dakikalık zihin egzersizi kotan doldu! Telefonu bırakıp gerçek hayata dönme vakti. 🌿");
+        }
+      }, 5000);
+    }
+
+    function closeGameModal() {
+      if (gameActiveInterval) clearInterval(gameActiveInterval);
+      document.getElementById('gameModal').classList.remove('open');
+      updateGameQuotaBadge();
+    }
+
+    // --- OYUN 1: Sayı Sıralama (Schulte Tablosu - Kademeli 1-9, 1-16, 1-25) ---
     let schulteTarget = 1;
     let schulteStart = 0;
+    let schulteGridSize = 3; // 3x3 (9) ile başlar
 
     function openSchulteGame() {
-      document.getElementById('gameModalTitle').textContent = '🔢 Sayı Sıralama (1 - 9)';
+      if (!checkGameQuota()) {
+        alert("Bugünkü 30 dakikalık oyun kotan doldu! Yarın tekrar görüşmek üzere.");
+        return;
+      }
+      startGameTimer();
+      renderSchulteBoard();
+    }
+
+    function renderSchulteBoard() {
+      document.getElementById('gameModalTitle').textContent = `🔢 Sayı Sıralama (${schulteGridSize === 3 ? '1-9' : schulteGridSize === 4 ? '1-16' : '1-25'})`;
       schulteTarget = 1;
       schulteStart = 0;
 
-      const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9].sort(() => Math.random() - 0.5);
+      const totalCount = schulteGridSize * schulteGridSize;
+      const nums = Array.from({ length: totalCount }, (_, i) => i + 1).sort(() => Math.random() - 0.5);
+      
+      let gridClass = 'game-grid-3x3';
+      if (schulteGridSize === 4) gridClass = 'game-grid-4x4';
+      if (schulteGridSize === 5) gridClass = 'game-grid-5x5';
+
       let cellsHtml = '';
       nums.forEach(n => {
-        cellsHtml += `<div class="game-cell" id="sc-${n}" onclick="handleSchulteTap(${n})">${n}</div>`;
+        cellsHtml += `<div class="game-cell ${schulteGridSize === 5 ? 'small-txt' : ''}" id="sc-${n}" onclick="handleSchulteTap(${n}, ${totalCount})">${n}</div>`;
       });
 
       document.getElementById('gameModalBody').innerHTML = `
         <p style="font-size: 0.8rem; color: var(--muted); text-align: center;">
-          1'den başlayarak 9'a kadar tüm sayılara en hızlı şekilde sırayla dokun!
+          1'den başlayarak ${totalCount}'e kadar sırayla dokun! (Boyut: ${schulteGridSize}x${schulteGridSize})
         </p>
-        <div class="game-grid-3x3">${cellsHtml}</div>
+        <div class="${gridClass}">${cellsHtml}</div>
         <div class="game-status" id="schulteStatus">Sıradaki Sayı: 1</div>
         <div class="modal-actions">
           <button class="btn-save" onclick="openSchulteGame()">Yeniden Karıştır</button>
@@ -1098,52 +1099,64 @@
       document.getElementById('gameModal').classList.add('open');
     }
 
-    function handleSchulteTap(num) {
+    function handleSchulteTap(num, totalCount) {
       if (num !== schulteTarget) return;
       if (num === 1) schulteStart = performance.now();
 
       const cell = document.getElementById('sc-' + num);
       if (cell) cell.classList.add('done');
 
-      if (num === 9) {
+      if (num === totalCount) {
         const elapsed = ((performance.now() - schulteStart) / 1000).toFixed(2);
-        const prevBest = parseFloat(localStorage.getItem('ekranbagi_schulte_best') || '999');
-        let extra = '';
-        if (parseFloat(elapsed) < prevBest) {
-          localStorage.setItem('ekranbagi_schulte_best', elapsed);
-          updateBrainRecordBadge();
-          extra = ' 🏆 Yeni Rekor!';
-        }
-        document.getElementById('schulteStatus').textContent = `🎉 Tamamlandı! Süren: ${elapsed} saniye${extra}`;
+        document.getElementById('schulteStatus').textContent = `🎉 Tebrikler! Süren: ${elapsed}s`;
+        
+        // Boyutu kademeli zorlaştır
+        setTimeout(() => {
+          if (schulteGridSize === 3) schulteGridSize = 4;
+          else if (schulteGridSize === 4) schulteGridSize = 5;
+          else schulteGridSize = 3; // Döngü
+          renderSchulteBoard();
+        }, 1500);
       } else {
         schulteTarget++;
         document.getElementById('schulteStatus').textContent = `Sıradaki Sayı: ${schulteTarget}`;
       }
     }
 
-    // Oyun 2: Hafıza Matrisi
+    // --- OYUN 2: Hafıza Matrisi (10 Seviye Sınırı) ---
     let memLevel = parseInt(localStorage.getItem('ekranbagi_mem_best') || '1');
     let memPattern = [];
     let memUserSelection = [];
     let memCanClick = false;
 
     function openMemoryGame() {
-      document.getElementById('gameModalTitle').textContent = `🧩 Hafıza Matrisi (Seviye ${memLevel})`;
+      if (!checkGameQuota()) {
+        alert("Bugünkü 30 dakikalık oyun kotan doldu! Yarın tekrar görüşmek üzere.");
+        return;
+      }
+      startGameTimer();
+      renderMemoryBoard();
+    }
+
+    function renderMemoryBoard() {
+      if (memLevel > 10) memLevel = 10; // Max 10 Seviye Sınırı
+      document.getElementById('gameModalTitle').textContent = `🧩 Hafıza Matrisi (Seviye ${memLevel}/10)`;
       memUserSelection = [];
       memCanClick = false;
 
-      const targetCount = Math.min(8, 2 + memLevel);
+      // Seviye ilerledikçe yanan kare sayısı artar (3'ten 10'a kadar)
+      const targetCount = Math.min(10, 2 + memLevel);
       const allIndices = Array.from({ length: 16 }, (_, i) => i);
       memPattern = allIndices.sort(() => Math.random() - 0.5).slice(0, targetCount);
 
       let cellsHtml = '';
       for (let i = 0; i < 16; i++) {
-        cellsHtml += `<div class="game-cell" id="mc-${i}" onclick="handleMemoryTap(${i})"></div>`;
+        cellsHtml += `<div class="game-cell" id="mc-${i}" onclick="handleMemoryTap(${i}, ${targetCount})"></div>`;
       }
 
       document.getElementById('gameModalBody').innerHTML = `
         <p style="font-size: 0.8rem; color: var(--muted); text-align: center;">
-          Parlayan <b>${targetCount}</b> karenin yerini aklında tut ve sönünce işaretle!
+          Parlayan <b>${targetCount}</b> karenin yerini aklında tut ve işaretle!
         </p>
         <div class="game-grid-4x4">${cellsHtml}</div>
         <div class="game-status" id="memStatus">Karelere dikkatli bak...</div>
@@ -1165,10 +1178,10 @@
         memCanClick = true;
         const st = document.getElementById('memStatus');
         if (st) st.textContent = 'Şimdi yanan kareleri seç!';
-      }, 1600);
+      }, 1500);
     }
 
-    function handleMemoryTap(idx) {
+    function handleMemoryTap(idx, targetCount) {
       if (!memCanClick) return;
       if (memUserSelection.includes(idx)) return;
 
@@ -1177,13 +1190,16 @@
         memUserSelection.push(idx);
         if (cell) cell.classList.add('done');
 
-        if (memUserSelection.length === memPattern.length) {
+        if (memUserSelection.length === targetCount) {
           memCanClick = false;
-          memLevel++;
-          localStorage.setItem('ekranbagi_mem_best', String(memLevel));
-          updateBrainRecordBadge();
-          document.getElementById('memStatus').textContent = `🎉 Harika Hafıza! Seviye ${memLevel}'e geçiliyor...`;
-          setTimeout(() => openMemoryGame(), 1200);
+          if (memLevel < 10) {
+            memLevel++;
+            localStorage.setItem('ekranbagi_mem_best', String(memLevel));
+            document.getElementById('memStatus').textContent = `🎉 Harika! Seviye ${memLevel}'e geçiliyor...`;
+            setTimeout(() => renderMemoryBoard(), 1200);
+          } else {
+            document.getElementById('memStatus').textContent = `🏆 Tebrikler! Zihin Üstadı unvanını kazandın!`;
+          }
         }
       } else {
         memCanClick = false;
@@ -1192,13 +1208,12 @@
           const pEl = document.getElementById('mc-' + pIdx);
           if (pEl) pEl.classList.add('lit');
         });
-        document.getElementById('memStatus').innerHTML = `❌ Yanlış kutu! <span style="text-decoration: underline; cursor: pointer;" onclick="openMemoryGame()">Tekrar Dene</span>`;
+        document.getElementById('memStatus').innerHTML = `❌ Yanlış kutu! <span style="text-decoration: underline; cursor: pointer;" onclick="renderMemoryBoard()">Tekrar Dene</span>`;
       }
     }
 
-    // Dijital Orman (Fokus & Ağaç Yetiştirme) Sistemi
+    // --- DİJİTAL ORMAN SİSTEMİ ---
     let forestInterval = null;
-    let leftAppDuringForest = false;
 
     function getForestCollection() {
       try {
@@ -1238,14 +1253,12 @@
       document.getElementById('forestModal').classList.add('open');
     }
 
-    function closeForestModal() {
-      document.getElementById('forestModal').classList.remove('open');
-    }
+    function closeForestModal() { document.getElementById('forestModal').classList.remove('open'); }
 
     function startForest(minutes) {
-      const endTime = Date.now() + minutes * 60000;
-      localStorage.setItem('ekranbagi_active_forest', JSON.stringify({ endTime, minutes }));
-      leftAppDuringForest = false;
+      const startTime = Date.now();
+      const endTime = startTime + minutes * 60000;
+      localStorage.setItem('ekranbagi_active_forest', JSON.stringify({ startTime, endTime, minutes }));
       document.getElementById('forestMsg').style.display = 'none';
       renderForestUI();
     }
@@ -1256,37 +1269,41 @@
       renderForestUI();
     }
 
-    function failForest() {
+    function failForest(reasonText) {
       localStorage.removeItem('ekranbagi_active_forest');
       if (forestInterval) clearInterval(forestInterval);
       const msgEl = document.getElementById('forestMsg');
       msgEl.className = 'fo-status-msg fail';
-      msgEl.textContent = '🥀 Süre dolmadan uygulamadan ayrıldığın için fidanın kurudu!';
+      msgEl.textContent = reasonText;
       msgEl.style.display = 'block';
       renderForestUI();
     }
 
-    function completeForest() {
-      const raw = localStorage.getItem('ekranbagi_active_forest');
-      if (!raw) return;
-      const ch = JSON.parse(raw);
+    function completeForest(minutes) {
       localStorage.removeItem('ekranbagi_active_forest');
       if (forestInterval) clearInterval(forestInterval);
 
       const list = getForestCollection();
-      let emoji = '🌲';
-      if (ch.minutes >= 60) emoji = '🌳';
-      else if (ch.minutes >= 30) emoji = '🎄';
-      else emoji = '🪴';
-
-      list.push({ mins: ch.minutes, emoji, date: new Date().toISOString() });
+      let emoji = minutes >= 60 ? '🌳' : minutes >= 30 ? '🎄' : '🪴';
+      list.push({ mins: minutes, emoji, date: new Date().toISOString() });
       saveForestCollection(list);
 
       const msgEl = document.getElementById('forestMsg');
       msgEl.className = 'fo-status-msg win';
-      msgEl.textContent = `🎉 Tebrikler! ${ch.minutes} dakikalık odaklanma ile ${emoji} ağacını ormanına ekledin!`;
+      msgEl.textContent = `🎉 Tebrikler! ${minutes} dakikalık odaklanma ile ${emoji} ağacın ormana eklendi!`;
       msgEl.style.display = 'block';
       renderForestUI();
+    }
+
+    function checkForestStatusOnVisible() {
+      const raw = localStorage.getItem('ekranbagi_active_forest');
+      if (!raw) return;
+      const ch = JSON.parse(raw);
+      if (Date.now() >= ch.endTime) {
+        completeForest(ch.minutes);
+      } else {
+        failForest('🥀 Süre henüz dolmadan uygulamayı açtığın için fidanın kurudu!');
+      }
     }
 
     function renderForestUI() {
@@ -1304,7 +1321,7 @@
       const ch = JSON.parse(raw);
       const now = Date.now();
       if (now >= ch.endTime) {
-        completeForest();
+        completeForest(ch.minutes);
         return;
       }
 
@@ -1315,7 +1332,7 @@
       const updateTimer = () => {
         const remaining = ch.endTime - Date.now();
         if (remaining <= 0) {
-          completeForest();
+          completeForest(ch.minutes);
           return;
         }
 
@@ -1343,10 +1360,7 @@
     function getLocalDateStr(offsetDays = 0) {
       const d = new Date();
       d.setDate(d.getDate() + offsetDays);
-      const y = d.getFullYear();
-      const m = String(d.getMonth() + 1).padStart(2, '0');
-      const day = String(d.getDate()).padStart(2, '0');
-      return `${y}-${m}-${day}`;
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
     }
 
     let sessionStartTime = Date.now();
@@ -1380,23 +1394,16 @@
           last_opened: null
         };
       }
-      if (!data.reasons) {
-        data.reasons = { 'Can Sıkıntısı': 0, 'Alışkanlık': 0, 'İş / Bilgi': 0, 'Sosyal / Mesaj': 0 };
-      }
+      if (!data.reasons) data.reasons = { 'Can Sıkıntısı': 0, 'Alışkanlık': 0, 'İş / Bilgi': 0, 'Sosyal / Mesaj': 0 };
       return data;
     }
 
     function calculateBadge(views, minutes) {
       const g = getGoals();
-      if (views <= g.goldViews && minutes <= g.goldMins) {
-        return { type: 'gold', icon: '🏆', title: 'Altın Rozet', desc: `≤${g.goldViews} bakış / ${g.goldMins} dk` };
-      } else if (views <= g.silverViews && minutes <= g.silverMins) {
-        return { type: 'silver', icon: '🥈', title: 'Gümüş Rozet', desc: `≤${g.silverViews} bakış / ${g.silverMins} dk` };
-      } else if (views <= g.bronzeViews && minutes <= g.bronzeMins) {
-        return { type: 'bronze', icon: '🥉', title: 'Bronz Rozet', desc: `≤${g.bronzeViews} bakış / ${g.bronzeMins} dk` };
-      } else {
-        return { type: 'exceeded', icon: '⚠️', title: 'Limit Aşıldı', desc: `Sınırlar aşıldı` };
-      }
+      if (views <= g.goldViews && minutes <= g.goldMins) return { type: 'gold', icon: '🏆', title: 'Altın Rozet', desc: `≤${g.goldViews} bakış / ${g.goldMins} dk` };
+      else if (views <= g.silverViews && minutes <= g.silverMins) return { type: 'silver', icon: '🥈', title: 'Gümüş Rozet', desc: `≤${g.silverViews} bakış / ${g.silverMins} dk` };
+      else if (views <= g.bronzeViews && minutes <= g.bronzeMins) return { type: 'bronze', icon: '🥉', title: 'Bronz Rozet', desc: `≤${g.bronzeViews} bakış / ${g.bronzeMins} dk` };
+      else return { type: 'exceeded', icon: '⚠️', title: 'Limit Aşıldı', desc: `Sınırlar aşıldı` };
     }
 
     async function syncToSupabase(localData) {
@@ -1411,26 +1418,17 @@
 
       if (!supabaseClient) return;
       try {
-        const { error } = await supabaseClient
-          .from('daily_checks')
-          .upsert({
-            device_id: deviceId,
-            nickname: getNickname(),
-            check_date: todayStr,
-            view_count: localData.view_count,
-            hourly_counts: localData.hourly_counts,
-            reasons: localData.reasons,
-            total_minutes: localData.total_minutes,
-            last_opened: localData.last_opened
-          }, { onConflict: 'device_id,check_date' });
-
-        const statusDot = document.getElementById('syncStatus');
-        if (statusDot) statusDot.classList.toggle('offline', !!error);
-        if (!error) fetchHistoryStats();
-      } catch (e) {
-        const statusDot = document.getElementById('syncStatus');
-        if (statusDot) statusDot.classList.add('offline');
-      }
+        await supabaseClient.from('daily_checks').upsert({
+          device_id: deviceId,
+          nickname: getNickname(),
+          check_date: todayStr,
+          view_count: localData.view_count,
+          hourly_counts: localData.hourly_counts,
+          reasons: localData.reasons,
+          total_minutes: localData.total_minutes,
+          last_opened: localData.last_opened
+        }, { onConflict: 'device_id,check_date' });
+      } catch(e) {}
     }
 
     function updateActiveTime() {
@@ -1452,7 +1450,6 @@
       lastTriggerTime = now;
 
       resetReasonButtons();
-
       let localData = updateActiveTime();
       const todayStr = getLocalDateStr(0);
       const currentHour = new Date().getHours();
@@ -1476,18 +1473,16 @@
 
       const todayStr = getLocalDateStr(0);
       let localData = updateActiveTime();
-
       localData.reasons[reasonName] = (localData.reasons[reasonName] || 0) + 1;
       localStorage.setItem('ekranbagi_data_' + todayStr, JSON.stringify(localData));
 
       const promptEl = document.getElementById('reasonPrompt');
       if (promptEl) promptEl.textContent = `✓ "${reasonName}" kaydedildi`;
 
-      // Can Sıkıntısı veya Alışkanlık seçildiyse zihin oyununa yönlendir
       if (reasonName === 'Can Sıkıntısı' || reasonName === 'Alışkanlık') {
         const hintEl = document.getElementById('brainHintText');
         if (hintEl) {
-          hintEl.innerHTML = `<span style="color: #ddd6fe; font-weight: 600;">💡 "${reasonName}" için buradasın!</span> Sosyal medyaya dalmak yerine hemen aşağıdan 15 saniyelik bir zihin oyunu oyna:`;
+          hintEl.innerHTML = `<span style="color: #ddd6fe; font-weight: 600;">💡 "${reasonName}" için buradasın!</span> Sosyal medya yerine aşağıdan zihin egzersizi yapabilirsin:`;
         }
       }
 
@@ -1513,29 +1508,21 @@
 
       if (prevOpened) {
         const diffMins = Math.floor((Date.now() - new Date(prevOpened).getTime()) / 60000);
-        if (diffMins < 1) {
-          document.getElementById('lastElapsed').textContent = 'Az önce kontrol ettin';
-        } else if (diffMins < 60) {
-          document.getElementById('lastElapsed').textContent = `Son bakıştan ${diffMins} dk geçti`;
-        } else {
-          const hrs = Math.floor(diffMins / 60);
-          const mins = diffMins % 60;
-          document.getElementById('lastElapsed').textContent = `Son bakıştan ${hrs} sa ${mins} dk geçti`;
-        }
+        if (diffMins < 1) document.getElementById('lastElapsed').textContent = 'Az önce kontrol ettin';
+        else if (diffMins < 60) document.getElementById('lastElapsed').textContent = `Son bakıştan ${diffMins} dk geçti`;
+        else document.getElementById('lastElapsed').textContent = `Son bakıştan ${Math.floor(diffMins/60)} sa ${diffMins%60} dk geçti`;
       }
 
       const barsContainer = document.getElementById('heatmapBars');
       barsContainer.innerHTML = '';
       const maxVal = Math.max(...data.hourly_counts, 1);
-      let peakH = 0;
-      let peakV = 0;
+      let peakH = 0, peakV = 0;
 
       data.hourly_counts.forEach((val, idx) => {
         if (val > peakV) { peakV = val; peakH = idx; }
         const bar = document.createElement('div');
         bar.className = 'bar' + (val > 0 ? ' active' : '');
-        const heightPct = Math.max(8, Math.round((val / maxVal) * 100));
-        bar.style.height = heightPct + '%';
+        bar.style.height = Math.max(8, Math.round((val / maxVal) * 100)) + '%';
         barsContainer.appendChild(bar);
       });
 
@@ -1545,51 +1532,20 @@
 
     async function fetchHistoryStats() {
       if (!supabaseClient) return;
-      const yesterdayStr = getLocalDateStr(-1);
-      const sixtyDaysAgo = getLocalDateStr(-60);
-
-      const { data, error } = await supabaseClient
-        .from('daily_checks')
-        .select('check_date, view_count, total_minutes, reasons, hourly_counts')
-        .eq('device_id', deviceId)
-        .gte('check_date', sixtyDaysAgo);
-
-      if (!error && data && data.length > 0) {
+      const { data } = await supabaseClient.from('daily_checks').select('*').eq('device_id', deviceId).gte('check_date', getLocalDateStr(-60));
+      if (data && data.length > 0) {
         data.forEach(row => {
-          monthlyHistoryCache[row.check_date] = {
-            view_count: row.view_count,
-            total_minutes: row.total_minutes || 0,
-            reasons: row.reasons || {},
-            hourly_counts: row.hourly_counts || new Array(24).fill(0)
-          };
+          monthlyHistoryCache[row.check_date] = { view_count: row.view_count, total_minutes: row.total_minutes || 0, reasons: row.reasons || {}, hourly_counts: row.hourly_counts || new Array(24).fill(0) };
         });
-
-        const yesterdayRow = data.find(r => r.check_date === yesterdayStr);
-        const yCount = yesterdayRow ? yesterdayRow.view_count : 0;
-        document.getElementById('compareBadge').textContent = `Dün toplam: ${yCount} kez`;
-
-        const last7 = data.filter(r => r.check_date >= getLocalDateStr(-7));
-        if (last7.length > 0) {
-          const total = last7.reduce((acc, item) => acc + item.view_count, 0);
-          const avg = Math.round(total / last7.length);
-          document.getElementById('weeklyAvg').textContent = `${avg} kez`;
-        }
+        const yRow = data.find(r => r.check_date === getLocalDateStr(-1));
+        document.getElementById('compareBadge').textContent = `Dün toplam: ${yRow ? yRow.view_count : 0} kez`;
         renderCalendar();
       }
     }
 
-    // Başarı Sıralaması (Leaderboard) Fonksiyonları
     let currentRankTab = 'daily';
-
-    function openLeaderboardModal() {
-      document.getElementById('leaderboardModal').classList.add('open');
-      switchRankTab('daily');
-    }
-
-    function closeLeaderboardModal() {
-      document.getElementById('leaderboardModal').classList.remove('open');
-    }
-
+    function openLeaderboardModal() { document.getElementById('leaderboardModal').classList.add('open'); switchRankTab('daily'); }
+    function closeLeaderboardModal() { document.getElementById('leaderboardModal').classList.remove('open'); }
     function switchRankTab(tab) {
       currentRankTab = tab;
       document.getElementById('rankDaily').className = 'report-tab' + (tab === 'daily' ? ' active' : '');
@@ -1600,296 +1556,102 @@
 
     async function loadLeaderboardData() {
       const container = document.getElementById('leaderboardContent');
-      container.innerHTML = `<div style="text-align: center; color: var(--muted); padding: 20px;">Sıralama yükleniyor...</div>`;
+      if (!supabaseClient) { container.innerHTML = `<div style="text-align: center; color: var(--muted); padding: 20px;">Çevrimdışı mod.</div>`; return; }
+      const startDate = getLocalDateStr(currentRankTab === 'daily' ? 0 : currentRankTab === 'weekly' ? -6 : -29);
+      const { data } = await supabaseClient.from('daily_checks').select('device_id, nickname, view_count, total_minutes').gte('check_date', startDate);
+      if (!data || data.length === 0) { container.innerHTML = `<div style="text-align: center; color: var(--muted); padding: 20px;">Veri yok.</div>`; return; }
 
-      if (!supabaseClient) {
-        container.innerHTML = `<div style="text-align: center; color: var(--warn); padding: 20px;">Çevrimdışı modda sıralama görüntülenemiyor.</div>`;
-        return;
-      }
+      let userMap = {};
+      data.forEach(r => {
+        if (!userMap[r.device_id]) userMap[r.device_id] = { device_id: r.device_id, nickname: r.nickname || 'Misafir', totalViews: 0, totalMins: 0, days: 0 };
+        userMap[r.device_id].totalViews += (r.view_count || 0);
+        userMap[r.device_id].totalMins += (r.total_minutes || 0);
+        userMap[r.device_id].days += 1;
+      });
 
-      let startDate = getLocalDateStr(0);
-      if (currentRankTab === 'weekly') startDate = getLocalDateStr(-6);
-      else if (currentRankTab === 'monthly') startDate = getLocalDateStr(-29);
-
-      try {
-        const { data, error } = await supabaseClient
-          .from('daily_checks')
-          .select('device_id, nickname, view_count, total_minutes')
-          .gte('check_date', startDate);
-
-        if (error || !data || data.length === 0) {
-          container.innerHTML = `<div style="text-align: center; color: var(--muted); padding: 20px;">Bu dönem için henüz veri bulunmuyor.</div>`;
-          return;
-        }
-
-        const userMap = {};
-        data.forEach(row => {
-          const id = row.device_id;
-          if (!userMap[id]) {
-            userMap[id] = {
-              device_id: id,
-              nickname: row.nickname || 'Kullanıcı_' + id.slice(-4).toUpperCase(),
-              totalViews: 0,
-              totalMins: 0,
-              days: 0
-            };
-          }
-          if (row.nickname) userMap[id].nickname = row.nickname;
-          userMap[id].totalViews += (row.view_count || 0);
-          userMap[id].totalMins += (row.total_minutes || 0);
-          userMap[id].days += 1;
-        });
-
-        const sortedUsers = Object.values(userMap).sort((a, b) => {
-          if (a.totalViews !== b.totalViews) return a.totalViews - b.totalViews;
-          return a.totalMins - b.totalMins;
-        });
-
-        let html = '<div class="rank-list">';
-        sortedUsers.forEach((u, index) => {
-          const pos = index + 1;
-          const isMe = u.device_id === deviceId;
-          let posClass = 'rank-pos';
-          let medal = pos;
-          if (pos === 1) { posClass += ' top1'; medal = '🥇'; }
-          else if (pos === 2) { posClass += ' top2'; medal = '🥈'; }
-          else if (pos === 3) { posClass += ' top3'; medal = '🥉'; }
-
-          html += `
-            <div class="rank-item ${isMe ? 'me' : ''}">
-              <div class="rank-left">
-                <div class="${posClass}">${medal}</div>
-                <div>
-                  <div class="rank-name">${escapeHtml(u.nickname)} ${isMe ? '(Sen)' : ''}</div>
-                  <div class="rank-sub">${u.days} aktif gün</div>
-                </div>
-              </div>
-              <div class="rank-right">
-                <div class="rank-views">${u.totalViews} bakış</div>
-                <div class="rank-mins">${u.totalMins} dk</div>
-              </div>
-            </div>
-          `;
-        });
-        html += '</div>';
-        container.innerHTML = html;
-      } catch (e) {
-        container.innerHTML = `<div style="text-align: center; color: var(--danger); padding: 20px;">Sıralama alınırken hata oluştu.</div>`;
-      }
+      let html = '<div class="rank-list">';
+      Object.values(userMap).sort((a,b) => a.totalViews - b.totalViews || a.totalMins - b.totalMins).forEach((u, idx) => {
+        const isMe = u.device_id === deviceId;
+        html += `<div class="rank-item ${isMe ? 'me' : ''}"><div class="rank-left"><div class="rank-pos">${idx+1}</div><div><div class="rank-name">${u.nickname}</div><div class="rank-sub">${u.days} gün</div></div></div><div class="rank-right"><div class="rank-views">${u.totalViews} bakış</div><div class="rank-mins">${u.totalMins} dk</div></div></div>`;
+      });
+      container.innerHTML = html + '</div>';
     }
 
-    function escapeHtml(text) {
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
-    }
-
-    function changeMonth(delta) {
-      currentCalDate.setMonth(currentCalDate.getMonth() + delta);
-      renderCalendar();
-    }
-
+    function changeMonth(delta) { currentCalDate.setMonth(currentCalDate.getMonth() + delta); renderCalendar(); }
     function renderCalendar() {
-      const year = currentCalDate.getFullYear();
-      const month = currentCalDate.getMonth();
+      const year = currentCalDate.getFullYear(), month = currentCalDate.getMonth();
       document.getElementById('calMonthTitle').textContent = `${MONTHS_TR[month]} ${year}`;
-
       const grid = document.getElementById('calGrid');
       grid.innerHTML = '';
+      const firstDay = new Date(year, month, 1).getDay(), startOffset = firstDay === 0 ? 6 : firstDay - 1;
+      const daysInMonth = new Date(year, month + 1, 0).getDate(), todayStr = getLocalDateStr(0);
 
-      const firstDay = new Date(year, month, 1).getDay();
-      const startOffset = (firstDay === 0) ? 6 : firstDay - 1;
-      const daysInMonth = new Date(year, month + 1, 0).getDate();
-      const todayStr = getLocalDateStr(0);
-
-      for (let i = 0; i < startOffset; i++) {
-        const emptyCell = document.createElement('div');
-        emptyCell.className = 'cal-day empty';
-        grid.appendChild(emptyCell);
-      }
-
+      for (let i = 0; i < startOffset; i++) grid.appendChild(Object.assign(document.createElement('div'), { className: 'cal-day empty' }));
       for (let day = 1; day <= daysInMonth; day++) {
         const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
         const cell = document.createElement('div');
         cell.className = 'cal-day' + (dateStr === todayStr ? ' today' : '');
-
-        let record = monthlyHistoryCache[dateStr];
-        if (!record) {
-          try {
-            const localRaw = localStorage.getItem('ekranbagi_data_' + dateStr);
-            if (localRaw) record = JSON.parse(localRaw);
-          } catch(e) {}
+        let rec = monthlyHistoryCache[dateStr];
+        if (!rec) { try { rec = JSON.parse(localStorage.getItem('ekranbagi_data_' + dateStr)); } catch(e) {} }
+        if (rec && rec.view_count > 0) {
+          const bInfo = calculateBadge(rec.view_count, rec.total_minutes || 0);
+          cell.classList.add(bInfo.type);
+          cell.innerHTML = `<span>${day}</span><span class="cal-badge">${bInfo.icon}</span>`;
+        } else {
+          cell.innerHTML = `<span>${day}</span>`;
         }
-
-        let badgeHtml = '';
-        if (record && record.view_count > 0) {
-          const badgeInfo = calculateBadge(record.view_count, record.total_minutes || 0);
-          cell.classList.add(badgeInfo.type);
-          badgeHtml = `<span class="cal-badge">${badgeInfo.icon}</span>`;
-        }
-
-        cell.innerHTML = `<span>${day}</span>${badgeHtml}`;
-        cell.onclick = () => openDayDetailModal(dateStr, day, month, year, record);
-
+        cell.onclick = () => openDayDetailModal(dateStr, day, month, year, rec);
         grid.appendChild(cell);
       }
     }
 
-    function openDayDetailModal(dateStr, day, month, year, record) {
+    function openDayDetailModal(dateStr, day, month, year, rec) {
       document.getElementById('dayModalTitle').textContent = `${day} ${MONTHS_TR[month]} ${year} Analizi`;
       const contentEl = document.getElementById('dayModalContent');
-
-      if (!record || record.view_count === 0) {
-        contentEl.innerHTML = `<div style="text-align: center; color: var(--muted); padding: 20px;">Bu güne ait kayıtlı veri bulunmuyor.</div>`;
-      } else {
-        const badgeInfo = calculateBadge(record.view_count, record.total_minutes || 0);
-        let peakH = 0, peakV = 0;
-        if (record.hourly_counts && Array.isArray(record.hourly_counts)) {
-          record.hourly_counts.forEach((val, idx) => {
-            if (val > peakV) { peakV = val; peakH = idx; }
-          });
-        }
-        const peakStr = peakV > 0 ? `${String(peakH).padStart(2, '0')}:00` : 'Veri yok';
-
-        let reasonsHtml = '';
-        if (record.reasons) {
-          Object.keys(record.reasons).forEach(rName => {
-            const rCount = record.reasons[rName] || 0;
-            reasonsHtml += `<div class="reason-row"><span>${rName}</span><span style="font-weight: 700; color: var(--accent);">${rCount} kez</span></div>`;
-          });
-        }
-
-        contentEl.innerHTML = `
-          <div class="day-stat-grid">
-            <div class="day-stat-box"><div class="day-stat-label">Toplam Bakış</div><div class="day-stat-val">${record.view_count} kez</div></div>
-            <div class="day-stat-box"><div class="day-stat-label">Toplam Süre</div><div class="day-stat-val">${record.total_minutes || 0} dk</div></div>
-            <div class="day-stat-box"><div class="day-stat-label">En Yoğun Saat</div><div class="day-stat-val">${peakStr}</div></div>
-            <div class="day-stat-box"><div class="day-stat-label">Rozet Durumu</div><div class="day-stat-val" style="font-size: 0.9rem;">${badgeInfo.icon} ${badgeInfo.title.split(' ')[0]}</div></div>
-          </div>
-          <div class="reason-dist-title">📋 Neden Dağılımı</div>
-          <div>${reasonsHtml}</div>
-        `;
+      if (!rec || rec.view_count === 0) { contentEl.innerHTML = `<div style="text-align: center; color: var(--muted); padding: 20px;">Veri yok.</div>`; }
+      else {
+        contentEl.innerHTML = `<div class="day-stat-grid"><div class="day-stat-box"><div class="day-stat-label">Bakış</div><div class="day-stat-val">${rec.view_count}</div></div><div class="day-stat-box"><div class="day-stat-label">Süre</div><div class="day-stat-val">${rec.total_minutes||0} dk</div></div></div>`;
       }
       document.getElementById('dayDetailModal').classList.add('open');
     }
+    function closeDayDetailModal() { document.getElementById('dayDetailModal').classList.remove('open'); }
 
-    function closeDayDetailModal() {
-      document.getElementById('dayDetailModal').classList.remove('open');
-    }
-
-    let currentReportTab = 'weekly';
-
-    function openReportModal() {
-      switchReportTab('weekly');
-      document.getElementById('reportModal').classList.add('open');
-    }
-
-    function closeReportModal() {
-      document.getElementById('reportModal').classList.remove('open');
-    }
-
+    function openReportModal() { switchReportTab('weekly'); document.getElementById('reportModal').classList.add('open'); }
+    function closeReportModal() { document.getElementById('reportModal').classList.remove('open'); }
     function switchReportTab(tab) {
-      currentReportTab = tab;
       document.getElementById('tabWeekly').className = 'report-tab' + (tab === 'weekly' ? ' active' : '');
       document.getElementById('tabMonthly').className = 'report-tab' + (tab === 'monthly' ? ' active' : '');
-      renderReportContent();
+      renderReportContent(tab === 'weekly' ? 7 : 30);
     }
-
-    function renderReportContent() {
-      const daysCount = currentReportTab === 'weekly' ? 7 : 30;
-      const contentEl = document.getElementById('reportModalContent');
-      
-      let totalViews = 0;
-      let totalMins = 0;
-      let badgeCounts = { gold: 0, silver: 0, bronze: 0, exceeded: 0 };
-      let aggregatedReasons = { 'Can Sıkıntısı': 0, 'Alışkanlık': 0, 'İş / Bilgi': 0, 'Sosyal / Mesaj': 0 };
-      let activeDaysCount = 0;
-
+    function renderReportContent(daysCount) {
+      let totalV = 0, totalM = 0;
       for (let i = 0; i < daysCount; i++) {
-        const dStr = getLocalDateStr(-i);
-        let rec = monthlyHistoryCache[dStr];
-        if (!rec) {
-          try {
-            const raw = localStorage.getItem('ekranbagi_data_' + dStr);
-            if (raw) rec = JSON.parse(raw);
-          } catch(e) {}
-        }
-
-        if (rec && rec.view_count > 0) {
-          activeDaysCount++;
-          totalViews += rec.view_count;
-          totalMins += (rec.total_minutes || 0);
-
-          const bInfo = calculateBadge(rec.view_count, rec.total_minutes || 0);
-          badgeCounts[bInfo.type] = (badgeCounts[bInfo.type] || 0) + 1;
-
-          if (rec.reasons) {
-            Object.keys(rec.reasons).forEach(r => {
-              aggregatedReasons[r] = (aggregatedReasons[r] || 0) + (rec.reasons[r] || 0);
-            });
-          }
-        }
+        let rec = monthlyHistoryCache[getLocalDateStr(-i)];
+        if (!rec) { try { rec = JSON.parse(localStorage.getItem('ekranbagi_data_' + getLocalDateStr(-i))); } catch(e) {} }
+        if (rec) { totalV += rec.view_count; totalM += (rec.total_minutes || 0); }
       }
-
-      const avgViews = activeDaysCount > 0 ? Math.round(totalViews / activeDaysCount) : 0;
-      const avgMins = activeDaysCount > 0 ? Math.round(totalMins / activeDaysCount) : 0;
-
-      let reasonsHtml = '';
-      Object.keys(aggregatedReasons).forEach(r => {
-        reasonsHtml += `<div class="reason-row"><span>${r}</span><span style="font-weight: 700; color: var(--accent);">${aggregatedReasons[r]} kez</span></div>`;
-      });
-
-      contentEl.innerHTML = `
-        <div class="day-stat-grid">
-          <div class="day-stat-box"><div class="day-stat-label">Toplam Bakış</div><div class="day-stat-val">${totalViews} kez</div></div>
-          <div class="day-stat-box"><div class="day-stat-label">Toplam Süre</div><div class="day-stat-val">${totalMins} dk</div></div>
-          <div class="day-stat-box"><div class="day-stat-label">Günlük Ort. Bakış</div><div class="day-stat-val">${avgViews} kez</div></div>
-          <div class="day-stat-box"><div class="day-stat-label">Günlük Ort. Süre</div><div class="day-stat-val">${avgMins} dk</div></div>
-        </div>
-
-        <div class="reason-dist-title">🏆 Kazanılan Rozetler</div>
-        <div class="day-stat-grid" style="margin-bottom: 12px;">
-          <div class="day-stat-box"><div class="day-stat-label">🏆 Altın</div><div class="day-stat-val" style="color: var(--gold);">${badgeCounts.gold} gün</div></div>
-          <div class="day-stat-box"><div class="day-stat-label">🥈 Gümüş</div><div class="day-stat-val" style="color: var(--silver);">${badgeCounts.silver} gün</div></div>
-          <div class="day-stat-box"><div class="day-stat-label">🥉 Bronz</div><div class="day-stat-val" style="color: var(--bronze);">${badgeCounts.bronze} gün</div></div>
-          <div class="day-stat-box"><div class="day-stat-label">⚠️ Limit Aşan</div><div class="day-stat-val" style="color: var(--danger);">${badgeCounts.exceeded} gün</div></div>
-        </div>
-
-        <div class="reason-dist-title">📋 Dönem Boyu Neden Dağılımı</div>
-        <div>${reasonsHtml}</div>
-      `;
+      document.getElementById('reportModalContent').innerHTML = `<div class="day-stat-grid"><div class="day-stat-box"><div class="day-stat-label">Toplam Bakış</div><div class="day-stat-val">${totalV}</div></div><div class="day-stat-box"><div class="day-stat-label">Toplam Süre</div><div class="day-stat-val">${totalM} dk</div></div></div>`;
     }
 
     window.addEventListener('load', () => {
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js').catch(() => {});
-      }
       updateNicknameDisplay();
-      updateBrainRecordBadge();
+      updateGameQuotaBadge();
+      checkForestStatusOnVisible();
       const initialData = getTodayData();
       renderUI(initialData, initialData.last_opened);
       renderCalendar();
       renderForestUI();
       recordCheck();
+      fetchHistoryStats();
     });
 
     document.addEventListener('visibilitychange', () => {
-      const activeForestRaw = localStorage.getItem('ekranbagi_active_forest');
       if (document.visibilityState === 'hidden') {
         updateActiveTime();
-        if (activeForestRaw) {
-          leftAppDuringForest = true;
-        }
       } else if (document.visibilityState === 'visible') {
         sessionStartTime = Date.now();
-        if (activeForestRaw) {
-          const ch = JSON.parse(activeForestRaw);
-          if (Date.now() >= ch.endTime) {
-            completeForest();
-          } else if (leftAppDuringForest) {
-            failForest();
-          }
-        }
+        checkForestStatusOnVisible();
+        renderForestUI();
         recordCheck();
       }
     });
