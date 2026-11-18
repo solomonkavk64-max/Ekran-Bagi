@@ -173,7 +173,7 @@
 
     <div class="hero-card">
       <div class="hero-label">Bugünkü Bakış Sayın</div>
-      <div class="hero-count" id="todayCount">1</div>
+      <div class="hero-count" id="todayCount">0</div>
       <div class="hero-sub" id="lastElapsed">Az önce açıldı</div>
       
       <div class="time-spent-box" id="timeSpentBox">
@@ -241,7 +241,12 @@
   <script>
     const SUPABASE_URL = 'https://rvgeztwqlxgtvqvrlzth.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_lA2WkBgbio59vdsSdcfZbA_x2kEW7mg';
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    let supabaseClient = null;
+    try {
+      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    } catch(e) {
+      console.error("Supabase init error:", e);
+    }
 
     let deviceId = localStorage.getItem('ekranbagi_device_id');
     if (!deviceId) {
@@ -279,7 +284,14 @@
 
     function getTodayData() {
       const todayStr = getLocalDateStr(0);
-      let data = JSON.parse(localStorage.getItem('ekranbagi_data_' + todayStr));
+      let data = null;
+      try {
+        const raw = localStorage.getItem('ekranbagi_data_' + todayStr);
+        if (raw) data = JSON.parse(raw);
+      } catch(e) {
+        data = null;
+      }
+
       if (!data) {
         data = {
           view_count: 0,
@@ -296,6 +308,7 @@
     }
 
     async function syncToSupabase(localData) {
+      if (!supabaseClient) return;
       const todayStr = getLocalDateStr(0);
       try {
         const { error } = await supabaseClient
@@ -368,4 +381,99 @@
       let localData = updateActiveTime();
 
       localData.reasons[reasonName] = (localData.reasons[reasonName] || 0) + 1;
-      localStorage.setItem('ekranbagi_data_'
+      localStorage.setItem('ekranbagi_data_' + todayStr, JSON.stringify(localData));
+
+      const promptEl = document.getElementById('reasonPrompt');
+      if (promptEl) {
+        promptEl.textContent = `✓ "${reasonName}" kaydedildi`;
+      }
+
+      renderUI(localData, null);
+      await syncToSupabase(localData);
+    }
+
+    function renderUI(data, prevOpened) {
+      document.getElementById('todayCount').textContent = data.view_count;
+      document.getElementById('timeSpentBox').textContent = `⏱️ Bugünkü Toplam Süre: ${data.total_minutes || 0} dk`;
+
+      if (data.reasons) {
+        Object.keys(data.reasons).forEach(key => {
+          const el = document.getElementById('cnt-' + key);
+          if (el) el.textContent = data.reasons[key];
+        });
+      }
+
+      if (prevOpened) {
+        const diffMins = Math.floor((Date.now() - new Date(prevOpened).getTime()) / 60000);
+        if (diffMins < 1) {
+          document.getElementById('lastElapsed').textContent = 'Az önce kontrol ettin';
+        } else if (diffMins < 60) {
+          document.getElementById('lastElapsed').textContent = `Son bakıştan ${diffMins} dk geçti`;
+        } else {
+          const hrs = Math.floor(diffMins / 60);
+          const mins = diffMins % 60;
+          document.getElementById('lastElapsed').textContent = `Son bakıştan ${hrs} sa ${mins} dk geçti`;
+        }
+      }
+
+      const barsContainer = document.getElementById('heatmapBars');
+      barsContainer.innerHTML = '';
+      const maxVal = Math.max(...data.hourly_counts, 1);
+      let peakH = 0;
+      let peakV = 0;
+
+      data.hourly_counts.forEach((val, idx) => {
+        if (val > peakV) { peakV = val; peakH = idx; }
+        const bar = document.createElement('div');
+        bar.className = 'bar' + (val > 0 ? ' active' : '');
+        const heightPct = Math.max(8, Math.round((val / maxVal) * 100));
+        bar.style.height = heightPct + '%';
+        barsContainer.appendChild(bar);
+      });
+
+      document.getElementById('peakHour').textContent = `${String(peakH).padStart(2, '0')}:00`;
+      document.getElementById('microTip').textContent = TIPS[data.view_count % TIPS.length];
+    }
+
+    async function fetchHistoryStats() {
+      if (!supabaseClient) return;
+      const sevenDaysAgo = getLocalDateStr(-7);
+      const yesterdayStr = getLocalDateStr(-1);
+
+      const { data, error } = await supabaseClient
+        .from('daily_checks')
+        .select('check_date, view_count')
+        .eq('device_id', deviceId)
+        .gte('check_date', sevenDaysAgo);
+
+      if (!error && data && data.length > 0) {
+        const yesterdayRow = data.find(r => r.check_date === yesterdayStr);
+        const yCount = yesterdayRow ? yesterdayRow.view_count : 0;
+        document.getElementById('compareBadge').textContent = `Dün toplam: ${yCount} kez`;
+
+        const total = data.reduce((acc, item) => acc + item.view_count, 0);
+        const avg = Math.round(total / data.length);
+        document.getElementById('weeklyAvg').textContent = `${avg} kez`;
+      }
+    }
+
+    window.addEventListener('load', () => {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').catch(() => {});
+      }
+      const initialData = getTodayData();
+      renderUI(initialData, initialData.last_opened);
+      recordCheck();
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        sessionStartTime = Date.now();
+        recordCheck();
+      } else {
+        updateActiveTime();
+      }
+    });
+  </script>
+</body>
+</html>
