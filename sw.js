@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ekran-bagi-v3';
+const CACHE_NAME = 'ekran-bagi-v4';
 const ASSETS = ['./', './index.html', './manifest.json'];
 
 self.addEventListener('install', (event) => {
