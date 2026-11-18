@@ -22,6 +22,7 @@
       --silver: #cbd5e1;
       --bronze: #d97706;
       --forest: #10b981;
+      --brain: #8b5cf6;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body {
@@ -242,6 +243,96 @@
       border-radius: 8px;
       font-size: 0.85rem;
       margin-bottom: 6px;
+    }
+
+    /* Zihin Egzersizi (Mini Oyunlar) Kartı */
+    .brain-card {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.14), rgba(56, 189, 248, 0.08));
+      border: 1px solid rgba(139, 92, 246, 0.35);
+      border-radius: 18px;
+      padding: 16px;
+    }
+    .brain-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .brain-title { font-size: 0.92rem; font-weight: 700; color: #ddd6fe; display: flex; align-items: center; gap: 6px; }
+    .brain-record {
+      background: rgba(139, 92, 246, 0.25);
+      color: #ede9fe;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 99px;
+    }
+    .brain-desc { font-size: 0.8rem; color: var(--muted); margin-bottom: 12px; line-height: 1.4; }
+    .brain-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .br-btn {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(139, 92, 246, 0.35);
+      color: var(--text);
+      padding: 10px 8px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+    }
+    .br-btn:active { background: rgba(139, 92, 246, 0.3); }
+
+    /* Oyun Alanı Stilleri */
+    .game-grid-3x3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin: 14px 0;
+    }
+    .game-grid-4x4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin: 14px 0;
+    }
+    .game-cell {
+      aspect-ratio: 1;
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      color: var(--text);
+      font-size: 1.35rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .game-cell:active { transform: scale(0.94); }
+    .game-cell.done {
+      background: rgba(34, 197, 94, 0.2);
+      border-color: var(--good);
+      color: var(--good);
+    }
+    .game-cell.lit {
+      background: var(--brain);
+      border-color: #ddd6fe;
+      box-shadow: 0 0 15px rgba(139, 92, 246, 0.6);
+    }
+    .game-cell.wrong {
+      background: rgba(239, 68, 68, 0.25);
+      border-color: var(--danger);
+    }
+    .game-status {
+      text-align: center;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+      min-height: 22px;
     }
 
     /* Dijital Orman Kartı */
@@ -584,29 +675,6 @@
       <div class="comparison-badge" id="compareBadge">Dün toplam: 0 kez</div>
     </div>
 
-    <!-- Dijital Orman (Fokus & Ağaç Yetiştirme) Kartı -->
-    <div class="forest-card">
-      <div class="forest-header">
-        <div class="forest-title">🌲 Dijital Orman (Fokus)</div>
-        <div class="forest-score" onclick="openForestModal()" id="forestBadgeBtn">🌳 0 Ağaç</div>
-      </div>
-      <div id="forestIdleArea">
-        <div class="forest-desc">Fidanını e, telefonunu kilitle ve odaklanarak ormanını büyüt! Süre bitmeden çıkarsan fidanın kurur.</div>
-        <div class="forest-btns">
-          <button class="fo-btn" onclick="startForest(15)">15 Dakika</button>
-          <button class="fo-btn" onclick="startForest(30)">30 Dakika</button>
-          <button class="fo-btn" onclick="startForest(60)">1 Saat</button>
-        </div>
-      </div>
-      <div id="forestActiveArea" class="fo-active-box" style="display: none;">
-        <div class="fo-tree-icon" id="forestTreeIcon">🌱</div>
-        <div class="fo-timer" id="forestTimer">15:00</div>
-        <div style="font-size: 0.75rem; color: #a7f3d0;" id="forestStatusText">Fidan büyüyor... Telefona dokunma!</div>
-        <button class="fo-cancel" onclick="cancelForest()">Vazgeç / Fidanı Sök</button>
-      </div>
-      <div id="forestMsg" class="fo-status-msg" style="display: none;"></div>
-    </div>
-
     <!-- Mini Günlük / Neden Seçimi -->
     <div class="reason-card">
       <div class="reason-title" id="reasonPrompt">Şu an telefonu neden eline aldın?</div>
@@ -628,6 +696,52 @@
           <span class="reason-badge" id="cnt-Sosyal / Mesaj">0</span>
         </button>
       </div>
+    </div>
+
+    <!-- Zihin Egzersizi (Hafıza & Dikkat Oyunları) -->
+    <div class="brain-card" id="brainSection">
+      <div class="brain-header">
+        <div class="brain-title">🧠 Zihin Egzersizi (Dopamin Kesici)</div>
+        <div class="brain-record" id="brainRecordBadge">⚡ Rekor: --</div>
+      </div>
+      <div class="brain-desc" id="brainHintText">
+        Sosyal medyada amaçsızca gezinmek yerine 15 saniyelik mini zihin oyunlarıyla odak ve hafızanı güçlendir!
+      </div>
+      <div class="brain-btns">
+        <button class="br-btn" onclick="openSchulteGame()">
+          <span style="font-size: 1.2rem;">🔢</span>
+          <span>Sayı Sıralama (1-9)</span>
+          <span style="font-size: 0.7rem; color: var(--muted);">Dikkat & Hız</span>
+        </button>
+        <button class="br-btn" onclick="openMemoryGame()">
+          <span style="font-size: 1.2rem;">🧩</span>
+          <span>Hafıza Matrisi</span>
+          <span style="font-size: 0.7rem; color: var(--muted);">Görsel Bellek</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Dijital Orman (Fokus & Ağaç Yetiştirme) Kartı -->
+    <div class="forest-card">
+      <div class="forest-header">
+        <div class="forest-title">🌲 Dijital Orman (Fokus)</div>
+        <div class="forest-score" onclick="openForestModal()" id="forestBadgeBtn">🌳 0 Ağaç</div>
+      </div>
+      <div id="forestIdleArea">
+        <div class="forest-desc">Fidanını e, telefonunu kilitle ve odaklanarak ormanını büyüt! Süre bitmeden çıkarsan fidanın kurur.</div>
+        <div class="forest-btns">
+          <button class="fo-btn" onclick="startForest(15)">15 Dakika</button>
+          <button class="fo-btn" onclick="startForest(30)">30 Dakika</button>
+          <button class="fo-btn" onclick="startForest(60)">1 Saat</button>
+        </div>
+      </div>
+      <div id="forestActiveArea" class="fo-active-box" style="display: none;">
+        <div class="fo-tree-icon" id="forestTreeIcon">🌱</div>
+        <div class="fo-timer" id="forestTimer">15:00</div>
+        <div style="font-size: 0.75rem; color: #a7f3d0;" id="forestStatusText">Fidan büyüyor... Telefona dokunma!</div>
+        <button class="fo-cancel" onclick="cancelForest()">Vazgeç / Fidanı Sök</button>
+      </div>
+      <div id="forestMsg" class="fo-status-msg" style="display: none;"></div>
     </div>
 
     <!-- Başarı Takvimi -->
@@ -675,6 +789,17 @@
     <button class="btn-manual" onclick="recordCheck(true)">+ Manuel Bakış Ekle</button>
   </div>
 
+  <!-- Mini Oyun Modalı -->
+  <div class="modal-overlay" id="gameModal" onclick="if(event.target === this) closeGameModal()">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title" id="gameModalTitle">🧠 Zihin Oyunu</div>
+        <button class="close-btn" onclick="closeGameModal()">×</button>
+      </div>
+      <div id="gameModalBody"></div>
+    </div>
+  </div>
+
   <!-- Dijital Orman Koleksiyonu Modal -->
   <div class="modal-overlay" id="forestModal" onclick="if(event.target === this) closeForestModal()">
     <div class="modal-box">
@@ -685,9 +810,7 @@
       <p style="font-size: 0.8rem; color: var(--muted); margin-bottom: 12px; line-height: 1.4;">
         Odaklanarak büyüttüğün tüm ağaçların burada sergileniyor. Ormanını ne kadar büyütebileceksin?
       </p>
-      <div id="forestCollectionContent" class="forest-grid">
-        <!-- Dinamik ağaç listesi -->
-      </div>
+      <div id="forestCollectionContent" class="forest-grid"></div>
     </div>
   </div>
 
@@ -931,6 +1054,148 @@
       renderCalendar();
     }
 
+    // Zihin Egzersizi (Mini Oyunlar) Sistemi
+    function updateBrainRecordBadge() {
+      const bestTime = localStorage.getItem('ekranbagi_schulte_best');
+      const memLvl = localStorage.getItem('ekranbagi_mem_best') || 1;
+      const badge = document.getElementById('brainRecordBadge');
+      if (bestTime) {
+        badge.textContent = `⚡ ${bestTime}s | 🧩 Sv.${memLvl}`;
+      } else {
+        badge.textContent = `🧩 Seviye ${memLvl}`;
+      }
+    }
+
+    function closeGameModal() {
+      document.getElementById('gameModal').classList.remove('open');
+    }
+
+    // Oyun 1: Sayı Sıralama (1-9 Schulte Tablosu)
+    let schulteTarget = 1;
+    let schulteStart = 0;
+
+    function openSchulteGame() {
+      document.getElementById('gameModalTitle').textContent = '🔢 Sayı Sıralama (1 - 9)';
+      schulteTarget = 1;
+      schulteStart = 0;
+
+      const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9].sort(() => Math.random() - 0.5);
+      let cellsHtml = '';
+      nums.forEach(n => {
+        cellsHtml += `<div class="game-cell" id="sc-${n}" onclick="handleSchulteTap(${n})">${n}</div>`;
+      });
+
+      document.getElementById('gameModalBody').innerHTML = `
+        <p style="font-size: 0.8rem; color: var(--muted); text-align: center;">
+          1'den başlayarak 9'a kadar tüm sayılara en hızlı şekilde sırayla dokun!
+        </p>
+        <div class="game-grid-3x3">${cellsHtml}</div>
+        <div class="game-status" id="schulteStatus">Sıradaki Sayı: 1</div>
+        <div class="modal-actions">
+          <button class="btn-save" onclick="openSchulteGame()">Yeniden Karıştır</button>
+        </div>
+      `;
+      document.getElementById('gameModal').classList.add('open');
+    }
+
+    function handleSchulteTap(num) {
+      if (num !== schulteTarget) return;
+      if (num === 1) schulteStart = performance.now();
+
+      const cell = document.getElementById('sc-' + num);
+      if (cell) cell.classList.add('done');
+
+      if (num === 9) {
+        const elapsed = ((performance.now() - schulteStart) / 1000).toFixed(2);
+        const prevBest = parseFloat(localStorage.getItem('ekranbagi_schulte_best') || '999');
+        let extra = '';
+        if (parseFloat(elapsed) < prevBest) {
+          localStorage.setItem('ekranbagi_schulte_best', elapsed);
+          updateBrainRecordBadge();
+          extra = ' 🏆 Yeni Rekor!';
+        }
+        document.getElementById('schulteStatus').textContent = `🎉 Tamamlandı! Süren: ${elapsed} saniye${extra}`;
+      } else {
+        schulteTarget++;
+        document.getElementById('schulteStatus').textContent = `Sıradaki Sayı: ${schulteTarget}`;
+      }
+    }
+
+    // Oyun 2: Hafıza Matrisi
+    let memLevel = parseInt(localStorage.getItem('ekranbagi_mem_best') || '1');
+    let memPattern = [];
+    let memUserSelection = [];
+    let memCanClick = false;
+
+    function openMemoryGame() {
+      document.getElementById('gameModalTitle').textContent = `🧩 Hafıza Matrisi (Seviye ${memLevel})`;
+      memUserSelection = [];
+      memCanClick = false;
+
+      const targetCount = Math.min(8, 2 + memLevel);
+      const allIndices = Array.from({ length: 16 }, (_, i) => i);
+      memPattern = allIndices.sort(() => Math.random() - 0.5).slice(0, targetCount);
+
+      let cellsHtml = '';
+      for (let i = 0; i < 16; i++) {
+        cellsHtml += `<div class="game-cell" id="mc-${i}" onclick="handleMemoryTap(${i})"></div>`;
+      }
+
+      document.getElementById('gameModalBody').innerHTML = `
+        <p style="font-size: 0.8rem; color: var(--muted); text-align: center;">
+          Parlayan <b>${targetCount}</b> karenin yerini aklında tut ve sönünce işaretle!
+        </p>
+        <div class="game-grid-4x4">${cellsHtml}</div>
+        <div class="game-status" id="memStatus">Karelere dikkatli bak...</div>
+      `;
+      document.getElementById('gameModal').classList.add('open');
+
+      setTimeout(() => {
+        memPattern.forEach(idx => {
+          const el = document.getElementById('mc-' + idx);
+          if (el) el.classList.add('lit');
+        });
+      }, 300);
+
+      setTimeout(() => {
+        memPattern.forEach(idx => {
+          const el = document.getElementById('mc-' + idx);
+          if (el) el.classList.remove('lit');
+        });
+        memCanClick = true;
+        const st = document.getElementById('memStatus');
+        if (st) st.textContent = 'Şimdi yanan kareleri seç!';
+      }, 1600);
+    }
+
+    function handleMemoryTap(idx) {
+      if (!memCanClick) return;
+      if (memUserSelection.includes(idx)) return;
+
+      const cell = document.getElementById('mc-' + idx);
+      if (memPattern.includes(idx)) {
+        memUserSelection.push(idx);
+        if (cell) cell.classList.add('done');
+
+        if (memUserSelection.length === memPattern.length) {
+          memCanClick = false;
+          memLevel++;
+          localStorage.setItem('ekranbagi_mem_best', String(memLevel));
+          updateBrainRecordBadge();
+          document.getElementById('memStatus').textContent = `🎉 Harika Hafıza! Seviye ${memLevel}'e geçiliyor...`;
+          setTimeout(() => openMemoryGame(), 1200);
+        }
+      } else {
+        memCanClick = false;
+        if (cell) cell.classList.add('wrong');
+        memPattern.forEach(pIdx => {
+          const pEl = document.getElementById('mc-' + pIdx);
+          if (pEl) pEl.classList.add('lit');
+        });
+        document.getElementById('memStatus').innerHTML = `❌ Yanlış kutu! <span style="text-decoration: underline; cursor: pointer;" onclick="openMemoryGame()">Tekrar Dene</span>`;
+      }
+    }
+
     // Dijital Orman (Fokus & Ağaç Yetiştirme) Sistemi
     let forestInterval = null;
     let leftAppDuringForest = false;
@@ -960,7 +1225,7 @@
         container.innerHTML = `<div style="grid-column: span 4; text-align: center; color: var(--muted); padding: 20px;">Henüz hiç ağacın yok. Fidan ekerek ormanını büyütmeye başla!</div>`;
       } else {
         let html = '';
-        list.slice().reverse().forEach((item, idx) => {
+        list.slice().reverse().forEach(item => {
           html += `
             <div class="forest-tree-item">
               <div class="forest-tree-emoji">${item.emoji || '🌲'}</div>
@@ -1008,7 +1273,6 @@
       localStorage.removeItem('ekranbagi_active_forest');
       if (forestInterval) clearInterval(forestInterval);
 
-      // Ağaç ekle
       const list = getForestCollection();
       let emoji = '🌲';
       if (ch.minutes >= 60) emoji = '🌳';
@@ -1055,7 +1319,6 @@
           return;
         }
 
-        // Ağaç aşaması güncelle
         const totalDuration = ch.minutes * 60000;
         const elapsed = totalDuration - remaining;
         const pct = elapsed / totalDuration;
@@ -1219,6 +1482,14 @@
 
       const promptEl = document.getElementById('reasonPrompt');
       if (promptEl) promptEl.textContent = `✓ "${reasonName}" kaydedildi`;
+
+      // Can Sıkıntısı veya Alışkanlık seçildiyse zihin oyununa yönlendir
+      if (reasonName === 'Can Sıkıntısı' || reasonName === 'Alışkanlık') {
+        const hintEl = document.getElementById('brainHintText');
+        if (hintEl) {
+          hintEl.innerHTML = `<span style="color: #ddd6fe; font-weight: 600;">💡 "${reasonName}" için buradasın!</span> Sosyal medyaya dalmak yerine hemen aşağıdan 15 saniyelik bir zihin oyunu oyna:`;
+        }
+      }
 
       renderUI(localData, null);
       await syncToSupabase(localData);
@@ -1594,6 +1865,7 @@
         navigator.serviceWorker.register('sw.js').catch(() => {});
       }
       updateNicknameDisplay();
+      updateBrainRecordBadge();
       const initialData = getTodayData();
       renderUI(initialData, initialData.last_opened);
       renderCalendar();
