@@ -36,7 +36,33 @@
       user-select: none;
     }
     .container { width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 16px; }
-    header { display: flex; justify-content: space-between; align-items: center; padding-top: 8px; flex-wrap: wrap; gap: 8px; }
+
+    /* Haftalık Şampiyon Bandı */
+    .champion-banner {
+      background: linear-gradient(90deg, rgba(251, 191, 36, 0.18), rgba(16, 185, 129, 0.16));
+      border: 1px solid rgba(251, 191, 36, 0.45);
+      border-radius: 14px;
+      padding: 9px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: #fef3c7;
+    }
+    .champion-name {
+      font-weight: 800;
+      color: var(--gold);
+    }
+    .champion-badge {
+      background: rgba(251, 191, 36, 0.22);
+      color: var(--gold);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 99px;
+    }
+
+    header { display: flex; justify-content: space-between; align-items: center; padding-top: 4px; flex-wrap: wrap; gap: 8px; }
     .brand-wrap { display: flex; flex-direction: column; }
     header h1 { font-size: 1.2rem; font-weight: 700; color: var(--text); }
     .nick-tag {
@@ -53,7 +79,7 @@
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.1);
       color: var(--text);
-      padding: 6px 9px;
+      padding: 6px 10px;
       border-radius: 10px;
       font-size: 0.8rem;
       cursor: pointer;
@@ -103,28 +129,17 @@
       font-size: 1.3rem;
       cursor: pointer;
     }
-    .goal-group {
-      background: rgba(15, 23, 42, 0.5);
-      border-radius: 14px;
-      padding: 12px;
-      margin-bottom: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-    .goal-group-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-    .goal-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .input-wrap { display: flex; flex-direction: column; gap: 4px; }
-    .input-wrap label { font-size: 0.72rem; color: var(--muted); }
-    .input-wrap input, .nick-input {
-      background: var(--card);
+    .nick-input {
+      background: var(--bg);
       border: 1px solid rgba(255, 255, 255, 0.15);
       color: var(--text);
-      padding: 9px 12px;
+      padding: 10px 12px;
       border-radius: 10px;
       font-size: 0.92rem;
       width: 100%;
       outline: none;
     }
-    .input-wrap input:focus, .nick-input:focus { border-color: var(--accent); }
+    .nick-input:focus { border-color: var(--accent); }
     .modal-actions { display: flex; gap: 8px; margin-top: 14px; }
     .btn-save {
       flex: 2;
@@ -135,16 +150,6 @@
       border-radius: 12px;
       font-weight: 700;
       font-size: 0.9rem;
-      cursor: pointer;
-    }
-    .btn-reset {
-      flex: 1;
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--muted);
-      border: none;
-      padding: 11px;
-      border-radius: 12px;
-      font-size: 0.85rem;
       cursor: pointer;
     }
 
@@ -193,19 +198,19 @@
       border-radius: 12px;
     }
     .rank-item.me {
-      background: rgba(56, 189, 248, 0.14);
-      border-color: rgba(56, 189, 248, 0.45);
+      background: rgba(16, 185, 129, 0.14);
+      border-color: rgba(16, 185, 129, 0.45);
     }
     .rank-left { display: flex; align-items: center; gap: 10px; }
     .rank-pos {
-      width: 26px;
-      height: 26px;
+      width: 28px;
+      height: 28px;
       border-radius: 8px;
       background: rgba(255, 255, 255, 0.08);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.82rem;
+      font-size: 0.85rem;
       font-weight: 800;
     }
     .rank-pos.top1 { background: rgba(251, 191, 36, 0.25); color: var(--gold); }
@@ -214,8 +219,8 @@
     .rank-name { font-size: 0.9rem; font-weight: 700; color: var(--text); }
     .rank-sub { font-size: 0.72rem; color: var(--muted); }
     .rank-right { text-align: right; }
-    .rank-views { font-size: 0.9rem; font-weight: 700; color: var(--accent); }
-    .rank-mins { font-size: 0.75rem; color: var(--muted); }
+    .rank-trees { font-size: 0.95rem; font-weight: 800; color: #a7f3d0; }
+    .rank-mins { font-size: 0.74rem; color: var(--muted); }
 
     .day-stat-grid {
       display: grid;
@@ -232,17 +237,6 @@
     }
     .day-stat-label { font-size: 0.75rem; color: var(--muted); margin-bottom: 4px; }
     .day-stat-val { font-size: 1.1rem; font-weight: 700; color: var(--accent); }
-    .reason-dist-title { font-size: 0.85rem; font-weight: 600; color: var(--text); margin: 12px 0 8px 0; }
-    .reason-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(255, 255, 255, 0.03);
-      padding: 8px 12px;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      margin-bottom: 6px;
-    }
 
     /* Zihin Egzersizi Kartı */
     .brain-card {
@@ -283,12 +277,21 @@
       gap: 3px;
     }
     .br-btn:active { background: rgba(139, 92, 246, 0.3); }
+    .br-score-pill {
+      margin-top: 2px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #c4b5fd;
+      background: rgba(139, 92, 246, 0.22);
+      padding: 2px 7px;
+      border-radius: 99px;
+    }
 
-    /* Oyun Izgaraları */
     .game-grid-3x3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 14px 0; }
     .game-grid-4x4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 14px 0; }
     .game-grid-5x5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin: 14px 0; }
-    
+    .game-grid-6x6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; margin: 14px 0; }
+
     .game-cell {
       aspect-ratio: 1;
       background: rgba(15, 23, 42, 0.75);
@@ -303,7 +306,7 @@
       cursor: pointer;
       transition: all 0.15s ease;
     }
-    .game-cell.small-txt { font-size: 1rem; }
+    .game-cell.small-txt { font-size: 1rem; border-radius: 9px; }
     .game-cell:active { transform: scale(0.94); }
     .game-cell.done {
       background: rgba(34, 197, 94, 0.2);
@@ -326,10 +329,20 @@
       color: var(--accent);
       min-height: 22px;
     }
+    .game-score-box {
+      margin-top: 10px;
+      background: rgba(139, 92, 246, 0.14);
+      border: 1px solid rgba(139, 92, 246, 0.35);
+      border-radius: 12px;
+      padding: 9px 12px;
+      text-align: center;
+      font-size: 0.82rem;
+      color: #ede9fe;
+    }
 
     /* Dijital Orman Kartı */
     .forest-card {
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.14), rgba(56, 189, 248, 0.08));
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(56, 189, 248, 0.08));
       border: 1px solid rgba(16, 185, 129, 0.35);
       border-radius: 18px;
       padding: 16px;
@@ -356,13 +369,25 @@
       background: rgba(255, 255, 255, 0.07);
       border: 1px solid rgba(16, 185, 129, 0.35);
       color: var(--text);
-      padding: 9px 6px;
-      border-radius: 10px;
-      font-size: 0.82rem;
-      font-weight: 600;
+      padding: 10px 6px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 700;
       cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
     }
     .fo-btn:active { background: rgba(16, 185, 129, 0.3); }
+    .fo-reward-tag {
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: #a7f3d0;
+      background: rgba(16, 185, 129, 0.2);
+      padding: 2px 7px;
+      border-radius: 99px;
+    }
     .fo-active-box {
       text-align: center;
       padding: 4px 0 2px 0;
@@ -436,38 +461,35 @@
     .hero-label { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
     .hero-count { font-size: 4rem; font-weight: 800; line-height: 1.1; margin: 8px 0; color: var(--accent); }
     .hero-sub { font-size: 0.85rem; color: var(--muted); margin-bottom: 12px; }
-    
+
+    .stats-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
     .time-spent-box {
       background: rgba(56, 189, 248, 0.1);
       border: 1px solid rgba(56, 189, 248, 0.2);
       border-radius: 14px;
       padding: 10px;
-      font-size: 0.95rem;
+      font-size: 0.88rem;
       font-weight: 600;
       color: var(--accent);
-      margin-top: 10px;
     }
-
-    .badge-card {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 16px;
-      padding: 14px 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-top: 10px;
-      text-align: left;
-      transition: all 0.3s ease;
+    .today-tree-box {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.28);
+      border-radius: 14px;
+      padding: 10px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #a7f3d0;
     }
-    .badge-icon { font-size: 2rem; }
-    .badge-info { flex: 1; }
-    .badge-title { font-size: 0.9rem; font-weight: 700; color: var(--text); }
-    .badge-desc { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
 
     .comparison-badge {
       display: inline-block;
-      margin-top: 10px;
+      margin-top: 12px;
       padding: 5px 12px;
       border-radius: 99px;
       font-size: 0.8rem;
@@ -553,20 +575,24 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       position: relative;
       border: 1px solid transparent;
       cursor: pointer;
     }
     .cal-day.empty { background: transparent; cursor: default; }
     .cal-day.today { border-color: var(--accent); font-weight: 700; }
-    
-    .cal-day.gold { background: rgba(251, 191, 36, 0.15); border-color: rgba(251, 191, 36, 0.4); }
-    .cal-day.silver { background: rgba(203, 213, 225, 0.15); border-color: rgba(203, 213, 225, 0.4); }
-    .cal-day.bronze { background: rgba(217, 119, 6, 0.15); border-color: rgba(217, 119, 6, 0.4); }
-    .cal-day.exceeded { background: rgba(239, 68, 68, 0.12); border-color: rgba(239, 68, 68, 0.3); }
-
-    .cal-badge { font-size: 0.8rem; line-height: 1; margin-top: 2px; }
+    .cal-day.has-trees {
+      background: rgba(16, 185, 129, 0.14);
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+    .cal-tree-pill {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #a7f3d0;
+      line-height: 1.1;
+      margin-top: 2px;
+    }
 
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .stat-card {
@@ -631,6 +657,12 @@
 </head>
 <body>
   <div class="container">
+    <!-- Haftanın Şampiyonu Bandı -->
+    <div class="champion-banner" id="weeklyChampionBanner">
+      <div>🏆 Haftanın Şampiyonu: <span class="champion-name" id="championName">Henüz belirlenmedi</span></div>
+      <span class="champion-badge" id="championTrees">0 ağaç</span>
+    </div>
+
     <header>
       <div class="brand-wrap">
         <h1>Ekran Bağı</h1>
@@ -639,9 +671,8 @@
         </div>
       </div>
       <div class="header-actions">
-        <button class="action-btn" onclick="openLeaderboardModal()">🏆 Sıralama</button>
+        <button class="action-btn" onclick="openLeaderboardModal()">🌲 Sıralama</button>
         <button class="action-btn" onclick="openReportModal()">📊 Rapor</button>
-        <button class="action-btn" onclick="openGoalsModal()">⚙️</button>
         <span id="syncStatus" class="status-dot" title="Senkronize"></span>
       </div>
     </header>
@@ -650,20 +681,45 @@
       <div class="hero-label">Bugünkü Bakış Sayın</div>
       <div class="hero-count" id="todayCount">0</div>
       <div class="hero-sub" id="lastElapsed">Az önce açıldı</div>
-      
-      <div class="time-spent-box" id="timeSpentBox">
-        ⏱️ Bugünkü Toplam Süre: 0 dk
-      </div>
 
-      <div class="badge-card" id="badgeCard">
-        <div class="badge-icon" id="badgeIcon">🏆</div>
-        <div class="badge-info">
-          <div class="badge-title" id="badgeTitle">Rozet Durumu</div>
-          <div class="badge-desc" id="badgeDesc">Veriler hesaplanıyor...</div>
-        </div>
+      <div class="stats-strip">
+        <div class="time-spent-box" id="timeSpentBox">⏱️ Süre: 0 dk</div>
+        <div class="today-tree-box" id="todayTreesBox">🌳 Bugün: 0 ağaç</div>
       </div>
 
       <div class="comparison-badge" id="compareBadge">Dün toplam: 0 kez</div>
+    </div>
+
+    <!-- Dijital Orman Kartı -->
+    <div class="forest-card">
+      <div class="forest-header">
+        <div class="forest-title">🌲 Dijital Orman (Fokus)</div>
+        <div class="forest-score" onclick="openForestModal()" id="forestBadgeBtn">🌳 0 Ağaç</div>
+      </div>
+      <div id="forestIdleArea">
+        <div class="forest-desc">Süre uzadıkça ağaç kazancın katlanır. Süre boyunca ekranı kapalı tut; erken açarsan fidan kurur.</div>
+        <div class="forest-btns">
+          <button class="fo-btn" onclick="startForest(15)">
+            <span>15 Dakika</span>
+            <span class="fo-reward-tag">🪴 +1 Ağaç</span>
+          </button>
+          <button class="fo-btn" onclick="startForest(30)">
+            <span>30 Dakika</span>
+            <span class="fo-reward-tag">🎄 +3 Ağaç</span>
+          </button>
+          <button class="fo-btn" onclick="startForest(60)">
+            <span>1 Saat</span>
+            <span class="fo-reward-tag">🌳 +8 Ağaç</span>
+          </button>
+        </div>
+      </div>
+      <div id="forestActiveArea" class="fo-active-box" style="display: none;">
+        <div class="fo-tree-icon" id="forestTreeIcon">🌱</div>
+        <div class="fo-timer" id="forestTimer">15:00</div>
+        <div style="font-size: 0.75rem; color: #a7f3d0;" id="forestStatusText">Arka planda fidan büyüyor...</div>
+        <button class="fo-cancel" onclick="cancelForest()">Vazgeç / Fidanı Sök</button>
+      </div>
+      <div id="forestMsg" class="fo-status-msg" style="display: none;"></div>
     </div>
 
     <!-- Mini Günlük / Neden Seçimi -->
@@ -702,40 +758,17 @@
         <button class="br-btn" onclick="openSchulteGame()">
           <span style="font-size: 1.2rem;">🔢</span>
           <span>Sayı Sıralama (1-25)</span>
-          <span style="font-size: 0.7rem; color: var(--muted);">Zorlaşan Tablo</span>
+          <span class="br-score-pill" id="schulteBestPill">⏱️ En İyi: --</span>
         </button>
         <button class="br-btn" onclick="openMemoryGame()">
           <span style="font-size: 1.2rem;">🧩</span>
-          <span>Hafıza Matrisi (10 Sv.)</span>
-          <span style="font-size: 0.7rem; color: var(--muted);">Görsel Bellek</span>
+          <span>Hafıza Matrisi (∞)</span>
+          <span class="br-score-pill" id="memoryBestPill">🏅 Rekor: Sv. 1</span>
         </button>
       </div>
     </div>
 
-    <!-- Dijital Orman Kartı -->
-    <div class="forest-card">
-      <div class="forest-header">
-        <div class="forest-title">🌲 Dijital Orman (Fokus)</div>
-        <div class="forest-score" onclick="openForestModal()" id="forestBadgeBtn">🌳 0 Ağaç</div>
-      </div>
-      <div id="forestIdleArea">
-        <div class="forest-desc">Fidanını e, telefonunu kilitle veya kapat! Süre boyunca arkada büyür; uygulamayı erken açarsan fidan kurur.</div>
-        <div class="forest-btns">
-          <button class="fo-btn" onclick="startForest(15)">15 Dakika</button>
-          <button class="fo-btn" onclick="startForest(30)">30 Dakika</button>
-          <button class="fo-btn" onclick="startForest(60)">1 Saat</button>
-        </div>
-      </div>
-      <div id="forestActiveArea" class="fo-active-box" style="display: none;">
-        <div class="fo-tree-icon" id="forestTreeIcon">🌱</div>
-        <div class="fo-timer" id="forestTimer">15:00</div>
-        <div style="font-size: 0.75rem; color: #a7f3d0;" id="forestStatusText">Arka planda fidan büyüyor...</div>
-        <button class="fo-cancel" onclick="cancelForest()">Vazgeç / Fidanı Sök</button>
-      </div>
-      <div id="forestMsg" class="fo-status-msg" style="display: none;"></div>
-    </div>
-
-    <!-- Başarı Takvimi -->
+    <!-- Günlük Ağaç Takvimi -->
     <div class="calendar-card">
       <div class="cal-header">
         <button class="cal-nav" onclick="changeMonth(-1)">‹</button>
@@ -813,24 +846,24 @@
         <button class="close-btn" onclick="closeNicknameModal()">×</button>
       </div>
       <p style="font-size: 0.82rem; color: var(--muted); margin-bottom: 12px; line-height: 1.4;">
-        Başarı sıralamasında görünecek takma adını yaz (En fazla 18 karakter).
+        Ağaç sıralamasında ve haftalık kupada görünecek takma adını yaz (En fazla 18 karakter).
       </p>
-      <input type="text" id="inNickname" class="nick-input" maxlength="18" placeholder="Örn: DijitalGezgin" />
+      <input type="text" id="inNickname" class="nick-input" maxlength="18" placeholder="Örn: OrmanMuhafızı" />
       <div class="modal-actions">
         <button class="btn-save" onclick="saveNickname()">Kaydet</button>
       </div>
     </div>
   </div>
 
-  <!-- Başarı Sıralaması Modal -->
+  <!-- Ağaç Sıralaması Modal -->
   <div class="modal-overlay" id="leaderboardModal" onclick="if(event.target === this) closeLeaderboardModal()">
     <div class="modal-box">
       <div class="modal-header">
-        <div class="modal-title">🏆 Başarı Sıralaması</div>
+        <div class="modal-title">🌲 Ağaç Dikme Sıralaması</div>
         <button class="close-btn" onclick="closeLeaderboardModal()">×</button>
       </div>
       <p style="font-size: 0.76rem; color: var(--muted); margin-bottom: 10px;">
-        En az bakış ve en düşük ekran süresine sahip kullanıcılar zirvede yer alır!
+        En çok ağaç diken kullanıcılar zirvede yer alır!
       </p>
       <div class="rank-tabs">
         <button class="report-tab active" id="rankDaily" onclick="switchRankTab('daily')">Bugün</button>
@@ -839,41 +872,6 @@
       </div>
       <div id="leaderboardContent">
         <div style="text-align: center; color: var(--muted); padding: 20px;">Yükleniyor...</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Hedef Ayarları Modal -->
-  <div class="modal-overlay" id="goalsModal" onclick="if(event.target === this) closeGoalsModal()">
-    <div class="modal-box">
-      <div class="modal-header">
-        <div class="modal-title">🎯 Günlük Rozet Hedefleri</div>
-        <button class="close-btn" onclick="closeGoalsModal()">×</button>
-      </div>
-      <div class="goal-group">
-        <div class="goal-group-title" style="color: var(--gold);">🏆 Altın Rozet (Maksimum Limit)</div>
-        <div class="goal-inputs">
-          <div class="input-wrap"><label>Bakış Sayısı (≤)</label><input type="number" id="inGoldViews" min="1" max="500" /></div>
-          <div class="input-wrap"><label>Ekran Süresi / dk (≤)</label><input type="number" id="inGoldMins" min="1" max="1440" /></div>
-        </div>
-      </div>
-      <div class="goal-group">
-        <div class="goal-group-title" style="color: var(--silver);">🥈 Gümüş Rozet (Maksimum Limit)</div>
-        <div class="goal-inputs">
-          <div class="input-wrap"><label>Bakış Sayısı (≤)</label><input type="number" id="inSilverViews" min="1" max="500" /></div>
-          <div class="input-wrap"><label>Ekran Süresi / dk (≤)</label><input type="number" id="inSilverMins" min="1" max="1440" /></div>
-        </div>
-      </div>
-      <div class="goal-group">
-        <div class="goal-group-title" style="color: var(--bronze);">🥉 Bronz Rozet (Maksimum Limit)</div>
-        <div class="goal-inputs">
-          <div class="input-wrap"><label>Bakış Sayısı (≤)</label><input type="number" id="inBronzeViews" min="1" max="500" /></div>
-          <div class="input-wrap"><label>Ekran Süresi / dk (≤)</label><input type="number" id="inBronzeMins" min="1" max="1440" /></div>
-        </div>
-      </div>
-      <div class="modal-actions">
-        <button class="btn-reset" onclick="resetGoalsToDefault()">Sıfırla</button>
-        <button class="btn-save" onclick="saveGoals()">Kaydet</button>
       </div>
     </div>
   </div>
@@ -948,6 +946,7 @@
       updateNicknameDisplay();
       closeNicknameModal();
       await syncToSupabase(getTodayData());
+      await refreshWeeklyChampion();
     }
 
     const TIPS = [
@@ -959,48 +958,19 @@
     ];
 
     const MONTHS_TR = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
-    const DEFAULT_GOALS = { goldViews: 30, goldMins: 45, silverViews: 50, silverMins: 90, bronzeViews: 75, bronzeMins: 120 };
 
-    function getGoals() {
-      try {
-        const saved = JSON.parse(localStorage.getItem('ekranbagi_goals'));
-        if (saved && saved.goldViews) return saved;
-      } catch(e) {}
-      return { ...DEFAULT_GOALS };
-    }
+    // Süreye göre ağaç ödül tablosu (15 dk -> 1, 30 dk -> 3, 60 dk -> 8)
+    const FOREST_REWARDS = {
+      15: { trees: 1, emoji: '🪴' },
+      30: { trees: 3, emoji: '🎄' },
+      60: { trees: 8, emoji: '🌳' }
+    };
 
-    function openGoalsModal() {
-      const g = getGoals();
-      document.getElementById('inGoldViews').value = g.goldViews;
-      document.getElementById('inGoldMins').value = g.goldMins;
-      document.getElementById('inSilverViews').value = g.silverViews;
-      document.getElementById('inSilverMins').value = g.silverMins;
-      document.getElementById('inBronzeViews').value = g.bronzeViews;
-      document.getElementById('inBronzeMins').value = g.bronzeMins;
-      document.getElementById('goalsModal').classList.add('open');
-    }
-
-    function closeGoalsModal() { document.getElementById('goalsModal').classList.remove('open'); }
-
-    function saveGoals() {
-      const gViews = Math.max(1, parseInt(document.getElementById('inGoldViews').value) || 30);
-      const gMins = Math.max(1, parseInt(document.getElementById('inGoldMins').value) || 45);
-      const sViews = Math.max(gViews, parseInt(document.getElementById('inSilverViews').value) || 50);
-      const sMins = Math.max(gMins, parseInt(document.getElementById('inSilverMins').value) || 90);
-      const bViews = Math.max(sViews, parseInt(document.getElementById('inBronzeViews').value) || 75);
-      const bMins = Math.max(sMins, parseInt(document.getElementById('inBronzeMins').value) || 120);
-
-      localStorage.setItem('ekranbagi_goals', JSON.stringify({ goldViews: gViews, goldMins: gMins, silverViews: sViews, silverMins: sMins, bronzeViews: bViews, bronzeMins: bMins }));
-      closeGoalsModal();
-      renderUI(getTodayData(), null);
-      renderCalendar();
-    }
-
-    function resetGoalsToDefault() {
-      localStorage.setItem('ekranbagi_goals', JSON.stringify(DEFAULT_GOALS));
-      openGoalsModal();
-      renderUI(getTodayData(), null);
-      renderCalendar();
+    function getForestReward(minutes) {
+      if (FOREST_REWARDS[minutes]) return FOREST_REWARDS[minutes];
+      if (minutes >= 60) return { trees: Math.max(8, Math.round(minutes / 7.5)), emoji: '🌳' };
+      if (minutes >= 30) return { trees: Math.max(3, Math.round(minutes / 10)), emoji: '🎄' };
+      return { trees: 1, emoji: '🪴' };
     }
 
     // --- OYUN KOTASI & ZİHİN EGZERSİZİ SİSTEMİ (Günlük Max 30 Dk) ---
@@ -1009,27 +979,44 @@
 
     function getGameUsageToday() {
       const todayStr = getLocalDateStr(0);
-      const key = 'ekranbagi_game_time_' + todayStr;
-      return parseInt(localStorage.getItem(key) || '0');
+      return parseInt(localStorage.getItem('ekranbagi_game_time_' + todayStr) || '0');
     }
 
     function addGameUsageSeconds(secs) {
       const todayStr = getLocalDateStr(0);
-      const key = 'ekranbagi_game_time_' + todayStr;
-      const currentSecs = parseInt(localStorage.getItem(key + '_secs') || '0') + secs;
-      localStorage.setItem(key + '_secs', currentSecs);
-      
-      const totalMins = Math.floor(currentSecs / 60);
-      localStorage.setItem(key, totalMins);
+      const secsKey = 'ekranbagi_game_time_' + todayStr + '_secs';
+      const currentSecs = parseInt(localStorage.getItem(secsKey) || '0') + secs;
+      localStorage.setItem(secsKey, currentSecs);
+      localStorage.setItem('ekranbagi_game_time_' + todayStr, Math.floor(currentSecs / 60));
       updateGameQuotaBadge();
     }
 
     function updateGameQuotaBadge() {
-      const usedMins = getGameUsageToday();
-      const remainingMins = Math.max(0, MAX_GAME_MINUTES - usedMins);
+      const remainingMins = Math.max(0, MAX_GAME_MINUTES - getGameUsageToday());
       const badge = document.getElementById('gameQuotaBadge');
       if (badge) {
         badge.textContent = remainingMins > 0 ? `⏳ Kalan: ${remainingMins} dk` : `🛑 Kota Doldu`;
+      }
+    }
+
+    function updateGameBestPills() {
+      const best25 = localStorage.getItem('ekranbagi_schulte_25_best');
+      const last25 = localStorage.getItem('ekranbagi_schulte_25_last');
+      const schultePill = document.getElementById('schulteBestPill');
+      if (schultePill) {
+        if (best25) {
+          schultePill.textContent = `⏱️ En İyi 1-25: ${best25}s`;
+        } else if (last25) {
+          schultePill.textContent = `⏱️ Son 1-25: ${last25}s`;
+        } else {
+          schultePill.textContent = `⏱️ 1-25 Rekor: --`;
+        }
+      }
+
+      const memBest = parseInt(localStorage.getItem('ekranbagi_mem_best') || '1');
+      const memoryPill = document.getElementById('memoryBestPill');
+      if (memoryPill) {
+        memoryPill.textContent = `🏅 Rekor: Sv. ${memBest}`;
       }
     }
 
@@ -1040,11 +1027,11 @@
     function startGameTimer() {
       if (gameActiveInterval) clearInterval(gameActiveInterval);
       gameActiveInterval = setInterval(() => {
-        addGameUsageSeconds(5); // Her 5 saniyede bir kullanım ekle
+        addGameUsageSeconds(5);
         if (!checkGameQuota()) {
           clearInterval(gameActiveInterval);
           closeGameModal();
-          alert("Günlük 30 dakikalık zihin egzersizi kotan doldu! Telefonu bırakıp gerçek hayata dönme vakti. 🌿");
+          alert("Günlük 30 dakikalık zihin egzersizi kotan doldu! Şimdi ekranı bırakıp gerçek hayata dönme vakti. 🌿");
         }
       }, 5000);
     }
@@ -1053,30 +1040,33 @@
       if (gameActiveInterval) clearInterval(gameActiveInterval);
       document.getElementById('gameModal').classList.remove('open');
       updateGameQuotaBadge();
+      updateGameBestPills();
     }
 
-    // --- OYUN 1: Sayı Sıralama (Schulte Tablosu - Kademeli 1-9, 1-16, 1-25) ---
+    // --- OYUN 1: Sayı Sıralama (1-9 -> 1-16 -> 1-25 Final + Skor Kaydı) ---
     let schulteTarget = 1;
     let schulteStart = 0;
-    let schulteGridSize = 3; // 3x3 (9) ile başlar
+    let schulteGridSize = 3;
 
     function openSchulteGame() {
       if (!checkGameQuota()) {
-        alert("Bugünkü 30 dakikalık oyun kotan doldu! Yarın tekrar görüşmek üzere.");
+        alert("Bugünkü 30 dakikalık oyun kotan doldu!");
         return;
       }
+      schulteGridSize = 3;
       startGameTimer();
       renderSchulteBoard();
     }
 
     function renderSchulteBoard() {
-      document.getElementById('gameModalTitle').textContent = `🔢 Sayı Sıralama (${schulteGridSize === 3 ? '1-9' : schulteGridSize === 4 ? '1-16' : '1-25'})`;
+      const stageLabel = schulteGridSize === 3 ? 'Aşama 1/3 (1-9)' : schulteGridSize === 4 ? 'Aşama 2/3 (1-16)' : 'Final 3/3 (1-25)';
+      document.getElementById('gameModalTitle').textContent = `🔢 Sayı Sıralama • ${stageLabel}`;
       schulteTarget = 1;
       schulteStart = 0;
 
       const totalCount = schulteGridSize * schulteGridSize;
       const nums = Array.from({ length: totalCount }, (_, i) => i + 1).sort(() => Math.random() - 0.5);
-      
+
       let gridClass = 'game-grid-3x3';
       if (schulteGridSize === 4) gridClass = 'game-grid-4x4';
       if (schulteGridSize === 5) gridClass = 'game-grid-5x5';
@@ -1086,14 +1076,21 @@
         cellsHtml += `<div class="game-cell ${schulteGridSize === 5 ? 'small-txt' : ''}" id="sc-${n}" onclick="handleSchulteTap(${n}, ${totalCount})">${n}</div>`;
       });
 
+      const best25 = localStorage.getItem('ekranbagi_schulte_25_best');
+      const last25 = localStorage.getItem('ekranbagi_schulte_25_last');
+      const scoreFooter = (best25 || last25)
+        ? `🏆 Final (1-25) En İyi Süre: <b>${best25 || last25}s</b>` + (last25 ? ` • Son Skor: <b>${last25}s</b>` : '')
+        : `🏁 1-25 final aşamasını tamamladığında süre skorun buraya kaydedilir.`;
+
       document.getElementById('gameModalBody').innerHTML = `
         <p style="font-size: 0.8rem; color: var(--muted); text-align: center;">
-          1'den başlayarak ${totalCount}'e kadar sırayla dokun! (Boyut: ${schulteGridSize}x${schulteGridSize})
+          1'den başlayarak ${totalCount}'e kadar sırayla dokun! (${schulteGridSize}x${schulteGridSize})
         </p>
         <div class="${gridClass}">${cellsHtml}</div>
         <div class="game-status" id="schulteStatus">Sıradaki Sayı: 1</div>
+        <div class="game-score-box" id="schulteScoreBox">${scoreFooter}</div>
         <div class="modal-actions">
-          <button class="btn-save" onclick="openSchulteGame()">Yeniden Karıştır</button>
+          <button class="btn-save" onclick="openSchulteGame()">Baştan Başla (1-9)</button>
         </div>
       `;
       document.getElementById('gameModal').classList.add('open');
@@ -1108,22 +1105,39 @@
 
       if (num === totalCount) {
         const elapsed = ((performance.now() - schulteStart) / 1000).toFixed(2);
-        document.getElementById('schulteStatus').textContent = `🎉 Tebrikler! Süren: ${elapsed}s`;
-        
-        // Boyutu kademeli zorlaştır
-        setTimeout(() => {
-          if (schulteGridSize === 3) schulteGridSize = 4;
-          else if (schulteGridSize === 4) schulteGridSize = 5;
-          else schulteGridSize = 3; // Döngü
-          renderSchulteBoard();
-        }, 1500);
+        if (schulteGridSize === 3) {
+          document.getElementById('schulteStatus').textContent = `✅ 1-9 Tamamlandı (${elapsed}s)! 1-16'ya geçiliyor...`;
+          setTimeout(() => { schulteGridSize = 4; renderSchulteBoard(); }, 1100);
+        } else if (schulteGridSize === 4) {
+          document.getElementById('schulteStatus').textContent = `✅ 1-16 Tamamlandı (${elapsed}s)! Final 1-25'e geçiliyor...`;
+          setTimeout(() => { schulteGridSize = 5; renderSchulteBoard(); }, 1100);
+        } else {
+          localStorage.setItem('ekranbagi_schulte_25_last', elapsed);
+          const prevBest = parseFloat(localStorage.getItem('ekranbagi_schulte_25_best') || '9999');
+          let isNewRecord = false;
+          if (parseFloat(elapsed) < prevBest) {
+            localStorage.setItem('ekranbagi_schulte_25_best', elapsed);
+            isNewRecord = true;
+          }
+          const bestNow = localStorage.getItem('ekranbagi_schulte_25_best');
+          updateGameBestPills();
+
+          document.getElementById('schulteStatus').textContent = isNewRecord
+            ? `🏆 Yeni Rekor! Son Seviye (1-25) Süren: ${elapsed}s`
+            : `🎉 Son Seviye (1-25) Bitti! Süre Skorun: ${elapsed}s`;
+
+          const scoreBox = document.getElementById('schulteScoreBox');
+          if (scoreBox) {
+            scoreBox.innerHTML = `⏱️ Son Seviye (1-25) Skorun: <b>${elapsed}s</b> • 🏆 En İyi Rekor: <b>${bestNow}s</b>`;
+          }
+        }
       } else {
         schulteTarget++;
         document.getElementById('schulteStatus').textContent = `Sıradaki Sayı: ${schulteTarget}`;
       }
     }
 
-    // --- OYUN 2: Hafıza Matrisi (10 Seviye Sınırı) ---
+    // --- OYUN 2: Hafıza Matrisi (Sınırsız Seviye) ---
     let memLevel = parseInt(localStorage.getItem('ekranbagi_mem_best') || '1');
     let memPattern = [];
     let memUserSelection = [];
@@ -1131,7 +1145,7 @@
 
     function openMemoryGame() {
       if (!checkGameQuota()) {
-        alert("Bugünkü 30 dakikalık oyun kotan doldu! Yarın tekrar görüşmek üzere.");
+        alert("Bugünkü 30 dakikalık oyun kotan doldu!");
         return;
       }
       startGameTimer();
@@ -1139,27 +1153,32 @@
     }
 
     function renderMemoryBoard() {
-      if (memLevel > 10) memLevel = 10; // Max 10 Seviye Sınırı
-      document.getElementById('gameModalTitle').textContent = `🧩 Hafıza Matrisi (Seviye ${memLevel}/10)`;
+      document.getElementById('gameModalTitle').textContent = `🧩 Hafıza Matrisi • Seviye ${memLevel}`;
       memUserSelection = [];
       memCanClick = false;
 
-      // Seviye ilerledikçe yanan kare sayısı artar (3'ten 10'a kadar)
-      const targetCount = Math.min(10, 2 + memLevel);
-      const allIndices = Array.from({ length: 16 }, (_, i) => i);
+      const gridDim = memLevel <= 6 ? 4 : memLevel <= 13 ? 5 : 6;
+      const totalCells = gridDim * gridDim;
+      const targetCount = Math.min(Math.floor(totalCells * 0.65), 2 + memLevel);
+      const showDuration = Math.max(950, 1650 - (memLevel * 35));
+
+      const allIndices = Array.from({ length: totalCells }, (_, i) => i);
       memPattern = allIndices.sort(() => Math.random() - 0.5).slice(0, targetCount);
 
+      const gridClass = gridDim === 4 ? 'game-grid-4x4' : gridDim === 5 ? 'game-grid-5x5' : 'game-grid-6x6';
       let cellsHtml = '';
-      for (let i = 0; i < 16; i++) {
+      for (let i = 0; i < totalCells; i++) {
         cellsHtml += `<div class="game-cell" id="mc-${i}" onclick="handleMemoryTap(${i}, ${targetCount})"></div>`;
       }
 
+      const bestLvl = parseInt(localStorage.getItem('ekranbagi_mem_best') || '1');
       document.getElementById('gameModalBody').innerHTML = `
         <p style="font-size: 0.8rem; color: var(--muted); text-align: center;">
-          Parlayan <b>${targetCount}</b> karenin yerini aklında tut ve işaretle!
+          ${gridDim}x${gridDim} tabloda parlayan <b>${targetCount}</b> kareyi aklında tut ve işaretle!
         </p>
-        <div class="game-grid-4x4">${cellsHtml}</div>
+        <div class="${gridClass}">${cellsHtml}</div>
         <div class="game-status" id="memStatus">Karelere dikkatli bak...</div>
+        <div class="game-score-box">🏅 Ulaşılan En Yüksek Seviye: <b>Seviye ${bestLvl}</b> (Sınırsız Mod)</div>
       `;
       document.getElementById('gameModal').classList.add('open');
 
@@ -1178,13 +1197,11 @@
         memCanClick = true;
         const st = document.getElementById('memStatus');
         if (st) st.textContent = 'Şimdi yanan kareleri seç!';
-      }, 1500);
+      }, 300 + showDuration);
     }
 
     function handleMemoryTap(idx, targetCount) {
-      if (!memCanClick) return;
-      if (memUserSelection.includes(idx)) return;
-
+      if (!memCanClick || memUserSelection.includes(idx)) return;
       const cell = document.getElementById('mc-' + idx);
       if (memPattern.includes(idx)) {
         memUserSelection.push(idx);
@@ -1192,14 +1209,14 @@
 
         if (memUserSelection.length === targetCount) {
           memCanClick = false;
-          if (memLevel < 10) {
-            memLevel++;
+          memLevel++;
+          const prevBest = parseInt(localStorage.getItem('ekranbagi_mem_best') || '1');
+          if (memLevel > prevBest) {
             localStorage.setItem('ekranbagi_mem_best', String(memLevel));
-            document.getElementById('memStatus').textContent = `🎉 Harika! Seviye ${memLevel}'e geçiliyor...`;
-            setTimeout(() => renderMemoryBoard(), 1200);
-          } else {
-            document.getElementById('memStatus').textContent = `🏆 Tebrikler! Zihin Üstadı unvanını kazandın!`;
           }
+          updateGameBestPills();
+          document.getElementById('memStatus').textContent = `🎉 Harika! Seviye ${memLevel}'e geçiliyor...`;
+          setTimeout(() => renderMemoryBoard(), 1100);
         }
       } else {
         memCanClick = false;
@@ -1208,11 +1225,11 @@
           const pEl = document.getElementById('mc-' + pIdx);
           if (pEl) pEl.classList.add('lit');
         });
-        document.getElementById('memStatus').innerHTML = `❌ Yanlış kutu! <span style="text-decoration: underline; cursor: pointer;" onclick="renderMemoryBoard()">Tekrar Dene</span>`;
+        document.getElementById('memStatus').innerHTML = `❌ Yanlış kutu! <span style="text-decoration: underline; cursor: pointer;" onclick="renderMemoryBoard()">Bu Seviyeyi Tekrar Dene</span>`;
       }
     }
 
-    // --- DİJİTAL ORMAN SİSTEMİ ---
+    // --- DİJİTAL ORMAN & SÜREYE GÖRE AĞAÇ ÖDÜLÜ ---
     let forestInterval = null;
 
     function getForestCollection() {
@@ -1258,7 +1275,8 @@
     function startForest(minutes) {
       const startTime = Date.now();
       const endTime = startTime + minutes * 60000;
-      localStorage.setItem('ekranbagi_active_forest', JSON.stringify({ startTime, endTime, minutes }));
+      const reward = getForestReward(minutes);
+      localStorage.setItem('ekranbagi_active_forest', JSON.stringify({ startTime, endTime, minutes, rewardTrees: reward.trees, emoji: reward.emoji }));
       document.getElementById('forestMsg').style.display = 'none';
       renderForestUI();
     }
@@ -1279,18 +1297,31 @@
       renderForestUI();
     }
 
-    function completeForest(minutes) {
+    async function completeForest(minutes, customRewardTrees = null, customEmoji = null) {
       localStorage.removeItem('ekranbagi_active_forest');
       if (forestInterval) clearInterval(forestInterval);
 
+      const reward = getForestReward(minutes);
+      const earnedTrees = typeof customRewardTrees === 'number' ? customRewardTrees : reward.trees;
+      const emoji = customEmoji || reward.emoji;
+
       const list = getForestCollection();
-      let emoji = minutes >= 60 ? '🌳' : minutes >= 30 ? '🎄' : '🪴';
-      list.push({ mins: minutes, emoji, date: new Date().toISOString() });
+      const dateStr = getLocalDateStr(0);
+      for (let i = 0; i < earnedTrees; i++) {
+        list.push({ mins: minutes, emoji, date: new Date().toISOString(), day: dateStr });
+      }
       saveForestCollection(list);
+
+      const todayData = updateActiveTime();
+      todayData.tree_count = (todayData.tree_count || 0) + earnedTrees;
+      localStorage.setItem('ekranbagi_data_' + dateStr, JSON.stringify(todayData));
+      renderUI(todayData, null);
+      await syncToSupabase(todayData);
+      await refreshWeeklyChampion();
 
       const msgEl = document.getElementById('forestMsg');
       msgEl.className = 'fo-status-msg win';
-      msgEl.textContent = `🎉 Tebrikler! ${minutes} dakikalık odaklanma ile ${emoji} ağacın ormana eklendi!`;
+      msgEl.textContent = `🎉 Harika odaklanma! ${minutes} dk sonunda +${earnedTrees} ${emoji} ağaç dikildi (Bugün: ${todayData.tree_count} ağaç)!`;
       msgEl.style.display = 'block';
       renderForestUI();
     }
@@ -1300,7 +1331,7 @@
       if (!raw) return;
       const ch = JSON.parse(raw);
       if (Date.now() >= ch.endTime) {
-        completeForest(ch.minutes);
+        completeForest(ch.minutes, ch.rewardTrees, ch.emoji);
       } else {
         failForest('🥀 Süre henüz dolmadan uygulamayı açtığın için fidanın kurudu!');
       }
@@ -1319,9 +1350,8 @@
       }
 
       const ch = JSON.parse(raw);
-      const now = Date.now();
-      if (now >= ch.endTime) {
-        completeForest(ch.minutes);
+      if (Date.now() >= ch.endTime) {
+        completeForest(ch.minutes, ch.rewardTrees, ch.emoji);
         return;
       }
 
@@ -1332,13 +1362,11 @@
       const updateTimer = () => {
         const remaining = ch.endTime - Date.now();
         if (remaining <= 0) {
-          completeForest(ch.minutes);
+          completeForest(ch.minutes, ch.rewardTrees, ch.emoji);
           return;
         }
-
         const totalDuration = ch.minutes * 60000;
-        const elapsed = totalDuration - remaining;
-        const pct = elapsed / totalDuration;
+        const pct = (totalDuration - remaining) / totalDuration;
         const treeIcon = document.getElementById('forestTreeIcon');
         if (pct < 0.25) treeIcon.textContent = '🌱';
         else if (pct < 0.6) treeIcon.textContent = '🌿';
@@ -1354,6 +1382,91 @@
       forestInterval = setInterval(updateTimer, 1000);
     }
 
+    // --- HAFTALIK KUPA & ŞAMPİYON SİSTEMİ (1 Hafta Üstte Görünür) ---
+    function getCurrentWeekKey() {
+      const now = new Date();
+      const day = now.getDay();
+      const diffToMonday = (day === 0 ? 6 : day - 1);
+      const monday = new Date(now);
+      monday.setDate(now.getDate() - diffToMonday);
+      return `${monday.getFullYear()}-${String(monday.getMonth() + 1).padStart(2, '0')}-${String(monday.getDate()).padStart(2, '0')}`;
+    }
+
+    function setChampionBanner(name, trees) {
+      const nameEl = document.getElementById('championName');
+      const treesEl = document.getElementById('championTrees');
+      if (trees > 0 && name) {
+        nameEl.textContent = name;
+        treesEl.textContent = `🏆 ${trees} ağaç`;
+      } else {
+        nameEl.textContent = 'Henüz belirlenmedi';
+        treesEl.textContent = '0 ağaç';
+      }
+    }
+
+    async function refreshWeeklyChampion() {
+      const weekKey = getCurrentWeekKey();
+      const cacheKey = 'ekranbagi_weekly_champ_' + weekKey;
+
+      let candidateMap = {};
+
+      let localWeekTrees = 0;
+      for (let i = 0; i < 7; i++) {
+        const dStr = getLocalDateStr(-i);
+        try {
+          const r = JSON.parse(localStorage.getItem('ekranbagi_data_' + dStr));
+          if (r && r.tree_count) localWeekTrees += r.tree_count;
+        } catch(e) {}
+      }
+      candidateMap[deviceId] = {
+        nickname: getNickname(),
+        trees: localWeekTrees
+      };
+
+      if (supabaseClient) {
+        try {
+          const { data } = await supabaseClient
+            .from('daily_checks')
+            .select('device_id, nickname, tree_count')
+            .gte('check_date', getLocalDateStr(-6));
+
+          if (data && data.length > 0) {
+            const remoteMap = {};
+            data.forEach(row => {
+              const id = row.device_id;
+              if (!remoteMap[id]) {
+                remoteMap[id] = {
+                  nickname: row.nickname || ('Kullanıcı_' + id.slice(-4).toUpperCase()),
+                  trees: 0
+                };
+              }
+              if (row.nickname) remoteMap[id].nickname = row.nickname;
+              remoteMap[id].trees += (row.tree_count || 0);
+            });
+            candidateMap = { ...candidateMap, ...remoteMap };
+          }
+        } catch(e) {}
+      }
+
+      const sorted = Object.values(candidateMap).sort((a, b) => b.trees - a.trees);
+      const top = sorted[0];
+
+      if (top && top.trees > 0) {
+        localStorage.setItem(cacheKey, JSON.stringify({ name: top.nickname, trees: top.trees }));
+        setChampionBanner(top.nickname, top.trees);
+      } else {
+        try {
+          const cached = JSON.parse(localStorage.getItem(cacheKey));
+          if (cached && cached.trees > 0) {
+            setChampionBanner(cached.name, cached.trees);
+            return;
+          }
+        } catch(e) {}
+        setChampionBanner(null, 0);
+      }
+    }
+
+    // --- TAKVİM, VERİ VE SENKRONİZASYON ---
     let currentCalDate = new Date();
     let monthlyHistoryCache = {};
 
@@ -1388,6 +1501,7 @@
       if (!data) {
         data = {
           view_count: 0,
+          tree_count: 0,
           hourly_counts: new Array(24).fill(0),
           reasons: { 'Can Sıkıntısı': 0, 'Alışkanlık': 0, 'İş / Bilgi': 0, 'Sosyal / Mesaj': 0 },
           total_minutes: 0,
@@ -1395,21 +1509,15 @@
         };
       }
       if (!data.reasons) data.reasons = { 'Can Sıkıntısı': 0, 'Alışkanlık': 0, 'İş / Bilgi': 0, 'Sosyal / Mesaj': 0 };
+      if (typeof data.tree_count !== 'number') data.tree_count = 0;
       return data;
-    }
-
-    function calculateBadge(views, minutes) {
-      const g = getGoals();
-      if (views <= g.goldViews && minutes <= g.goldMins) return { type: 'gold', icon: '🏆', title: 'Altın Rozet', desc: `≤${g.goldViews} bakış / ${g.goldMins} dk` };
-      else if (views <= g.silverViews && minutes <= g.silverMins) return { type: 'silver', icon: '🥈', title: 'Gümüş Rozet', desc: `≤${g.silverViews} bakış / ${g.silverMins} dk` };
-      else if (views <= g.bronzeViews && minutes <= g.bronzeMins) return { type: 'bronze', icon: '🥉', title: 'Bronz Rozet', desc: `≤${g.bronzeViews} bakış / ${g.bronzeMins} dk` };
-      else return { type: 'exceeded', icon: '⚠️', title: 'Limit Aşıldı', desc: `Sınırlar aşıldı` };
     }
 
     async function syncToSupabase(localData) {
       const todayStr = getLocalDateStr(0);
       monthlyHistoryCache[todayStr] = {
         view_count: localData.view_count,
+        tree_count: localData.tree_count || 0,
         total_minutes: localData.total_minutes || 0,
         reasons: localData.reasons || {},
         hourly_counts: localData.hourly_counts || new Array(24).fill(0)
@@ -1418,17 +1526,24 @@
 
       if (!supabaseClient) return;
       try {
-        await supabaseClient.from('daily_checks').upsert({
+        const { error } = await supabaseClient.from('daily_checks').upsert({
           device_id: deviceId,
           nickname: getNickname(),
           check_date: todayStr,
           view_count: localData.view_count,
+          tree_count: localData.tree_count || 0,
           hourly_counts: localData.hourly_counts,
           reasons: localData.reasons,
           total_minutes: localData.total_minutes,
           last_opened: localData.last_opened
         }, { onConflict: 'device_id,check_date' });
-      } catch(e) {}
+
+        const statusDot = document.getElementById('syncStatus');
+        if (statusDot) statusDot.classList.toggle('offline', !!error);
+      } catch(e) {
+        const statusDot = document.getElementById('syncStatus');
+        if (statusDot) statusDot.classList.add('offline');
+      }
     }
 
     function updateActiveTime() {
@@ -1479,25 +1594,14 @@
       const promptEl = document.getElementById('reasonPrompt');
       if (promptEl) promptEl.textContent = `✓ "${reasonName}" kaydedildi`;
 
-      if (reasonName === 'Can Sıkıntısı' || reasonName === 'Alışkanlık') {
-        const hintEl = document.getElementById('brainHintText');
-        if (hintEl) {
-          hintEl.innerHTML = `<span style="color: #ddd6fe; font-weight: 600;">💡 "${reasonName}" için buradasın!</span> Sosyal medya yerine aşağıdan zihin egzersizi yapabilirsin:`;
-        }
-      }
-
       renderUI(localData, null);
       await syncToSupabase(localData);
     }
 
     function renderUI(data, prevOpened) {
       document.getElementById('todayCount').textContent = data.view_count;
-      document.getElementById('timeSpentBox').textContent = `⏱️ Bugünkü Toplam Süre: ${data.total_minutes || 0} dk`;
-
-      const badgeInfo = calculateBadge(data.view_count, data.total_minutes || 0);
-      document.getElementById('badgeIcon').textContent = badgeInfo.icon;
-      document.getElementById('badgeTitle').textContent = badgeInfo.title;
-      document.getElementById('badgeDesc').textContent = badgeInfo.desc;
+      document.getElementById('timeSpentBox').textContent = `⏱️ Süre: ${data.total_minutes || 0} dk`;
+      document.getElementById('todayTreesBox').textContent = `🌳 Bugün: ${data.tree_count || 0} ağaç`;
 
       if (data.reasons) {
         Object.keys(data.reasons).forEach(key => {
@@ -1532,17 +1636,37 @@
 
     async function fetchHistoryStats() {
       if (!supabaseClient) return;
-      const { data } = await supabaseClient.from('daily_checks').select('*').eq('device_id', deviceId).gte('check_date', getLocalDateStr(-60));
-      if (data && data.length > 0) {
-        data.forEach(row => {
-          monthlyHistoryCache[row.check_date] = { view_count: row.view_count, total_minutes: row.total_minutes || 0, reasons: row.reasons || {}, hourly_counts: row.hourly_counts || new Array(24).fill(0) };
-        });
-        const yRow = data.find(r => r.check_date === getLocalDateStr(-1));
-        document.getElementById('compareBadge').textContent = `Dün toplam: ${yRow ? yRow.view_count : 0} kez`;
-        renderCalendar();
-      }
+      try {
+        const { data } = await supabaseClient
+          .from('daily_checks')
+          .select('check_date, view_count, tree_count, total_minutes, reasons, hourly_counts')
+          .eq('device_id', deviceId)
+          .gte('check_date', getLocalDateStr(-60));
+
+        if (data && data.length > 0) {
+          data.forEach(row => {
+            monthlyHistoryCache[row.check_date] = {
+              view_count: row.view_count,
+              tree_count: row.tree_count || 0,
+              total_minutes: row.total_minutes || 0,
+              reasons: row.reasons || {},
+              hourly_counts: row.hourly_counts || new Array(24).fill(0)
+            };
+          });
+          const yRow = data.find(r => r.check_date === getLocalDateStr(-1));
+          document.getElementById('compareBadge').textContent = `Dün toplam: ${yRow ? yRow.view_count : 0} kez`;
+
+          const last7 = data.filter(r => r.check_date >= getLocalDateStr(-7));
+          if (last7.length > 0) {
+            const avg = Math.round(last7.reduce((acc, item) => acc + item.view_count, 0) / last7.length);
+            document.getElementById('weeklyAvg').textContent = `${avg} kez`;
+          }
+          renderCalendar();
+        }
+      } catch(e) {}
     }
 
+    // --- SIRALAMA (GÜNLÜK / HAFTALIK / AYLIK DİKİLEN AĞACA GÖRE) ---
     let currentRankTab = 'daily';
     function openLeaderboardModal() { document.getElementById('leaderboardModal').classList.add('open'); switchRankTab('daily'); }
     function closeLeaderboardModal() { document.getElementById('leaderboardModal').classList.remove('open'); }
@@ -1556,50 +1680,119 @@
 
     async function loadLeaderboardData() {
       const container = document.getElementById('leaderboardContent');
-      if (!supabaseClient) { container.innerHTML = `<div style="text-align: center; color: var(--muted); padding: 20px;">Çevrimdışı mod.</div>`; return; }
+      container.innerHTML = `<div style="text-align: center; color: var(--muted); padding: 20px;">Sıralama yükleniyor...</div>`;
       const startDate = getLocalDateStr(currentRankTab === 'daily' ? 0 : currentRankTab === 'weekly' ? -6 : -29);
-      const { data } = await supabaseClient.from('daily_checks').select('device_id, nickname, view_count, total_minutes').gte('check_date', startDate);
-      if (!data || data.length === 0) { container.innerHTML = `<div style="text-align: center; color: var(--muted); padding: 20px;">Veri yok.</div>`; return; }
 
       let userMap = {};
-      data.forEach(r => {
-        if (!userMap[r.device_id]) userMap[r.device_id] = { device_id: r.device_id, nickname: r.nickname || 'Misafir', totalViews: 0, totalMins: 0, days: 0 };
-        userMap[r.device_id].totalViews += (r.view_count || 0);
-        userMap[r.device_id].totalMins += (r.total_minutes || 0);
-        userMap[r.device_id].days += 1;
+
+      const todayData = getTodayData();
+      userMap[deviceId] = {
+        device_id: deviceId,
+        nickname: getNickname(),
+        totalTrees: currentRankTab === 'daily' ? (todayData.tree_count || 0) : getForestCollection().length,
+        totalMins: todayData.total_minutes || 0,
+        days: 1
+      };
+
+      if (supabaseClient) {
+        try {
+          const { data } = await supabaseClient
+            .from('daily_checks')
+            .select('device_id, nickname, tree_count, total_minutes')
+            .gte('check_date', startDate);
+
+          if (data && data.length > 0) {
+            data.forEach(r => {
+              const id = r.device_id;
+              if (!userMap[id]) {
+                userMap[id] = {
+                  device_id: id,
+                  nickname: r.nickname || ('Kullanıcı_' + id.slice(-4).toUpperCase()),
+                  totalTrees: 0,
+                  totalMins: 0,
+                  days: 0
+                };
+              }
+              if (r.nickname) userMap[id].nickname = r.nickname;
+              userMap[id].totalTrees += (r.tree_count || 0);
+              userMap[id].totalMins += (r.total_minutes || 0);
+              userMap[id].days += 1;
+            });
+          }
+        } catch(e) {}
+      }
+
+      const sorted = Object.values(userMap).sort((a, b) => {
+        if (b.totalTrees !== a.totalTrees) return b.totalTrees - a.totalTrees;
+        return a.totalMins - b.totalMins;
       });
 
       let html = '<div class="rank-list">';
-      Object.values(userMap).sort((a,b) => a.totalViews - b.totalViews || a.totalMins - b.totalMins).forEach((u, idx) => {
+      sorted.forEach((u, idx) => {
         const isMe = u.device_id === deviceId;
-        html += `<div class="rank-item ${isMe ? 'me' : ''}"><div class="rank-left"><div class="rank-pos">${idx+1}</div><div><div class="rank-name">${u.nickname}</div><div class="rank-sub">${u.days} gün</div></div></div><div class="rank-right"><div class="rank-views">${u.totalViews} bakış</div><div class="rank-mins">${u.totalMins} dk</div></div></div>`;
+        const posClass = idx === 0 ? 'rank-pos top1' : idx === 1 ? 'rank-pos top2' : idx === 2 ? 'rank-pos top3' : 'rank-pos';
+        const medal = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : (idx + 1);
+        html += `
+          <div class="rank-item ${isMe ? 'me' : ''}">
+            <div class="rank-left">
+              <div class="${posClass}">${medal}</div>
+              <div>
+                <div class="rank-name">${escapeHtml(u.nickname)} ${isMe ? '(Sen)' : ''}</div>
+                <div class="rank-sub">${u.days} aktif gün</div>
+              </div>
+            </div>
+            <div class="rank-right">
+              <div class="rank-trees">🌳 ${u.totalTrees} ağaç</div>
+              <div class="rank-mins">${u.totalMins} dk</div>
+            </div>
+          </div>
+        `;
       });
       container.innerHTML = html + '</div>';
     }
 
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // --- TAKVİM (GÜNLÜK DİKİLEN AĞAÇ SAYISINI GÖSTERİR) ---
     function changeMonth(delta) { currentCalDate.setMonth(currentCalDate.getMonth() + delta); renderCalendar(); }
+
     function renderCalendar() {
       const year = currentCalDate.getFullYear(), month = currentCalDate.getMonth();
       document.getElementById('calMonthTitle').textContent = `${MONTHS_TR[month]} ${year}`;
       const grid = document.getElementById('calGrid');
       grid.innerHTML = '';
-      const firstDay = new Date(year, month, 1).getDay(), startOffset = firstDay === 0 ? 6 : firstDay - 1;
-      const daysInMonth = new Date(year, month + 1, 0).getDate(), todayStr = getLocalDateStr(0);
 
-      for (let i = 0; i < startOffset; i++) grid.appendChild(Object.assign(document.createElement('div'), { className: 'cal-day empty' }));
+      const firstDay = new Date(year, month, 1).getDay();
+      const startOffset = firstDay === 0 ? 6 : firstDay - 1;
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const todayStr = getLocalDateStr(0);
+
+      for (let i = 0; i < startOffset; i++) {
+        grid.appendChild(Object.assign(document.createElement('div'), { className: 'cal-day empty' }));
+      }
+
       for (let day = 1; day <= daysInMonth; day++) {
         const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
         const cell = document.createElement('div');
         cell.className = 'cal-day' + (dateStr === todayStr ? ' today' : '');
+
         let rec = monthlyHistoryCache[dateStr];
-        if (!rec) { try { rec = JSON.parse(localStorage.getItem('ekranbagi_data_' + dateStr)); } catch(e) {} }
-        if (rec && rec.view_count > 0) {
-          const bInfo = calculateBadge(rec.view_count, rec.total_minutes || 0);
-          cell.classList.add(bInfo.type);
-          cell.innerHTML = `<span>${day}</span><span class="cal-badge">${bInfo.icon}</span>`;
+        if (!rec) {
+          try { rec = JSON.parse(localStorage.getItem('ekranbagi_data_' + dateStr)); } catch(e) {}
+        }
+
+        const trees = (rec && rec.tree_count) ? rec.tree_count : 0;
+        if (trees > 0) {
+          cell.classList.add('has-trees');
+          cell.innerHTML = `<span>${day}</span><span class="cal-tree-pill">🌳 ${trees}</span>`;
         } else {
           cell.innerHTML = `<span>${day}</span>`;
         }
+
         cell.onclick = () => openDayDetailModal(dateStr, day, month, year, rec);
         grid.appendChild(cell);
       }
@@ -1608,34 +1801,60 @@
     function openDayDetailModal(dateStr, day, month, year, rec) {
       document.getElementById('dayModalTitle').textContent = `${day} ${MONTHS_TR[month]} ${year} Analizi`;
       const contentEl = document.getElementById('dayModalContent');
-      if (!rec || rec.view_count === 0) { contentEl.innerHTML = `<div style="text-align: center; color: var(--muted); padding: 20px;">Veri yok.</div>`; }
-      else {
-        contentEl.innerHTML = `<div class="day-stat-grid"><div class="day-stat-box"><div class="day-stat-label">Bakış</div><div class="day-stat-val">${rec.view_count}</div></div><div class="day-stat-box"><div class="day-stat-label">Süre</div><div class="day-stat-val">${rec.total_minutes||0} dk</div></div></div>`;
+      if (!rec || (!rec.view_count && !rec.tree_count)) {
+        contentEl.innerHTML = `<div style="text-align: center; color: var(--muted); padding: 20px;">Bu güne ait kayıtlı veri bulunmuyor.</div>`;
+      } else {
+        contentEl.innerHTML = `
+          <div class="day-stat-grid">
+            <div class="day-stat-box"><div class="day-stat-label">Dikilen Ağaç</div><div class="day-stat-val" style="color: #a7f3d0;">🌳 ${rec.tree_count || 0}</div></div>
+            <div class="day-stat-box"><div class="day-stat-label">Bakış Sayısı</div><div class="day-stat-val">${rec.view_count || 0} kez</div></div>
+            <div class="day-stat-box"><div class="day-stat-label">Toplam Süre</div><div class="day-stat-val">${rec.total_minutes || 0} dk</div></div>
+            <div class="day-stat-box"><div class="day-stat-label">Odak Durumu</div><div class="day-stat-val" style="font-size: 0.9rem;">${(rec.tree_count || 0) > 0 ? '🌲 Aktif' : '🌱 Beklemede'}</div></div>
+          </div>
+        `;
       }
       document.getElementById('dayDetailModal').classList.add('open');
     }
+
     function closeDayDetailModal() { document.getElementById('dayDetailModal').classList.remove('open'); }
 
     function openReportModal() { switchReportTab('weekly'); document.getElementById('reportModal').classList.add('open'); }
     function closeReportModal() { document.getElementById('reportModal').classList.remove('open'); }
+
     function switchReportTab(tab) {
       document.getElementById('tabWeekly').className = 'report-tab' + (tab === 'weekly' ? ' active' : '');
       document.getElementById('tabMonthly').className = 'report-tab' + (tab === 'monthly' ? ' active' : '');
       renderReportContent(tab === 'weekly' ? 7 : 30);
     }
+
     function renderReportContent(daysCount) {
-      let totalV = 0, totalM = 0;
+      let totalV = 0, totalM = 0, totalT = 0;
       for (let i = 0; i < daysCount; i++) {
         let rec = monthlyHistoryCache[getLocalDateStr(-i)];
         if (!rec) { try { rec = JSON.parse(localStorage.getItem('ekranbagi_data_' + getLocalDateStr(-i))); } catch(e) {} }
-        if (rec) { totalV += rec.view_count; totalM += (rec.total_minutes || 0); }
+        if (rec) {
+          totalV += (rec.view_count || 0);
+          totalM += (rec.total_minutes || 0);
+          totalT += (rec.tree_count || 0);
+        }
       }
-      document.getElementById('reportModalContent').innerHTML = `<div class="day-stat-grid"><div class="day-stat-box"><div class="day-stat-label">Toplam Bakış</div><div class="day-stat-val">${totalV}</div></div><div class="day-stat-box"><div class="day-stat-label">Toplam Süre</div><div class="day-stat-val">${totalM} dk</div></div></div>`;
+      document.getElementById('reportModalContent').innerHTML = `
+        <div class="day-stat-grid">
+          <div class="day-stat-box"><div class="day-stat-label">Dikilen Ağaç</div><div class="day-stat-val" style="color: #a7f3d0;">🌳 ${totalT}</div></div>
+          <div class="day-stat-box"><div class="day-stat-label">Toplam Bakış</div><div class="day-stat-val">${totalV}</div></div>
+          <div class="day-stat-box"><div class="day-stat-label">Toplam Süre</div><div class="day-stat-val">${totalM} dk</div></div>
+          <div class="day-stat-box"><div class="day-stat-label">Günlük Ort. Ağaç</div><div class="day-stat-val">${(totalT / daysCount).toFixed(1)}</div></div>
+        </div>
+      `;
     }
 
     window.addEventListener('load', () => {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').catch(() => {});
+      }
       updateNicknameDisplay();
       updateGameQuotaBadge();
+      updateGameBestPills();
       checkForestStatusOnVisible();
       const initialData = getTodayData();
       renderUI(initialData, initialData.last_opened);
@@ -1643,6 +1862,7 @@
       renderForestUI();
       recordCheck();
       fetchHistoryStats();
+      refreshWeeklyChampion();
     });
 
     document.addEventListener('visibilitychange', () => {
@@ -1653,6 +1873,7 @@
         checkForestStatusOnVisible();
         renderForestUI();
         recordCheck();
+        refreshWeeklyChampion();
       }
     });
   </script>
